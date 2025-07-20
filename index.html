@@ -12,8 +12,9 @@
 
     <div class="form-box">
         <form id="signupForm" novalidate>
+            <h2>Registro</h2>
             <label for="name">Nombre</label>
-            <input type="text" placeholder="Ingrese su nombre completo" id="name" name="name" >
+            <input type="text" placeholder="Ingrese su nombre completo" id="name" name="name">
             <small class="error" id="error-name"></small>
 
             <label for="last-name">Apellido</label>
@@ -42,8 +43,25 @@
             <small class="error" id="error-rol"></small>
             <input type="submit" value="Registrarse">
             <p class="mensaje-exito" id="mensaje-exito"></p>
+            <p class="texto-secundario"> ¿Ya tienes una cuenta? <a href="#" id="mostrar-login">Inicia sesión</a></p>
+        </form>
+
+        <form id="loginForm" style="display:none" novalidate>
+            <h2>Iniciar sesión</h2>
+
+            <label for="login-email">Correo electrónico</label>
+            <input type="email" placeholder="email@example.com" id="login-email" name="login-email">
+            <small class="error" id="error-login-email"></small>
+
+            <label for="login-password">Contraseña</label>
+            <input type="password" placeholder="********" id="login-password" name="login-password">
+            <small class="error" id="error-login-password"></small>
+
+            <input type="submit" value="Entrar">
+            <p class="mensaje-exito" id="mensaje-login-exito"></p>
+            <p class="texto-secundario"> ¿No tienes una cuenta? <a href="#" id="mostrar-registro">Regístrate</a></p>
+        </form>
     </div>
-    </form>
     <script src="script.js"></script>
 </body>
 
