@@ -1,82 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Instagram Feed</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div>
-        <header>
-            <div class="container">
-                <h1>BeatheCode Photo Feed</h1>
-            </div>
-        </header>
-        <div class="container">
-            <div class="post">
-                <div class="post-header">
-                    <div>
-                        <h2>First Photo</h2>
-                    </div><div>
-                        <span>12/14</span>
-                    </div>
-                    
+    <div class="form-box">
+        <form>
+            <label for="name">Nombre</label>
+            <input type="text" placeholder="Ingrese su nombre completo" id="name" name="name" required>
+
+            <label for="last-name">Apellido</label>
+            <input type="text" placeholder="Ingrese su apellido completo" id="last-name" name="last-name" required>
+
+            <label for="email">Correo electrónico</label>
+            <input type="email" placeholder="email@example.co" id="email" name="email" required>
+
+            <label for="password">Contraseña</label>
+            <input type="password" placeholder="********" id="password" name="password" required>
+
+            <label class="titulo-rol">Seleccione su rol</label>
+
+            <div class="seleccion-rol">
+                <div class="opcion-rol">
+                    <input type="radio" id="rol-estudiante" value="Estudiante" name="rol" required>
+                    <label for="rol-estudiante">Estudiante</label>
                 </div>
-                <div>
-                    <img src="https://media.istockphoto.com/id/1146517111/photo/taj-mahal-mausoleum-in-agra.jpg?s=612x612&w=0&k=20&c=vcIjhwUrNyjoKbGbAQ5sOcEzDUgOfCsm9ySmJ8gNeRk=">
-                </div>
-                <div>
-                    <p>This is my first photo of the feed. This is a multi line comment for testing purposes. I am learning to code with <strong>#BreatheCode</strong></p>
-                </div>
-            </div>
-            <div class="post">
-                <div class="post-header">
-                    <div>
-                        <h2>Some cute thing </h2>
-                    </div><div>
-                        <span>12/17</span>
-                    </div>
-                    
-                </div>
-                <div>
-                    <img src="https://soyunperro.com/wp-content/uploads/2017/06/cachorro-1.jpg">
-                </div>
-                <div>
-                    <p>The internet approves this cute dog... <strong>#BreatheCode</strong></p>
+                <div class="opcion-rol">
+                    <input type="radio" id="rol-profesor" value="Profesor" name="rol" required>
+                    <label for="rol-profesor">Profesor</label>
                 </div>
             </div>
-            <div class="post">
-                <div class="post-header">
-                    <div>
-                        <h2>There's a paparazzi around</h2>
-                    </div><div>
-                        <span>12/17</span>
-                    </div>
-                    
-                </div>
-                <div>
-                    <img src="https://www.popsci.com/uploads/2019/03/18/PDMJHAVTUA7BQCACSIFNH2WDFQ.jpg?auto=webp">
-                </div>
-                <div>
-                    <p>This is me waiting fot the screen to show my awesome firts website made at <strong> #BreatheCode</strong></p>
-                </div>
-            </div>
-            <div class="post">
-                <div class="post-header">
-                    <div>
-                        <h2>And of course... food!</h2>
-                    </div><div>
-                        <span>12/17</span>
-                    </div>
-                    
-                </div>
-                <div>
-                    <img src="https://cdn.vox-cdn.com/thumbor/M9O3jgm5z41IWBIQFajXsHyZmvg=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/24796562/Bud___Marilyn_s___Bud_s_Double_Patty_Burger_1__Credit_Bondfire_Media_.40.jpg">
-                </div>
-                <div>
-                    <p>Because no photo feed is cool without some food on it <strong> #BreatheCode</strong></p>
-                </div>
-            </div>
-        </div>
+            <input type="submit" value="Registrarse" required>
     </div>
+    </form>
+    </div>
+
 </body>
+
 </html>
