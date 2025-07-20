@@ -114,3 +114,17 @@ form input[type="submit"] {
 form input[type="submit"]:hover {
     background: linear-gradient(90deg, #1e639e, #174f7f); 
 }
+
+.error {
+  color: red;
+  font-size: 13px;
+  display: none;
+  margin-top: 4px;
+}
+
+.mensaje-exito {
+  color: green;
+  font-weight: bold;
+  margin-top: 15px;
+  display: none;
+}
