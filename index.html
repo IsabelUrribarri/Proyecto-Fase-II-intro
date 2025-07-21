@@ -4,65 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
-    <link rel="stylesheet" href="style.css">
+    <title>EduConnect - Inicio</title>
+    <link rel="stylesheet" href="inicio.css">
 </head>
 
 <body>
-
-    <div class="form-box">
-        <form id="signupForm" novalidate>
-            <h2>Registro</h2>
-            <label for="name">Nombre</label>
-            <input type="text" placeholder="Ingrese su nombre completo" id="name" name="name">
-            <small class="error" id="error-name"></small>
-
-            <label for="last-name">Apellido</label>
-            <input type="text" placeholder="Ingrese su apellido completo" id="last-name" name="last-name">
-            <small class="error" id="error-last-name"></small>
-
-            <label for="email">Correo electrónico</label>
-            <input type="email" placeholder="email@example.co" id="email" name="email">
-            <small class="error" id="error-email"></small>
-
-            <label for="password">Contraseña</label>
-            <input type="password" placeholder="********" id="password" name="password">
-            <small class="error" id="error-password"></small>
-
-            <label class="titulo-rol">Seleccione su rol</label>
-            <div class="seleccion-rol">
-                <div class="opcion-rol">
-                    <input type="radio" id="rol-estudiante" value="Estudiante" name="rol">
-                    <label for="rol-estudiante">Estudiante</label>
-                </div>
-                <div class="opcion-rol">
-                    <input type="radio" id="rol-profesor" value="Profesor" name="rol">
-                    <label for="rol-profesor">Profesor</label>
-                </div>
+    <header>
+        <div class="logo">EduConnect</div>
+        <nav>
+            <a href="#">Soporte</a>
+            <button class="btn-login" onclick="location.href='login-signup.html#login'">Iniciar sesión</button>
+            <button class="btn-register" onclick="location.href='login-signup.html#signup'">Registrarse</button>
+            <span class="user-icon" style="display: none; font-size: 20px; cursor: pointer;">👤</span>
+            <div class="user-menu" style="display: none;">
+                <ul>
+                    <li id="cerrar-sesion">Cerrar sesión</li>
+                </ul>
             </div>
-            <small class="error" id="error-rol"></small>
-            <input type="submit" value="Registrarse">
-            <p class="mensaje-exito" id="mensaje-exito"></p>
-            <p class="texto-secundario"> ¿Ya tienes una cuenta? <a href="#" id="mostrar-login">Inicia sesión</a></p>
-        </form>
+        </nav>
+    </header>
 
-        <form id="loginForm" style="display:none" novalidate>
-            <h2>Iniciar sesión</h2>
+    <section class="hero">
+        <h1>Aprende donde quieras con <span>EduConnect</span></h1>
+        <p>Accede a cursos desde cualquier lugar. ¡Empieza hoy!</p>
 
-            <label for="login-email">Correo electrónico</label>
-            <input type="email" placeholder="email@example.com" id="login-email" name="login-email">
-            <small class="error" id="error-login-email"></small>
-
-            <label for="login-password">Contraseña</label>
-            <input type="password" placeholder="********" id="login-password" name="login-password">
-            <small class="error" id="error-login-password"></small>
-
-            <input type="submit" value="Entrar">
-            <p class="mensaje-exito" id="mensaje-login-exito"></p>
-            <p class="texto-secundario"> ¿No tienes una cuenta? <a href="#" id="mostrar-registro">Regístrate</a></p>
-        </form>
-    </div>
-    <script src="script.js"></script>
+        <div class="search-box">
+            <input type="text" placeholder="Buscar entre 20+ cursos">
+            <button>Buscar</button>
+        </div>
+    </section>
+    <script src="inicio.js"></script>
 </body>
 
 </html>
