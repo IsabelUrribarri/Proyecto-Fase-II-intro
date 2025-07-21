@@ -15,7 +15,7 @@
             <a href="#">Soporte</a>
             <button class="btn-login" onclick="location.href='login-signup.html#login'">Iniciar sesión</button>
             <button class="btn-register" onclick="location.href='login-signup.html#signup'">Registrarse</button>
-            <span class="user-icon" style="display: none; font-size: 20px; cursor: pointer;">👤</span>
+            <span class="user-icon" style="display: none; font-size: 20px; cursor: pointer;">☰</span>
             <div class="user-menu" style="display: none;">
                 <ul>
                     <li id="cerrar-sesion">Cerrar sesión</li>
@@ -31,6 +31,18 @@
         <div class="search-box">
             <input type="text" placeholder="Buscar entre 20+ cursos">
             <button>Buscar</button>
+        </div>
+
+        <div id="bienvenida-container" style="margin-top: 20px;"></div>
+
+    </section>
+    <section class="cursos-section" id="cursos-disponibles">
+        <div class="tabs">
+            <button class="tab active">Cursos Disponibles</button>
+            <button class="tab">Tus Cursos</button>
+        </div>
+
+        <div class="cursos-contenedor" id="contenedor-cursos">
         </div>
     </section>
     <script src="inicio.js"></script>
