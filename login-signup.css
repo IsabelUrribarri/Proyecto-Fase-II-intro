@@ -6,7 +6,7 @@
 }
 
 body {
-    background: linear-gradient(135deg, #e6f0fa, #fefefe); 
+    background: linear-gradient(135deg, #e6f0fa, #fefefe);
     height: 100vh;
     display: flex;
     align-items: center;
@@ -19,7 +19,7 @@ body {
     background-color: #fff;
     padding: 30px 42px;
     border-radius: 14px;
-    border-left: 5px solid #2f81c7; 
+    border-left: 5px solid #ff5b00;
     box-shadow: 0px 8px 26px rgba(0, 0, 0, 0.07);
     width: 100%;
     max-width: 410px;
@@ -27,7 +27,7 @@ body {
 }
 
 .form-box:hover {
-    transform: scale(1.008); 
+    transform: scale(1.008);
 }
 
 
@@ -91,7 +91,7 @@ form input[type="password"]:focus {
 }
 
 input[type="radio"] {
-    accent-color: #2f81c7;
+    accent-color: #ff5b00;
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -101,30 +101,30 @@ input[type="radio"] {
 form input[type="submit"] {
     margin-top: 18px;
     padding: 12px;
-    background: linear-gradient(90deg, #2f81c7, #1b5a91); 
+    background-color: #ff5b00;
     color: white;
     border: none;
     border-radius: 7px;
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.25s ease;
+    transition: background-color 0.25s ease;
 }
 
 form input[type="submit"]:hover {
-    background: linear-gradient(90deg, #1e639e, #174f7f); 
+    background-color: #a63b01;
 }
 
 .error {
-  color: red;
-  font-size: 13px;
-  display: none;
-  margin-top: 4px;
+    color: red;
+    font-size: 13px;
+    display: none;
+    margin-top: 4px;
 }
 
 .mensaje-exito {
-  color: green;
-  font-weight: bold;
-  margin-top: 15px;
-  display: none;
+    color: green;
+    font-weight: bold;
+    margin-top: 15px;
+    display: none;
 }
