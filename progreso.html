@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Panel simple de cursos</title>
   <link rel="stylesheet" href="progreso.css">
 </head>
+
 <body>
 
   <div class="header">
-    <b>Pedritoelpro777</b>
-    <button href="index.html" id="btn-inicio">Inicio</button>
+    <b id="nombre-usuario">Usuario</b>
+    <button class="perfil-btn">Editar perfil</button>
   </div>
 
   <div class="layout">
@@ -19,25 +21,22 @@
       <button id="btn-cursos" class="mnu-btn activo">Cursos</button>
       <div class="seccion">Mi cuenta</div>
       <button id="btn-avance" class="mnu-btn">Avance</button>
+      <button id="btn-calificaciones" class="mnu-btn">Calificaciones</button>
     </div>
 
     <div class="contenido">
 
       <div id="cursos-panel">
         <h2>Mis cursos</h2>
-        <ul>
-          <li>Curso de JavaScript <button>Inicio</button></li>
-          <li>Curso de HTML y CSS <button>Inicio</button></li>
-          <li>Curso de Python <button>Inicio</button></li>
-          <li>Curso de C++ <button>Inicio</button></li>
-          <li>Curso de Java <button>Inicio</button></li>
-          <li>Curso de PHP <button>Inicio</button></li>
-          <li>Curso de C# <button>Inicio</button></li>
-          <li>Curso de Ruby <button>Inicio</button></li>
-          <li>Curso de TypeScript <button>Inicio</button></li>
-          <li>Curso de Go <button>Inicio</button></li>
-        </ul>
+        <ul id="lista-cursos"></ul>
         <button class="azul-btn">Editar cursos</button>
+      </div>
+
+
+      <div id="materiales-panel" style="display:none;">
+        <h2>Materiales del curso</h2>
+        <div id="contenedor-materiales" class="materiales-grid"></div>
+        <button onclick="cerrarMateriales()" class="azul-btn">Volver a Mis Cursos</button>
       </div>
 
       <div id="avance-panel" style="display:none;">
@@ -59,10 +58,22 @@
           <span>0 minutos de ejercicio</span>
           <span>0 minutos de aprendizaje</span>
         </div>
-        <div class="mensaje-avance">
-          <b>¡Aún no hay progreso!</b><br>
-          Cuando tengas actividad, tu avance aparecerá aquí.
-        </div>
+        <div class="mensaje-avance"></div>
+      </div>
+
+      <div id="calificaciones-panel" style="display:none;">
+        <h2>Calificaciones y Comentarios</h2>
+        <table id="tabla-calificaciones" style="width:100%; border-collapse: collapse; margin-top: 12px;">
+          <thead>
+            <tr style="background:#ffe1d5;">
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ffd2bf;">Curso</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ffd2bf;">Tarea Final</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ffd2bf;">Nota</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ffd2bf;">Comentarios</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpo-calificaciones"></tbody>
+        </table>
       </div>
 
     </div>
@@ -70,4 +81,5 @@
 
   <script src="progreso.js"></script>
 </body>
+
 </html>

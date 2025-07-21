@@ -1,27 +1,28 @@
 body {
     font-family: Arial, sans-serif;
-    background: #f7f7f7;
-    color: #222;
+    background: #fef8f4;
+    color: #2c1b14;
     margin: 0;
     padding: 0;
 }
 
 .header {
-    background: #ededed;
-    padding: 15px;
+    background: #ffffff;
+    padding: 15px 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 2px solid #ffd2bf;
 }
 
 .perfil-btn {
-    background: #2058d8;
+    background: #ff5b00;
     color: #fff;
     border: none;
-    border-radius: 5px;
-    padding: 7px 15px;
+    border-radius: 6px;
+    padding: 8px 18px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .layout {
@@ -30,16 +31,16 @@ body {
 }
 
 .menu {
-    width: 180px;
-    background: #fff;
-    border-right: 1px solid #d0d0d0;
-    padding: 18px 10px;
+    width: 200px;
+    background: #fff5ef;
+    border-right: 1px solid #ffd2bf;
+    padding: 20px 15px;
 }
 
 .seccion {
-    color: #666;
+    color: #a63b01;
     font-size: 14px;
-    margin: 12px 0 8px 0;
+    margin: 12px 0 8px;
     font-weight: bold;
 }
 
@@ -48,30 +49,34 @@ body {
     width: 100%;
     background: none;
     border: none;
-    margin-bottom: 7px;
-    padding: 9px 4px;
+    margin-bottom: 8px;
+    padding: 10px 6px;
     text-align: left;
-    color: #2058d8;
+    color: #a63b01;
     font-size: 15px;
     border-radius: 5px;
     cursor: pointer;
+    transition: background 0.2s;
 }
 
-.mnu-btn.activo {
-    background: #e6f0ff;
+.mnu-btn.activo,
+.mnu-btn:hover {
+    background: #ffe1d5;
     font-weight: bold;
 }
 
 .contenido {
     flex: 1;
-    background: #fff;
-    padding: 28px 28px;
+    background: #ffffff;
+    padding: 30px 35px;
     min-height: 400px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 h2 {
     margin-top: 0;
-    font-size: 1.5em;
+    font-size: 1.6em;
+    color: #a63b01;
 }
 
 ul {
@@ -83,40 +88,94 @@ ul {
 li {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    gap: 12px;
+    margin-bottom: 12px;
     font-size: 1em;
 }
 
 button {
-    background: #217af7;
+    background: #ff5b00;
     color: #fff;
     border: none;
-    padding: 4px 12px;
+    padding: 6px 14px;
     border-radius: 4px;
     cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #a63b01;
 }
 
 .azul-btn {
-    background: #33aafc;
-    margin-top: 14px;
+    background: #a63b01;
+    margin-top: 20px;
+}
+
+.azul-btn:hover {
+    background: #872f00;
 }
 
 select {
-    margin-right: 8px;
-    padding: 4px 7px;
+    margin-right: 10px;
+    padding: 6px 9px;
     border-radius: 4px;
-    border: 1px solid #bfc8d0;
+    border: 1px solid #f0c2ac;
+    color: #a63b01;
 }
 
 .mensaje-avance {
-    background: #f5faff;
-    color: #333;
+    background: #fff1e8;
+    color: #3a1f0c;
     text-align: center;
-    margin-top: 22px;
-    padding: 18px;
-    border-radius: 6px;
+    margin-top: 24px;
+    padding: 20px;
+    border-radius: 8px;
     font-size: 1em;
+    border: 1px solid #ffdacc;
+}
+
+/* Tarjetas estilo index adaptadas al esquema naranja */
+.materiales-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.material-card {
+    background-color: #ffffff;
+    border: 1px solid #ffd9c9;
+    border-radius: 8px;
+    border-left: 5px solid #ff5b00;
+    width: 260px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(255, 91, 0, 0.15);
+    transition: transform 0.2s ease;
+}
+
+.material-card:hover {
+    transform: translateY(-4px);
+}
+
+.material-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+.material-card h4 {
+    font-size: 1.1em;
+    margin: 0 0 8px;
+    color: #ff5b00;
+}
+
+.material-card p {
+    font-size: 0.95em;
+    color: #444;
+    margin: 0;
 }
 
 @media (max-width: 700px) {
@@ -127,10 +186,10 @@ select {
     .menu {
         width: 100%;
         border-right: none;
-        border-bottom: 1px solid #d0d0d0;
+        border-bottom: 1px solid #ffd2bf;
     }
 
     .contenido {
-        padding: 15px 6vw;
+        padding: 20px 6vw;
     }
 }
