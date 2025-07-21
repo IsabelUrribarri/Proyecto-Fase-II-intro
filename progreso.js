@@ -24,7 +24,7 @@ if (usuario && usuario.nombre) {
   document.getElementById('nombre-usuario').textContent = usuario.nombre;
 }
 
-const cursosInscritos = JSON.parse(localStorage.getItem('cursosInscritos')) || [];
+const cursosInscritos = usuario ? JSON.parse(localStorage.getItem(usuario.email)) || [] : [];
 const lista = document.querySelector('#lista-cursos');
 lista.innerHTML = '';
 
