@@ -1,9 +1,21 @@
 body {
+    margin: 0;
+    min-height: 100vh;
     font-family: Arial, sans-serif;
     background: #fef8f4;
     color: #2c1b14;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .header {
@@ -192,4 +204,168 @@ select {
     .contenido {
         padding: 20px 6vw;
     }
+}
+
+/* Adaptado para progreso.html */
+
+#formulario-material {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#formulario-material .formulario {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 25px 30px;
+    border-left: 5px solid #ff5b00;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    z-index: 1001;
+}
+
+#formulario-material h2 {
+    color: #0f2e5a;
+    margin-bottom: 20px;
+}
+
+#formulario-material label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#formulario-material input,
+#formulario-material textarea,
+#formulario-material select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+}
+
+#formulario-material textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+#formulario-material button {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #ff5b00;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+
+#formulario-material button:hover {
+    background-color: #a63b01;
+}
+
+.formulario-modal {
+    background: white;
+    padding: 25px 30px;
+    border-left: 5px solid #ff5b00;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+}
+
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.cerrar-modal {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+}
+
+.cerrar-modal:hover {
+    color: #ff5b00;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+#formulario-calificacion {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 2px solid #ffd2bf;
+    border-left: 5px solid #ff5b00;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 9999;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+}
+
+
+#formulario-calificacion input,
+#formulario-calificacion textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fff8f4;
+}
+
+#formulario-calificacion button {
+    margin-top: 10px;
+    padding: 10px 16px;
+}
+
+#formulario-calificacion .cerrar {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #444;
+    cursor: pointer;
 }

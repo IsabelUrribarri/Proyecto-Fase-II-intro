@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { nombre: "Docker", descripcion: "Conteneriza tus aplicaciones.", profesor: "Tomás Valle" },
         { nombre: "Scrum & Agile", descripcion: "Metodologías ágiles de trabajo.", profesor: "Julia Herrera" }
     ];
-
+    localStorage.setItem('cursosDisponibles', JSON.stringify(cursosDisponibles));
     let cursosMostrados = 10;
     let cursosFiltrados = [...cursosDisponibles];
 

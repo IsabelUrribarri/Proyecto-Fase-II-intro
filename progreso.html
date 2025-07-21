@@ -29,15 +29,30 @@
       <div id="cursos-panel">
         <h2>Mis cursos</h2>
         <ul id="lista-cursos"></ul>
-        <button class="azul-btn">Editar cursos</button>
       </div>
-
 
       <div id="materiales-panel" style="display:none;">
         <h2>Materiales del curso</h2>
         <div id="contenedor-materiales" class="materiales-grid"></div>
         <button onclick="cerrarMateriales()" class="azul-btn">Volver a Mis Cursos</button>
       </div>
+
+      <div id="admin-materiales-panel" style="display:none;">
+        <h2>Administrar materiales del curso</h2>
+        <div id="admin-materiales-lista" class="materiales-grid"></div>
+        <h3>Añadir nuevo material</h3>
+        <input type="text" id="nuevo-titulo" placeholder="Título">
+        <input type="text" id="nueva-descripcion" placeholder="Descripción">
+        <select id="nuevo-tipo">
+          <option value="video">Video</option>
+          <option value="pdf">PDF</option>
+          <option value="link">Enlace</option>
+        </select>
+        <input type="text" id="nueva-imagen" placeholder="URL de imagen">
+        <button onclick="agregarMaterial()">Agregar</button>
+        <button onclick="cerrarAdminMateriales()" class="azul-btn">Volver</button>
+      </div>
+
 
       <div id="avance-panel" style="display:none;">
         <h2>Mi avance</h2>
@@ -58,7 +73,7 @@
           <span>0 minutos de ejercicio</span>
           <span>0 minutos de aprendizaje</span>
         </div>
-        <div class="mensaje-avance"></div>
+        <div class="mensaje-avance materiales-grid"></div>
       </div>
 
       <div id="calificaciones-panel" style="display:none;">
@@ -78,8 +93,58 @@
 
     </div>
   </div>
+  <div id="formulario-material" class="modal" style="display: none;">
+    <div class="formulario-modal">
+      <button class="cerrar-modal" onclick="cancelarFormulario()">✖</button>
+      <h2>Añadir nuevo material</h2>
+      <form id="form-material">
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" placeholder="Título del material">
 
-  <script src="progreso.js"></script>
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" placeholder="Descripción..."></textarea>
+
+        <label for="tipo">Tipo de material</label>
+        <select id="tipo">
+          <option value="">Seleccione</option>
+          <option value="video">Video</option>
+          <option value="pdf">PDF</option>
+          <option value="link">Enlace</option>
+        </select>
+
+        <label for="imagen">URL de la imagen</label>
+        <input type="text" id="imagen" placeholder="https://...">
+
+        <button type="submit">Guardar</button>
+        <button type="button" onclick="cancelarFormulario()"
+          style="background-color: gray; margin-left: 10px;">Cancelar</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-calificar" class="modal" style="display:none;">
+    <div class="formulario-modal">
+      <button class="cerrar-modal" onclick="cerrarModalCalificar()">✖</button>
+      <h2>Calificar Proyecto</h2>
+      <p id="info-curso-alumno"></p>
+      <label for="nota">Nota (1.0 - 10.0):</label>
+      <input type="number" id="nota" min="1" max="10" step="0.1">
+      <label for="comentario">Comentario:</label>
+      <textarea id="comentario"></textarea>
+      <button onclick="guardarCalificacion()">Guardar</button>
+    </div>
+  </div>
+  <div id="overlay-modal" class="modal" style="display:none;">
+    <div id="formulario-calificacion">
+      <button class="cerrar" onclick="cerrarFormularioCalificacion()">×</button>
+      <h3>Calificar Proyecto</h3>
+      <p id="info-proyecto"></p>
+      <input type="number" id="nota-calificacion" placeholder="Nota (0-10)" min="0" max="10">
+      <textarea id="comentario-calificacion" placeholder="Comentarios..."></textarea>
+      <button onclick="guardarCalificacion()">Guardar</button>
+    </div>
+
+    <script src="progreso.js"></script>
 </body>
 
 </html>
