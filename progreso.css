@@ -1,0 +1,136 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    color: #222;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background: #ededed;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+}
+
+.perfil-btn {
+    background: #2058d8;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 15px;
+    cursor: pointer;
+}
+
+.layout {
+    display: flex;
+    margin-top: 20px;
+}
+
+.menu {
+    width: 180px;
+    background: #fff;
+    border-right: 1px solid #d0d0d0;
+    padding: 18px 10px;
+}
+
+.seccion {
+    color: #666;
+    font-size: 14px;
+    margin: 12px 0 8px 0;
+    font-weight: bold;
+}
+
+.mnu-btn {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    margin-bottom: 7px;
+    padding: 9px 4px;
+    text-align: left;
+    color: #2058d8;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.mnu-btn.activo {
+    background: #e6f0ff;
+    font-weight: bold;
+}
+
+.contenido {
+    flex: 1;
+    background: #fff;
+    padding: 28px 28px;
+    min-height: 400px;
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 12px 0;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+button {
+    background: #217af7;
+    color: #fff;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.azul-btn {
+    background: #33aafc;
+    margin-top: 14px;
+}
+
+select {
+    margin-right: 8px;
+    padding: 4px 7px;
+    border-radius: 4px;
+    border: 1px solid #bfc8d0;
+}
+
+.mensaje-avance {
+    background: #f5faff;
+    color: #333;
+    text-align: center;
+    margin-top: 22px;
+    padding: 18px;
+    border-radius: 6px;
+    font-size: 1em;
+}
+
+@media (max-width: 700px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    .menu {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #d0d0d0;
+    }
+
+    .contenido {
+        padding: 15px 6vw;
+    }
+}

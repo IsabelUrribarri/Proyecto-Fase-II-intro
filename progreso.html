@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel simple de cursos</title>
+  <link rel="stylesheet" href="progreso.css">
+</head>
+<body>
+
+  <div class="header">
+    <b>Pedritoelpro777</b>
+    <button class="perfil-btn">Editar perfil</button>
+  </div>
+
+  <div class="layout">
+
+    <div class="menu">
+      <div class="seccion">Mis cosas</div>
+      <button id="btn-cursos" class="mnu-btn activo">Cursos</button>
+      <div class="seccion">Mi cuenta</div>
+      <button id="btn-avance" class="mnu-btn">Avance</button>
+    </div>
+
+    <div class="contenido">
+
+      <div id="cursos-panel">
+        <h2>Mis cursos</h2>
+        <ul>
+          <li>Curso de JavaScript <button>Inicio</button></li>
+          <li>Curso de HTML y CSS <button>Inicio</button></li>
+          <li>Curso de Python <button>Inicio</button></li>
+          <li>Curso de C++ <button>Inicio</button></li>
+          <li>Curso de Java <button>Inicio</button></li>
+          <li>Curso de PHP <button>Inicio</button></li>
+          <li>Curso de C# <button>Inicio</button></li>
+          <li>Curso de Ruby <button>Inicio</button></li>
+          <li>Curso de TypeScript <button>Inicio</button></li>
+          <li>Curso de Go <button>Inicio</button></li>
+        </ul>
+        <button class="azul-btn">Editar cursos</button>
+      </div>
+
+      <div id="avance-panel" style="display:none;">
+        <h2>Mi avance</h2>
+        <div>
+          <select>
+            <option>Todos los cursos</option>
+            <option>JavaScript</option>
+            <option>HTML y CSS</option>
+            <option>Python</option>
+            <option>C++</option>
+            <option>Java</option>
+            <option>PHP</option>
+            <option>C#</option>
+            <option>Ruby</option>
+            <option>TypeScript</option>
+            <option>Go</option>
+          </select>
+          <span>0 minutos de ejercicio</span>
+          <span>0 minutos de aprendizaje</span>
+        </div>
+        <div class="mensaje-avance">
+          <b>¡Aún no hay progreso!</b><br>
+          Cuando tengas actividad, tu avance aparecerá aquí.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="progreso.js"></script>
+</body>
+</html>
