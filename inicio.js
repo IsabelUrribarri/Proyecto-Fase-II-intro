@@ -59,21 +59,49 @@ renderizarCursos();
 
 function renderizarCursos() {
     const contenedor = document.getElementById('contenedor-cursos');
-    contenedor.innerHTML = '';
+    contenedor.innerHTML = ''; // Limpiar los cursos previos
 
-    cursosFiltrados.slice(0, cursosMostrados).forEach(curso => {
-        const div = document.createElement('div');
-        div.classList.add('curso-card');
-        div.innerHTML = `
-            <img src="#" alt="Curso">
-            <h3>${curso.nombre}</h3>
-            <p>${curso.descripcion}</p>
-            <p><strong>Profesor:</strong> ${curso.profesor}</p>
-            <button class="btn-inscribirse">${usuario ? 'Inscribirse' : 'Inicia sesión para inscribirte'}</button>
-        `;
-        contenedor.appendChild(div);
-    });
+    // Si el usuario está logueado, obtenemos los cursos en los que está inscrito
+    const cursosInscritos = usuario ? JSON.parse(localStorage.getItem(usuario.email)) || [] : [];
 
+    // Si estamos en la pestaña de "Tus Cursos" y no hay cursos inscritos, mostrar mensaje
+    const tabs = document.querySelectorAll('.tab');
+    const activeTab = Array.from(tabs).find(tab => tab.classList.contains('active'));
+
+    if (activeTab && activeTab.textContent === 'Tus Cursos') {
+        if (cursosInscritos.length === 0) {
+            contenedor.innerHTML = '<p>No estás inscrito en ningún curso.</p>';
+        } else {
+            cursosInscritos.forEach(curso => {
+                const div = document.createElement('div');
+                div.classList.add('curso-card');
+                div.innerHTML = `
+                    <img src="#" alt="Curso">
+                    <h3>${curso.nombre}</h3>
+                    <p>${curso.descripcion}</p>
+                    <p><strong>Profesor:</strong> ${curso.profesor}</p>
+                    <button class="btn-inscribirse">Ver progreso</button>
+                `;
+                contenedor.appendChild(div);
+            });
+        }
+    } else if (activeTab && activeTab.textContent === 'Cursos Disponibles') {
+        // En "Cursos Disponibles" mostrar todos los cursos
+        cursosFiltrados.slice(0, cursosMostrados).forEach(curso => {
+            const div = document.createElement('div');
+            div.classList.add('curso-card');
+            div.innerHTML = `
+                <img src="#" alt="Curso">
+                <h3>${curso.nombre}</h3>
+                <p>${curso.descripcion}</p>
+                <p><strong>Profesor:</strong> ${curso.profesor}</p>
+                <button class="btn-inscribirse">${usuario ? 'Inscribirse' : 'Inicia sesión para inscribirte'}</button>
+            `;
+            contenedor.appendChild(div);
+        });
+    }
+
+    // Activar los botones de inscripción (solo visible si el usuario está logueado)
     activarBotonesInscribir();
 
     let btn = document.getElementById('btn-ver-mas');
@@ -116,13 +144,12 @@ document.querySelectorAll('.tab').forEach((tab, index) => {
         const btnVerMas = document.getElementById('btn-ver-mas');
         if (btnVerMas) btnVerMas.style.display = index === 0 ? 'block' : 'none';
 
-        if (index === 0) {
+        if (index === 0) { // Cursos Disponibles
             cursosFiltrados = [...cursosDisponibles];
             cursosMostrados = 10;
             renderizarCursos();
-        } else {
-            const cursosInscritos = JSON.parse(localStorage.getItem('cursosInscritos')) || [];
-
+        } else { // Tus Cursos
+            const cursosInscritos = JSON.parse(localStorage.getItem(usuario.email)) || [];
             if (cursosInscritos.length === 0) {
                 contenedor.innerHTML = '<p style="text-align:center;">No estás inscrito en ningún curso todavía.</p>';
             } else {
@@ -134,7 +161,6 @@ document.querySelectorAll('.tab').forEach((tab, index) => {
                         <h3>${curso.nombre}</h3>
                         <p><strong>Profesor:</strong> ${curso.profesor}</p>
                         <button class="btn-inscribirse btn-progreso" onclick="location.href='progreso.html'">Progreso</button>
-
                     `;
                     contenedor.appendChild(div);
                 });
@@ -177,11 +203,14 @@ function activarBotonesInscribir() {
                 return;
             }
 
-            let cursosInscritos = JSON.parse(localStorage.getItem('cursosInscritos')) || [];
+            // Recupera los cursos inscritos para el usuario actual
+            let cursosInscritos = JSON.parse(localStorage.getItem(usuario.email)) || [];
+
+            // Verifica si el usuario ya está inscrito
             const yaExiste = cursosInscritos.some(c => c.nombre === curso.nombre);
             if (!yaExiste) {
                 cursosInscritos.push(curso);
-                localStorage.setItem('cursosInscritos', JSON.stringify(cursosInscritos));
+                localStorage.setItem(usuario.email, JSON.stringify(cursosInscritos)); // Guarda los cursos inscritos
                 alert(`Te has inscrito en el curso: ${curso.nombre}`);
             } else {
                 alert('Ya estás inscrito en este curso.');
@@ -189,3 +218,4 @@ function activarBotonesInscribir() {
         });
     });
 }
+
