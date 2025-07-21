@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Panel simple de cursos</title>
   <link rel="stylesheet" href="progreso.css">
 </head>
+
 <body>
 
   <div class="header">
@@ -25,19 +27,15 @@
 
       <div id="cursos-panel">
         <h2>Mis cursos</h2>
-        <ul>
-          <li>Curso de JavaScript <button>Inicio</button></li>
-          <li>Curso de HTML y CSS <button>Inicio</button></li>
-          <li>Curso de Python <button>Inicio</button></li>
-          <li>Curso de C++ <button>Inicio</button></li>
-          <li>Curso de Java <button>Inicio</button></li>
-          <li>Curso de PHP <button>Inicio</button></li>
-          <li>Curso de C# <button>Inicio</button></li>
-          <li>Curso de Ruby <button>Inicio</button></li>
-          <li>Curso de TypeScript <button>Inicio</button></li>
-          <li>Curso de Go <button>Inicio</button></li>
-        </ul>
+        <ul id="lista-cursos"></ul>
         <button class="azul-btn">Editar cursos</button>
+      </div>
+
+      <!-- NUEVA SECCIÓN PARA MATERIALES -->
+      <div id="materiales-panel" style="display:none;">
+        <h2>Materiales del curso</h2>
+        <div id="contenedor-materiales" class="materiales-grid"></div>
+        <button onclick="cerrarMateriales()" class="azul-btn">Volver a Mis Cursos</button>
       </div>
 
       <div id="avance-panel" style="display:none;">
@@ -70,4 +68,5 @@
 
   <script src="progreso.js"></script>
 </body>
+
 </html>
