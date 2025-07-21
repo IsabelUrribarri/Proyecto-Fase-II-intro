@@ -1,24 +1,34 @@
+/* ======== ESTILOS GENERALES ======== */
+
+/* Usamos una fuente estándar y un fondo gris muy suave para no cansar la vista */
 body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
-    padding: 40px 20px;
+    padding: 40px 20px; /* Espaciado para que todo respire un poco */
 }
 
+/* ======== CONTENEDOR DEL FORMULARIO ======== */
+
+/* Caja blanca centrada, con bordes suaves y un poco de sombra para destacar sobre el fondo */
 .formulario {
-    max-width: 500px;
+    max-width: 500px; /* No queremos que se haga gigante en pantallas grandes */
     background: white;
-    padding: 25px 30px;
-    margin: auto;
-    border-left: 5px solid #ff5b00;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+    padding: 25px 30px; /* Espaciado interno para que nada quede pegado */
+    margin: auto; /* Centrado horizontal */
+    border-left: 5px solid #ff5b00; /* Línea de color como detalle visual */
+    border-radius: 10px; /* Esquinas redondeadas, más moderno */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07); /* Sombra sutil para dar profundidad */
 }
 
+/* ======== TITULOS Y TEXTOS ======== */
+
+/* Color azul oscuro elegante para títulos */
 h2 {
     color: #0f2e5a;
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Separación del resto del contenido */
 }
 
+/* Las etiquetas de los campos van en negrita y con tamaño legible */
 label {
     display: block;
     margin-top: 12px;
@@ -26,23 +36,30 @@ label {
     font-size: 14px;
 }
 
+/* ======== CAMPOS DE FORMULARIO ======== */
+
+/* Todos los campos con el mismo estilo para mantener consistencia visual */
 input,
 textarea,
 select {
-    width: 100%;
+    width: 100%; /* Que ocupen todo el ancho del formulario */
     padding: 10px;
-    margin-top: 5px;
+    margin-top: 5px; /* Un pequeño espacio con la etiqueta */
     font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #f9f9f9;
+    border: 1px solid #ccc; /* Borde gris claro, neutro */
+    border-radius: 6px; /* Esquinas suavizadas */
+    background-color: #f9f9f9; /* Fondo ligeramente gris para distinguirlo del fondo blanco */
 }
 
+/* Textarea con altura mínima y que se pueda estirar verticalmente */
 textarea {
     resize: vertical;
     min-height: 100px;
 }
 
+/* ======== BOTÓN ======== */
+
+/* Botón naranja llamativo, con letras en blanco y algo de peso */
 button {
     margin-top: 20px;
     padding: 12px;
@@ -53,9 +70,10 @@ button {
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.25s ease;
+    transition: background-color 0.25s ease; /* Transición suave al pasar el mouse */
 }
 
+/* Cambio de color al pasar el mouse: más oscuro para indicar interacción */
 button:hover {
     background-color: #a63b01;
 }
