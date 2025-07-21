@@ -239,3 +239,10 @@
     .btn-inscribirse:hover {
         background-color: #a63b01;
     }
+
+    .logo {
+        text-decoration: none;
+        color: #0f2e5a;
+        font-size: 24px;
+        font-weight: bold;
+    }

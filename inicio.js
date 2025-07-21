@@ -2,7 +2,6 @@ const usuario = localStorage.getItem('usuarioActivo');
 const bienvenida = document.createElement('p');
 
 if (usuario) {
-
     bienvenida.textContent = `¡Bienvenido(a), ${usuario}!`;
     bienvenida.style.fontWeight = 'bold';
     bienvenida.style.color = '#0f2e5a';
@@ -27,7 +26,6 @@ if (usuario) {
 }
 
 document.getElementById('cursos-disponibles').style.display = 'block';
-
 if (!usuario) {
     const tabs = document.querySelectorAll('.tab');
     if (tabs.length > 1) tabs[1].style.display = 'none';
@@ -55,15 +53,16 @@ const cursosDisponibles = [
     { nombre: "Docker", descripcion: "Conteneriza tus aplicaciones.", profesor: "Tomás Valle" },
     { nombre: "Scrum & Agile", descripcion: "Metodologías ágiles de trabajo.", profesor: "Julia Herrera" }
 ];
+
 let cursosMostrados = 10;
+let cursosFiltrados = [...cursosDisponibles];
 renderizarCursos();
 
 function renderizarCursos() {
     const contenedor = document.getElementById('contenedor-cursos');
     contenedor.innerHTML = '';
 
-
-    cursosDisponibles.slice(0, cursosMostrados).forEach(curso => {
+    cursosFiltrados.slice(0, cursosMostrados).forEach(curso => {
         const div = document.createElement('div');
         div.classList.add('curso-card');
         div.innerHTML = `
@@ -79,23 +78,32 @@ function renderizarCursos() {
     activarBotonesInscribir();
 
     let btn = document.getElementById('btn-ver-mas');
-    if (!btn && cursosMostrados < cursosDisponibles.length) {
+    if (!btn) {
         btn = document.createElement('button');
         btn.id = 'btn-ver-mas';
-        btn.textContent = 'Ver más';
         btn.className = 'btn-inscribirse';
         btn.style.display = 'block';
         btn.style.margin = '30px auto';
         btn.style.textAlign = 'center';
         document.getElementById('cursos-disponibles').appendChild(btn);
+    }
 
-        btn.addEventListener('click', () => {
-            cursosMostrados = Math.min(cursosMostrados + 10, cursosDisponibles.length);
-            renderizarCursos();
-        });
-    } else if (btn && cursosMostrados >= cursosDisponibles.length) {
+    if (cursosMostrados < cursosFiltrados.length) {
+        btn.textContent = 'Ver más';
+    } else if (cursosFiltrados.length > 10) {
+        btn.textContent = 'Ver menos';
+    } else {
         btn.style.display = 'none';
     }
+
+    btn.onclick = () => {
+        if (btn.textContent === 'Ver más') {
+            cursosMostrados = cursosFiltrados.length;
+        } else {
+            cursosMostrados = 10;
+        }
+        renderizarCursos();
+    };
 }
 
 document.querySelectorAll('.tab').forEach((tab, index) => {
@@ -105,7 +113,12 @@ document.querySelectorAll('.tab').forEach((tab, index) => {
 
         const contenedor = document.getElementById('contenedor-cursos');
         contenedor.innerHTML = '';
+
+        const btnVerMas = document.getElementById('btn-ver-mas');
+        if (btnVerMas) btnVerMas.style.display = index === 0 ? 'block' : 'none';
+
         if (index === 0) {
+            cursosFiltrados = [...cursosDisponibles];
             cursosMostrados = 10;
             renderizarCursos();
         } else {
@@ -125,12 +138,27 @@ document.querySelectorAll('.tab').forEach((tab, index) => {
                     contenedor.appendChild(div);
                 });
             }
-
-            const btnVerMas = document.getElementById('btn-ver-mas');
-            if (btnVerMas) btnVerMas.style.display = 'none';
         }
-
     });
+});
+
+document.getElementById('btn-buscar').addEventListener('click', () => {
+    const texto = document.getElementById('input-busqueda').value.toLowerCase().trim();
+
+    cursosFiltrados = cursosDisponibles.filter(curso =>
+        curso.nombre.toLowerCase().includes(texto) ||
+        curso.descripcion.toLowerCase().includes(texto) ||
+        curso.profesor.toLowerCase().includes(texto)
+    );
+
+    cursosMostrados = 10;
+    renderizarCursos();
+});
+
+document.getElementById('input-busqueda').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        document.getElementById('btn-buscar').click();
+    }
 });
 
 function activarBotonesInscribir() {
