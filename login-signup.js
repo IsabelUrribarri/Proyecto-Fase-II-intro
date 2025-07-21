@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (password.length < 8) {
-            mostrarError('error-password', 'La contraseña debe tener al menos 6 caracteres');
+            mostrarError('error-password', 'La contraseña debe tener al menos 8 caracteres');
             valido = false;
         }
 
