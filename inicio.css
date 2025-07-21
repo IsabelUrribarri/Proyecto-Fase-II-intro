@@ -65,6 +65,7 @@
         max-width: 1000px;
         margin: auto;
         text-align: center;
+        padding-bottom: 40px;
     }
 
     .hero h1 {
@@ -151,4 +152,90 @@
 
     .user-menu li:hover {
         background-color: #f0f0f0;
+    }
+
+    .cursos-section {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        justify-content: center;
+    }
+
+    .tab {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .tab:hover {
+        background-color: #ffe5d1;
+        border-color: #ff5b00;
+        color: #0f2e5a;
+    }
+
+    .tab.active {
+        background-color: #ff5b00;
+        color: white;
+        border-color: #ff5b00;
+    }
+
+    .cursos-contenedor {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+    }
+
+    .curso-card {
+        background-color: white;
+        border-radius: 14px;
+        border-left: 5px solid #ff5b00;
+        box-shadow: 0px 8px 26px rgba(0, 0, 0, 0.07);
+        padding: 20px;
+        transition: transform 0.2s;
+    }
+
+    .curso-card:hover {
+        transform: scale(1.02);
+    }
+
+    .curso-card img {
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 12px;
+    }
+
+    .curso-card h3 {
+        color: #0f2e5a;
+        margin-bottom: 8px;
+    }
+
+    .curso-card p {
+        font-size: 14px;
+        color: #333;
+        margin: 4px 0;
+    }
+
+    .btn-inscribirse {
+        margin-top: 10px;
+        background-color: #ff5b00;
+        color: white;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .btn-inscribirse:hover {
+        background-color: #a63b01;
     }
