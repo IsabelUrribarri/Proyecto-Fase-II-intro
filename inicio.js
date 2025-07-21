@@ -1,9 +1,8 @@
-const usuario = localStorage.getItem('usuarioActivo');
+const usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
 const bienvenida = document.createElement('p');
 
 if (usuario) {
-    bienvenida.textContent = `¡Bienvenido(a), ${usuario}!`;
-    bienvenida.style.fontWeight = 'bold';
+    bienvenida.textContent = `¡Bienvenido(a), ${usuario.nombre}!`; bienvenida.style.fontWeight = 'bold';
     bienvenida.style.color = '#0f2e5a';
     bienvenida.style.textAlign = 'center';
     bienvenida.style.marginTop = '20px';
@@ -32,18 +31,18 @@ if (!usuario) {
 }
 
 const cursosDisponibles = [
-    { nombre: "HTML desde Cero", descripcion: "Aprende HTML básico para páginas web.", profesor: "Juan Pérez" },
-    { nombre: "CSS para Principiantes", descripcion: "Estilos visuales modernos.", profesor: "Laura Martínez" },
-    { nombre: "JavaScript Intro", descripcion: "Fundamentos de programación.", profesor: "Carlos Gómez" },
-    { nombre: "Diseño Web Responsive", descripcion: "Sitios adaptables a móviles.", profesor: "Ana Torres" },
-    { nombre: "Git y GitHub", descripcion: "Control de versiones moderno.", profesor: "Pedro Méndez" },
-    { nombre: "Python Básico", descripcion: "Programación con Python.", profesor: "Lucía Díaz" },
-    { nombre: "SQL para Todos", descripcion: "Consultas a bases de datos.", profesor: "Miguel Ruiz" },
-    { nombre: "Node.js Inicial", descripcion: "Backend con JavaScript.", profesor: "Rosa Herrera" },
-    { nombre: "React.js Básico", descripcion: "Interfaces dinámicas.", profesor: "Luis Ortega" },
-    { nombre: "UX/UI Fundamentos", descripcion: "Diseño centrado en el usuario.", profesor: "Carmen Ramírez" },
-    { nombre: "Java para Principiantes", descripcion: "Aprende a programar con Java.", profesor: "Natalia Ríos" },
-    { nombre: "Ciberseguridad", descripcion: "Protección de datos y sistemas.", profesor: "Marco Vidal" },
+    { nombre: "Curso de JavaScript", descripcion: "Introducción a la sintaxis, funciones, variables y DOM.", profesor: "Carlos Gómez", proyectoFinal: "Calculadora web interactiva" },
+    { nombre: "Curso de HTML y CSS", descripcion: "Estructura HTML, maquetación y diseño responsivo.", profesor: "Laura Martínez", proyectoFinal: "Página web portfolio" },
+    { nombre: "Curso de Python", descripcion: "Sintaxis, estructuras de control y módulos.", profesor: "Lucía Díaz", proyectoFinal: "Analizador de archivos de texto" },
+    { nombre: "Curso de C++", descripcion: "Compilación, punteros, clases y objetos.", profesor: "Andrés López", proyectoFinal: "Sistema de inventario en consola" },
+    { nombre: "Curso de Java", descripcion: "POO, excepciones y estructura del lenguaje.", profesor: "Natalia Ríos", proyectoFinal: "Aplicación banco simple" },
+    { nombre: "Curso de PHP", descripcion: "Sintaxis, formularios y conexión a base de datos.", profesor: "Pedro Méndez", proyectoFinal: "Sistema de registro de usuarios" },
+    { nombre: "Curso de C#", descripcion: "Variables, clases y ventanas gráficas simples.", profesor: "Luis Ortega", proyectoFinal: "Agenda de contactos con interfaz" },
+    { nombre: "Curso de Ruby", descripcion: "POO en Ruby, colecciones y sintaxis básica.", profesor: "Carmen Ramírez", proyectoFinal: "Gestor de tareas en consola" },
+    { nombre: "Curso de TypeScript", descripcion: "Tipado fuerte, interfaces y código seguro.", profesor: "Iván Morales", proyectoFinal: "App de notas con tipado seguro" },
+    { nombre: "Curso de Go", descripcion: "Lenguaje simple con funciones y concurrencia.", profesor: "Tomás Valle", proyectoFinal: "Servidor web HTTP básico" },
+    { nombre: "Java para Principiantes", descripcion: "Aprende a programar con Java.", profesor: "Natalia Ríos", },
+    { nombre: "Ciberseguridad", descripcion: "Protección de datos y sistemas.", profesor: "Marco Vidal", },
     { nombre: "Diseño Gráfico", descripcion: "Principios del diseño visual.", profesor: "Sara Gómez" },
     { nombre: "Excel Avanzado", descripcion: "Domina fórmulas complejas.", profesor: "Daniel Pérez" },
     { nombre: "Power BI", descripcion: "Visualiza y analiza datos.", profesor: "Diana Castro" },
@@ -134,6 +133,8 @@ document.querySelectorAll('.tab').forEach((tab, index) => {
                         <img src="#" alt="Curso">
                         <h3>${curso.nombre}</h3>
                         <p><strong>Profesor:</strong> ${curso.profesor}</p>
+                        <button class="btn-inscribirse btn-progreso" onclick="location.href='progreso.html'">Progreso</button>
+
                     `;
                     contenedor.appendChild(div);
                 });
