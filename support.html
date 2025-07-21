@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte</title>
+    <link rel="stylesheet" href="support.css">
+
+</head>
+
+<body>
+    <div class="formulario">
+        <h2>Reportar una incidencia</h2>
+
+        <form id="form-soporte">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" placeholder="Tu nombre">
+
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" placeholder="email@example.com">
+
+            <label for="tipo">Tipo de problema</label>
+            <select id="tipo">
+                <option value="">Seleccione</option>
+                <option value="acceso">Problemas de acceso</option>
+                <option value="contenido">Error en el contenido</option>
+                <option value="tecnico">Fallo técnico</option>
+                <option value="otro">Otro</option>
+            </select>
+
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" placeholder="Describe lo que ocurrió..."></textarea>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    <script src="support.js"></script>
+</body>
+
+</html>

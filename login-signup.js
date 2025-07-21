@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             localStorage.setItem('usuarioRegistrado', JSON.stringify(usuario));
 
-            localStorage.setItem('usuarioActivo', nombre);
+            localStorage.setItem('usuarioActivo', JSON.stringify({ nombre, email }));
             window.location.href = 'index.html';
 
         }
