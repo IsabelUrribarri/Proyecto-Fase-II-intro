@@ -1,15 +1,16 @@
+/* Reset general + estructura base del layout */
 body {
     margin: 0;
     min-height: 100vh;
     font-family: Arial, sans-serif;
     background: #fef8f4;
     color: #2c1b14;
-    margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
 }
 
+/* Área principal con relleno y orientación vertical */
 main {
     flex: 1;
     padding: 20px;
@@ -18,6 +19,7 @@ main {
     justify-content: flex-start;
 }
 
+/* Encabezado superior del dashboard */
 .header {
     background: #ffffff;
     padding: 15px 30px;
@@ -27,6 +29,7 @@ main {
     border-bottom: 2px solid #ffd2bf;
 }
 
+/* Botón de perfil o sesión (superior derecho) */
 .perfil-btn {
     background: #ff5b00;
     color: #fff;
@@ -37,11 +40,13 @@ main {
     font-weight: bold;
 }
 
+/* Layout principal dividido en menú lateral y contenido */
 .layout {
     display: flex;
     margin-top: 20px;
 }
 
+/* Menú lateral izquierdo */
 .menu {
     width: 200px;
     background: #fff5ef;
@@ -49,6 +54,7 @@ main {
     padding: 20px 15px;
 }
 
+/* Títulos de secciones en el menú */
 .seccion {
     color: #a63b01;
     font-size: 14px;
@@ -56,6 +62,7 @@ main {
     font-weight: bold;
 }
 
+/* Botones de navegación dentro del menú */
 .mnu-btn {
     display: block;
     width: 100%;
@@ -71,12 +78,14 @@ main {
     transition: background 0.2s;
 }
 
+/* Estilo activo o al pasar el mouse */
 .mnu-btn.activo,
 .mnu-btn:hover {
     background: #ffe1d5;
     font-weight: bold;
 }
 
+/* Área principal de contenido (derecha del menú) */
 .contenido {
     flex: 1;
     background: #ffffff;
@@ -85,18 +94,21 @@ main {
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
+/* Títulos dentro del contenido */
 h2 {
     margin-top: 0;
     font-size: 1.6em;
     color: #a63b01;
 }
 
+/* Lista básica sin viñetas */
 ul {
     list-style: none;
     margin: 0;
     padding: 0 0 12px 0;
 }
 
+/* Elementos de lista alineados horizontalmente */
 li {
     display: flex;
     align-items: center;
@@ -105,6 +117,7 @@ li {
     font-size: 1em;
 }
 
+/* Botones generales */
 button {
     background: #ff5b00;
     color: #fff;
@@ -115,10 +128,12 @@ button {
     transition: background 0.2s;
 }
 
+/* Hover genérico para botones */
 button:hover {
     background: #a63b01;
 }
 
+/* Variante de botón más oscuro */
 .azul-btn {
     background: #a63b01;
     margin-top: 20px;
@@ -128,6 +143,7 @@ button:hover {
     background: #872f00;
 }
 
+/* Estilo de <select> para formularios */
 select {
     margin-right: 10px;
     padding: 6px 9px;
@@ -136,6 +152,7 @@ select {
     color: #a63b01;
 }
 
+/* Caja de mensaje de progreso simulado */
 .mensaje-avance {
     background: #fff1e8;
     color: #3a1f0c;
@@ -147,7 +164,7 @@ select {
     border: 1px solid #ffdacc;
 }
 
-/* Tarjetas estilo index adaptadas al esquema naranja */
+/* Tarjetas de materiales (como en index.html) */
 .materiales-grid {
     display: flex;
     flex-wrap: wrap;
@@ -155,6 +172,7 @@ select {
     margin-top: 25px;
 }
 
+/* Estilo visual de cada tarjeta de material */
 .material-card {
     background-color: #ffffff;
     border: 1px solid #ffd9c9;
@@ -166,6 +184,7 @@ select {
     transition: transform 0.2s ease;
 }
 
+/* Efecto al pasar el mouse: levanta ligeramente */
 .material-card:hover {
     transform: translateY(-4px);
 }
@@ -190,6 +209,7 @@ select {
     margin: 0;
 }
 
+/* Adaptaciones móviles */
 @media (max-width: 700px) {
     .layout {
         flex-direction: column;
@@ -206,7 +226,7 @@ select {
     }
 }
 
-/* Adaptado para progreso.html */
+/* --- ESTILOS PARA FORMULARIO DE MATERIALES EN MODAL --- */
 
 #formulario-material {
     display: none;
@@ -221,6 +241,7 @@ select {
     z-index: 1000;
 }
 
+/* Caja interna del modal */
 #formulario-material .formulario {
     position: fixed;
     top: 50%;
@@ -260,11 +281,13 @@ select {
     background-color: #f9f9f9;
 }
 
+/* Textareas más altos por defecto */
 #formulario-material textarea {
     resize: vertical;
     min-height: 100px;
 }
 
+/* Botón de enviar en el modal */
 #formulario-material button {
     margin-top: 20px;
     padding: 12px;
@@ -282,6 +305,7 @@ select {
     background-color: #a63b01;
 }
 
+/* Modal genérico reutilizable */
 .formulario-modal {
     background: white;
     padding: 25px 30px;
@@ -293,7 +317,7 @@ select {
     position: relative;
 }
 
-
+/* Fondo oscuro detrás del modal */
 .modal {
     position: fixed;
     top: 0;
@@ -307,6 +331,7 @@ select {
     z-index: 999;
 }
 
+/* Botón para cerrar el modal */
 .cerrar-modal {
     position: absolute;
     top: 12px;
@@ -322,11 +347,13 @@ select {
     color: #ff5b00;
 }
 
+/* Garantiza que html y body ocupen el alto total */
 html,
 body {
     height: 100%;
 }
 
+/* Formulario flotante para calificar proyectos */
 #formulario-calificacion {
     position: fixed;
     top: 50%;
@@ -343,7 +370,6 @@ body {
     max-width: 400px;
 }
 
-
 #formulario-calificacion input,
 #formulario-calificacion textarea {
     width: 100%;
@@ -359,6 +385,7 @@ body {
     padding: 10px 16px;
 }
 
+/* Botón de cerrar específico para el formulario de calificación */
 #formulario-calificacion .cerrar {
     position: absolute;
     top: 8px;

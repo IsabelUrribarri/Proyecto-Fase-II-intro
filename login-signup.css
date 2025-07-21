@@ -1,3 +1,4 @@
+/* Reset general para tener un punto de partida limpio */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -5,6 +6,7 @@
     font-family: 'Trebuchet MS', sans-serif;
 }
 
+/* Fondo general con degradado suave y centrado del formulario */
 body {
     background: linear-gradient(135deg, #e6f0fa, #fefefe);
     height: 100vh;
@@ -13,30 +15,31 @@ body {
     justify-content: center;
 }
 
-
-
+/* Caja del formulario: diseño limpio con sombra y borde lateral llamativo */
 .form-box {
     background-color: #fff;
     padding: 30px 42px;
     border-radius: 14px;
     border-left: 5px solid #ff5b00;
+    /* Línea lateral como acento visual */
     box-shadow: 0px 8px 26px rgba(0, 0, 0, 0.07);
     width: 100%;
     max-width: 410px;
     transition: transform 0.25s ease;
 }
 
+/* Ligero efecto de zoom al pasar el mouse por encima */
 .form-box:hover {
     transform: scale(1.008);
 }
 
-
+/* Formulario organizado en columna */
 form {
     display: flex;
     flex-direction: column;
 }
 
-
+/* Etiquetas de los campos con buen espaciado y legibilidad */
 form label {
     margin: 13px 0 6px;
     font-weight: 600;
@@ -44,7 +47,7 @@ form label {
     font-size: 15px;
 }
 
-
+/* Estilo base para inputs de texto, correo y contraseña */
 form input[type="text"],
 form input[type="email"],
 form input[type="password"] {
@@ -56,6 +59,7 @@ form input[type="password"] {
     transition: border 0.3s ease-in-out, box-shadow 0.2s;
 }
 
+/* Efecto de enfoque: borde azul suave con sombra */
 form input[type="text"]:focus,
 form input[type="email"]:focus,
 form input[type="password"]:focus {
@@ -64,7 +68,7 @@ form input[type="password"]:focus {
     outline: none;
 }
 
-
+/* Título sobre la sección de selección de rol */
 .titulo-rol {
     text-align: center;
     margin-top: 18px;
@@ -74,14 +78,14 @@ form input[type="password"]:focus {
     color: #37506c;
 }
 
-
+/* Contenedor horizontal para las opciones de rol */
 .seleccion-rol {
     display: flex;
     justify-content: space-around;
     margin-bottom: 20px;
 }
 
-
+/* Estilo de cada opción de rol (texto + radio button) */
 .opcion-rol {
     display: flex;
     align-items: center;
@@ -90,6 +94,7 @@ form input[type="password"]:focus {
     font-size: 14px;
 }
 
+/* Estilo del radio button: color personalizado + tamaño adecuado */
 input[type="radio"] {
     accent-color: #ff5b00;
     width: 16px;
@@ -97,7 +102,7 @@ input[type="radio"] {
     cursor: pointer;
 }
 
-
+/* Botón de enviar el formulario */
 form input[type="submit"] {
     margin-top: 18px;
     padding: 12px;
@@ -111,10 +116,12 @@ form input[type="submit"] {
     transition: background-color 0.25s ease;
 }
 
+/* Cambio de color al pasar el mouse por el botón */
 form input[type="submit"]:hover {
     background-color: #a63b01;
 }
 
+/* Mensaje de error que aparece bajo un campo inválido */
 .error {
     color: red;
     font-size: 13px;
@@ -122,6 +129,7 @@ form input[type="submit"]:hover {
     margin-top: 4px;
 }
 
+/* Mensaje de éxito que aparece al final tras enviar */
 .mensaje-exito {
     color: green;
     font-weight: bold;

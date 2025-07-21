@@ -1,24 +1,40 @@
+// === CAMBIO DE PANELES PRINCIPALES ===
+
+// Cuando el usuario hace clic en "Cursos"
 document.getElementById('btn-cursos').onclick = function () {
+  // Muestra el panel de cursos
   document.getElementById('cursos-panel').style.display = '';
+  // Oculta los otros paneles
   document.getElementById('avance-panel').style.display = 'none';
   document.getElementById('materiales-panel').style.display = 'none';
   document.getElementById('calificaciones-panel').style.display = 'none';
+
+  // Marca este botón como activo (añade clase CSS) y desactiva los otros
   this.classList.add('activo');
   document.getElementById('btn-avance').classList.remove('activo');
   document.getElementById('btn-calificaciones').classList.remove('activo');
 };
 
+// Cuando el usuario hace clic en "Avance"
 document.getElementById('btn-avance').onclick = function () {
+  // Oculta cursos y muestra el panel de avance
   document.getElementById('cursos-panel').style.display = 'none';
   document.getElementById('avance-panel').style.display = '';
   document.getElementById('materiales-panel').style.display = 'none';
   document.getElementById('calificaciones-panel').style.display = 'none';
+
+  // Activa este botón y desactiva los otros
   this.classList.add('activo');
   document.getElementById('btn-cursos').classList.remove('activo');
   document.getElementById('btn-calificaciones').classList.remove('activo');
 };
 
+// === DATOS DEL USUARIO Y CONFIGURACIÓN INICIAL ===
+
+// Recuperamos al usuario que está logueado desde el localStorage
 const usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
+
+// Si es un profesor específico ("Profesor_123"), simulamos que ya tiene entregas de proyectos
 if (usuario.rol === 'Profesor' && usuario.nombre === 'Profesor_123') {
   const entregas = {
     "Curso de JavaScript|Juan Pérez": true,
@@ -27,6 +43,8 @@ if (usuario.rol === 'Profesor' && usuario.nombre === 'Profesor_123') {
   };
   localStorage.setItem('entregasProyectos', JSON.stringify(entregas));
 }
+
+// Base de materiales disponibles por defecto en cada curso
 const baseMateriales = {
   "Curso de JavaScript": [
     { tipo: 'video', titulo: 'Intro a JS', descripcion: 'Explicación básica del lenguaje.', imagen: 'https://via.placeholder.com/240x120?text=Video+JS' },
@@ -44,16 +62,23 @@ const baseMateriales = {
     { tipo: 'link', titulo: 'Python Docs', descripcion: 'Sitio oficial de documentación.', imagen: 'https://via.placeholder.com/240x120?text=Link+Python' }
   ]
 };
+
+// Muestra el nombre del usuario en el panel superior (si existe)
 if (usuario && usuario.nombre) {
   document.getElementById('nombre-usuario').textContent = usuario.nombre;
 }
 
+// Recupera los cursos en los que está inscrito (solo si es estudiante)
 const cursosInscritos = usuario ? JSON.parse(localStorage.getItem(usuario.email)) || [] : [];
+
+// Seleccionamos el contenedor de la lista de cursos
 const lista = document.querySelector('#lista-cursos');
-lista.innerHTML = '';
+lista.innerHTML = ''; // Limpiamos por si había algo antes
+
+// === MOSTRAR CURSOS SEGÚN EL ROL DEL USUARIO ===
 
 if (usuario.rol === 'Profesor') {
-  // Mostrar cursos asignados al profesor
+  // Filtramos los cursos que tiene asignados este profesor
   const cursosDisponibles = JSON.parse(localStorage.getItem('cursosDisponibles')) || [];
   const cursosAsignados = cursosDisponibles.filter(curso => curso.profesor === usuario.nombre);
 
@@ -61,10 +86,11 @@ if (usuario.rol === 'Profesor') {
     lista.innerHTML = '<li>No tienes cursos asignados.</li>';
   } else {
     cursosAsignados.forEach(curso => {
+      // Creamos un <li> y un botón para cada curso
       const li = document.createElement('li');
       const boton = document.createElement('button');
       boton.textContent = 'Administrar';
-      boton.onclick = () => mostrarMateriales(curso.nombre);
+      boton.onclick = () => mostrarMateriales(curso.nombre); // Llama a la función que muestra los materiales
       li.textContent = curso.nombre + ' ';
       li.appendChild(boton);
       lista.appendChild(li);
@@ -72,7 +98,7 @@ if (usuario.rol === 'Profesor') {
   }
 
 } else {
-  // Mostrar cursos inscritos del estudiante
+  // Si es estudiante, mostramos los cursos en los que está inscrito
   if (cursosInscritos.length === 0) {
     lista.innerHTML = '<li>No tienes cursos inscritos aún.</li>';
   } else {
@@ -80,7 +106,7 @@ if (usuario.rol === 'Profesor') {
       const li = document.createElement('li');
       const boton = document.createElement('button');
       boton.textContent = 'Inicio';
-      boton.onclick = () => mostrarMateriales(curso.nombre);
+      boton.onclick = () => mostrarMateriales(curso.nombre); // Llama a la misma función, pero solo para visualizar
       li.textContent = curso.nombre + ' ';
       li.appendChild(boton);
       lista.appendChild(li);
@@ -88,20 +114,24 @@ if (usuario.rol === 'Profesor') {
   }
 }
 
+// === FUNCIÓN PRINCIPAL PARA MOSTRAR LOS MATERIALES DE UN CURSO ===
 function mostrarMateriales(nombreCurso) {
+  // Ocultamos todos los paneles excepto el de materiales
   document.getElementById('cursos-panel').style.display = 'none';
   document.getElementById('avance-panel').style.display = 'none';
   document.getElementById('calificaciones-panel').style.display = 'none';
   document.getElementById('materiales-panel').style.display = 'block';
 
+  // Obtenemos todos los materiales disponibles (base + guardados en localStorage)
   const materiales = obtenerMateriales(nombreCurso);
   const contenedor = document.getElementById('contenedor-materiales');
-  contenedor.innerHTML = '';
+  contenedor.innerHTML = ''; // Limpiamos el contenedor antes de llenarlo
 
-  // Si es profesor, añadir tarjeta para agregar nuevo material
+  // === SI EL USUARIO ES PROFESOR, AGREGAMOS UNA TARJETA ESPECIAL PARA AÑADIR MATERIALES ===
   if (usuario.rol === 'Profesor') {
     const tarjetaAgregar = document.createElement('div');
     tarjetaAgregar.className = 'material-card';
+    // Estilo de la tarjeta para que se distinga visualmente
     tarjetaAgregar.style.background = '#8c2f00';
     tarjetaAgregar.style.color = 'white';
     tarjetaAgregar.style.justifyContent = 'center';
@@ -109,11 +139,14 @@ function mostrarMateriales(nombreCurso) {
     tarjetaAgregar.style.display = 'flex';
     tarjetaAgregar.style.cursor = 'pointer';
     tarjetaAgregar.innerHTML = '<span style="font-size:18px;">➕ Añadir material</span>';
+    // Cuando el profesor hace clic, se abre el formulario de nuevo material
     tarjetaAgregar.onclick = () => mostrarFormularioAgregar(nombreCurso);
     contenedor.appendChild(tarjetaAgregar);
   }
 
+  // === MOSTRAMOS CADA MATERIAL COMO UNA TARJETA ===
   materiales.forEach((mat, i) => {
+    // Elegimos un icono según el tipo de material
     const icono = mat.tipo === 'video' ? '📹' :
       mat.tipo === 'pdf' ? '📄' :
         mat.tipo === 'link' ? '🔗' :
@@ -128,20 +161,22 @@ function mostrarMateriales(nombreCurso) {
       <p>${mat.descripcion}</p>
     `;
 
-    // Si es un proyecto final, que sea interactivo (solo para alumnos)
+    // Si es profesor y no es un proyecto, puede abrir el formulario de edición
     if (usuario.rol === 'Profesor' && mat.tipo !== 'proyecto') {
-      card.onclick = () => mostrarFormularioProyecto(nombreCurso);
+      card.onclick = () => mostrarFormularioProyecto(nombreCurso); // Aquí se podría cambiar para abrir proyecto
     }
 
-    // Si es profesor y no es el proyecto, mostrar botones editar/eliminar
+    // === BOTONES DE EDITAR Y ELIMINAR (SOLO PARA PROFESORES) ===
     if (usuario.rol === 'Profesor' && mat.tipo !== 'proyecto') {
+      // Botón editar
       const editarBtn = document.createElement('button');
       editarBtn.textContent = '✏️';
       editarBtn.onclick = (event) => {
-        event.stopPropagation();
+        event.stopPropagation(); // Evita que se dispare el onclick general de la tarjeta
         editarMaterial(nombreCurso, i);
       };
 
+      // Botón eliminar
       const eliminarBtn = document.createElement('button');
       eliminarBtn.textContent = '🗑️';
       eliminarBtn.onclick = (event) => {
@@ -149,40 +184,44 @@ function mostrarMateriales(nombreCurso) {
         eliminarMaterial(nombreCurso, i);
       };
 
+      // Añadimos los botones a la tarjeta
       card.appendChild(editarBtn);
       card.appendChild(eliminarBtn);
     }
 
+    // Finalmente, agregamos la tarjeta al contenedor
     contenedor.appendChild(card);
   });
 }
 
+// === FORMULARIO PARA AGREGAR UN NUEVO MATERIAL ===
 function mostrarFormularioAgregar(nombreCurso) {
+  // Pedimos datos básicos al profesor
   const titulo = prompt('Título del nuevo material:');
-  if (!titulo) return;
+  if (!titulo) return; // Si cancela o no escribe nada, no hace nada
 
   const descripcion = prompt('Descripción:');
   const tipo = prompt('Tipo (video, pdf, link):', 'video');
   const imagen = prompt('URL de imagen (opcional):', 'https://via.placeholder.com/240x120?text=Material');
 
-  const nuevoMaterial = {
-    titulo,
-    descripcion,
-    tipo,
-    imagen
-  };
+  const nuevoMaterial = { titulo, descripcion, tipo, imagen };
 
+  // Guardamos en localStorage (se asocia a este curso)
   const clave = `materiales-${nombreCurso}`;
   const existentes = JSON.parse(localStorage.getItem(clave)) || [];
   existentes.push(nuevoMaterial);
   localStorage.setItem(clave, JSON.stringify(existentes));
 
+  // Actualizamos la vista
   mostrarMateriales(nombreCurso);
 }
 
+// === EDITAR UN MATERIAL EXISTENTE ===
 function editarMaterial(curso, index) {
   const clave = `materiales-${curso}`;
   const materiales = JSON.parse(localStorage.getItem(clave)) || [];
+
+  // Pedimos el nuevo título (podría ampliarse para editar descripción también)
   const nuevoTitulo = prompt('Nuevo título:', materiales[index].titulo);
   if (nuevoTitulo) {
     materiales[index].titulo = nuevoTitulo;
@@ -191,60 +230,20 @@ function editarMaterial(curso, index) {
   }
 }
 
-
-function mostrarAdminMateriales(nombreCurso) {
-  document.getElementById('cursos-panel').style.display = 'none';
-  document.getElementById('avance-panel').style.display = 'none';
-  document.getElementById('calificaciones-panel').style.display = 'none';
-  document.getElementById('materiales-panel').style.display = 'none';
-  document.getElementById('admin-materiales-panel').style.display = 'block';
-
-  const contenedor = document.getElementById('admin-materiales-lista');
-  contenedor.innerHTML = '';
-
-  const materiales = obtenerMateriales(nombreCurso);
-
-  materiales.forEach((mat, index) => {
-    const card = document.createElement('div');
-    card.className = 'material-card';
-    card.innerHTML = `
-      <h4>${mat.titulo}</h4>
-      <p>${mat.descripcion}</p>
-      <p>Tipo: ${mat.tipo}</p>
-      <button onclick="eliminarMaterial('${nombreCurso}', ${index})">Eliminar</button>
-    `;
-    contenedor.appendChild(card);
-  });
-
-  localStorage.setItem('cursoAdminActual', nombreCurso);
-}
-
-function agregarMaterial() {
-  const titulo = document.getElementById('nuevo-titulo').value;
-  const descripcion = document.getElementById('nueva-descripcion').value;
-  const tipo = document.getElementById('nuevo-tipo').value;
-  const imagen = document.getElementById('nueva-imagen').value || 'https://via.placeholder.com/240x120?text=Material';
-
-  const nombreCurso = localStorage.getItem('cursoAdminActual');
-  const key = `materiales-${nombreCurso}`;
-  const existentes = JSON.parse(localStorage.getItem(key)) || [];
-
-  existentes.push({ titulo, descripcion, tipo, imagen });
-  localStorage.setItem(key, JSON.stringify(existentes));
-
-  mostrarAdminMateriales(nombreCurso);
-}
-
+// === ELIMINAR UN MATERIAL EXISTENTE ===
 function eliminarMaterial(curso, index) {
   const materiales = obtenerMateriales(curso);
   const mat = materiales[index];
+
+  // Si es un proyecto final, no permitimos eliminarlo
   if (mat.tipo === 'proyecto') {
     alert('El Proyecto Final no se puede eliminar.');
     return;
   }
 
+  // Eliminamos del localStorage (se resta 1 porque el proyecto final va al inicio de la lista)
   let guardados = JSON.parse(localStorage.getItem(`materiales-${curso}`)) || [];
-  guardados.splice(index - 1, 1); // -1 porque el proyecto fue insertado al inicio
+  guardados.splice(index - 1, 1); // IMPORTANTE: ajustamos el índice
   localStorage.setItem(`materiales-${curso}`, JSON.stringify(guardados));
   mostrarMateriales(curso);
 }
@@ -255,18 +254,20 @@ function cerrarAdminMateriales() {
 }
 
 
+// === MOSTRAR EL FORMULARIO DEL PROYECTO FINAL PARA UN CURSO ===
 function mostrarFormularioProyecto(cursoNombre) {
   const contenedor = document.getElementById('contenedor-materiales');
   const entregas = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
-  const yaEntregado = entregas[cursoNombre];
+  const yaEntregado = entregas[cursoNombre]; // ¿El alumno ya lo entregó?
 
+  // Reemplazamos todo el contenido del contenedor con la info del proyecto final
   contenedor.innerHTML = `
     <div class="material-card" style="width:100%">
       <h3>🧩 Proyecto Final: ${cursoNombre}</h3>
       <p><b>Descripción:</b> ${proyectosFinales[cursoNombre]}</p>
       <p>Este proyecto es obligatorio y debe ser entregado en este apartado.</p>
       ${yaEntregado
-      ? `<p style="color:green;font-weight:bold;">✅ Entregado correctamente</p>`
+      ? `<p style="color:green;font-weight:bold;">✅ Entregado correctamente</p>` // Mensaje si ya se entregó
       : `
           <input type="file" id="archivo-proyecto" style="margin: 12px 0;">
           <button onclick="entregarProyecto('${cursoNombre}')">Enviar Proyecto</button>
@@ -276,20 +277,27 @@ function mostrarFormularioProyecto(cursoNombre) {
   `;
 }
 
+// === ENTREGAR UN PROYECTO FINAL (ALUMNO) ===
 function entregarProyecto(cursoNombre) {
   const archivo = document.getElementById('archivo-proyecto').files[0];
+
+  // Validamos que haya elegido un archivo
   if (!archivo) {
     alert('Por favor selecciona un archivo para subir.');
     return;
   }
 
+  // Guardamos en localStorage que este alumno ya entregó
   const entregas = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
   entregas[cursoNombre] = true;
   localStorage.setItem('entregasProyectos', JSON.stringify(entregas));
 
+  // Actualizamos el formulario (muestra el mensaje de entregado)
   mostrarFormularioProyecto(cursoNombre);
 }
 
+// === LISTA DE PROYECTOS FINALES DISPONIBLES ===
+// Es una especie de "catálogo" de proyectos finales que tiene cada curso
 const proyectosFinales = {
   "Curso de JavaScript": "Calculadora web interactiva",
   "Curso de HTML y CSS": "Página web portfolio",
@@ -303,21 +311,19 @@ const proyectosFinales = {
   "Curso de Go": "Servidor web HTTP básico"
 };
 
-function cerrarMateriales() {
-  document.getElementById('materiales-panel').style.display = 'none';
-  document.getElementById('cursos-panel').style.display = '';
-}
-
-
+// === OBTENER TODOS LOS MATERIALES DE UN CURSO (CON EL PROYECTO INCLUIDO) ===
 function obtenerMateriales(curso) {
   const clave = `materiales-${curso}`;
   const guardados = JSON.parse(localStorage.getItem(clave)) || [];
-  const base = [...(baseMateriales[curso] || [])]; // ← importante copiar
 
-  // Evita duplicar el Proyecto Final si ya existe en base o guardados
+  // Copiamos los materiales base definidos al inicio (videos, pdfs, etc.)
+  const base = [...(baseMateriales[curso] || [])];
+
+  // Verificamos si ya existe un proyecto final (para no duplicarlo)
   const yaTieneProyecto = [...base, ...guardados].some(m => m.tipo === 'proyecto');
 
   if (!yaTieneProyecto && proyectosFinales[curso]) {
+    // Insertamos el proyecto final al principio de la lista
     base.unshift({
       tipo: 'proyecto',
       titulo: 'Proyecto Final',
@@ -326,25 +332,27 @@ function obtenerMateriales(curso) {
     });
   }
 
-  return [...base, ...guardados];
+  return [...base, ...guardados]; // Devolvemos la lista completa
 }
 
 mostrarAvance("Todos los cursos");
 
+// Carga inicial de avance al abrir la pestaña
 document.querySelector('#btn-avance').addEventListener('click', () => {
   mostrarAvance(document.querySelector('#avance-panel select').value);
 });
 
+// Cambio de filtro en el select (para filtrar por curso)
 document.querySelector('#avance-panel select').addEventListener('change', (e) => {
   mostrarAvance(e.target.value);
 });
 
+// Muestra el avance de los cursos (profesor vs estudiante)
 function mostrarAvance(filtro) {
   const contenedor = document.querySelector('#avance-panel .mensaje-avance');
   contenedor.innerHTML = '';
 
   if (usuario.rol === 'Profesor') {
-    // Mostrar avance de alumnos ficticios en su curso asignado
     const cursosDisponibles = JSON.parse(localStorage.getItem('cursosDisponibles')) || [];
     const cursosAsignados = cursosDisponibles.filter(curso => curso.profesor === usuario.nombre);
 
@@ -353,20 +361,20 @@ function mostrarAvance(filtro) {
       return;
     }
 
-    const curso = cursosAsignados[0]; // solo uno asignado
+    // Profesor ve avance de alumnos ficticios
+    const curso = cursosAsignados[0];
     const alumnosFicticios = [
       'Ana García', 'Luis Pérez', 'María López', 'Carlos Díaz',
       'Fernanda Ruiz', 'Jorge Romero', 'Isabel Herrera', 'Pedro Torres'
     ];
 
     alumnosFicticios.forEach(nombre => {
-      const progreso = Math.floor(Math.random() * 50) + 30;
-      const entregado = Math.random() > 0.5;
+      const progreso = Math.floor(Math.random() * 50) + 30; // porcentaje aleatorio
+      const entregado = Math.random() > 0.5; // mitad entregaron
 
       const tarjeta = document.createElement('div');
       tarjeta.classList.add('material-card');
       tarjeta.style.cursor = 'default';
-
       tarjeta.innerHTML = `
         <h4>${nombre} ${entregado ? '✅' : ''}</h4>
         <p style="margin: 5px 0; color: #a63b01;"><b>Curso:</b> ${curso.nombre}</p>
@@ -375,14 +383,12 @@ function mostrarAvance(filtro) {
         </div>
         <p style="margin-top:6px;color:#a63b01;font-weight:bold;">${progreso}% completado</p>
       `;
-
       contenedor.appendChild(tarjeta);
     });
 
   } else {
-    // Estudiante: mostrar su propio progreso
+    // Estudiante ve su propio avance
     const cursos = JSON.parse(localStorage.getItem('cursosInscritos')) || [];
-
     const filtrados = filtro === "Todos los cursos"
       ? cursos
       : cursos.filter(c => c.nombre.includes(filtro));
@@ -396,15 +402,12 @@ function mostrarAvance(filtro) {
     }
 
     filtrados.forEach(curso => {
-      const progreso = Math.floor(Math.random() * 50) + 30; // simulado
-
-      const estadoProyectos = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
-      const entregado = estadoProyectos[curso.nombre];
+      const progreso = Math.floor(Math.random() * 50) + 30;
+      const entregas = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
+      const entregado = entregas[curso.nombre];
 
       const tarjeta = document.createElement('div');
       tarjeta.classList.add('material-card');
-      tarjeta.style.cursor = 'pointer';
-
       tarjeta.innerHTML = `
         <h4>${curso.nombre} ${entregado ? '✅' : ''}</h4>
         <div style="margin: 8px 0;">
@@ -419,29 +422,15 @@ function mostrarAvance(filtro) {
   }
 }
 
-
-document.getElementById('btn-calificaciones').onclick = function () {
-  document.getElementById('cursos-panel').style.display = 'none';
-  document.getElementById('avance-panel').style.display = 'none';
-  document.getElementById('materiales-panel').style.display = 'none';
-  document.getElementById('calificaciones-panel').style.display = 'block';
-
-  this.classList.add('activo');
-  document.getElementById('btn-cursos').classList.remove('activo');
-  document.getElementById('btn-avance').classList.remove('activo');
-
-  mostrarCalificaciones();
-};
-
 function mostrarCalificaciones() {
   const cuerpo = document.getElementById('cuerpo-calificaciones');
   cuerpo.innerHTML = '';
 
-  // Si es estudiante
   if (usuario.rol !== 'Profesor') {
+    // Estudiante: sus notas simuladas
     const cursos = cursosInscritos.length ? cursosInscritos : [];
     cursos.forEach(curso => {
-      const nota = (Math.random() * 4 + 6).toFixed(1); // nota entre 6.0 y 10.0
+      const nota = (Math.random() * 4 + 6).toFixed(1); // nota aleatoria entre 6 y 10
       const comentarios = [
         "Buen trabajo, sigue así.",
         "Excelente esfuerzo, puedes mejorar algunos detalles.",
@@ -454,30 +443,29 @@ function mostrarCalificaciones() {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${curso.nombre}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${curso.nombre} - Proyecto Final</td>
+        <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">Proyecto Final</td>
         <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${nota}</td>
         <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${comentario}</td>
       `;
       cuerpo.appendChild(tr);
     });
+
   } else {
-    // Profesor: ver proyectos entregados de sus alumnos
+    // Profesor: proyectos entregados por alumnos (simulado con entregas guardadas)
     const entregas = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
     const cursosDisponibles = JSON.parse(localStorage.getItem('cursosDisponibles')) || [];
     const cursosAsignados = cursosDisponibles.filter(c => c.profesor === usuario.nombre);
 
-    const alumnos = JSON.parse(localStorage.getItem('usuariosRegistrados')) || [];
-
-    // Recorremos entregas simuladas
     Object.keys(entregas).forEach(clave => {
       const [curso, alumno] = clave.split('|');
-
       if (cursosAsignados.some(c => c.nombre === curso)) {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${curso}</td>
           <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${alumno}</td>
-          <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;"><button onclick="abrirFormularioCalificacion('${curso}', '${alumno}')">Calificar</button></td>
+          <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">
+            <button onclick="abrirFormularioCalificacion('${curso}', '${alumno}')">Calificar</button>
+          </td>
           <td></td>
         `;
         cuerpo.appendChild(tr);
@@ -486,120 +474,9 @@ function mostrarCalificaciones() {
   }
 }
 
-function mostrarFormularioAgregar(nombreCurso) {
-  // Oculta todo lo demás
-  document.getElementById('cursos-panel').style.display = 'none';
-  document.getElementById('avance-panel').style.display = 'none';
-  document.getElementById('materiales-panel').style.display = 'none';
-  document.getElementById('calificaciones-panel').style.display = 'none';
-  document.body.style.overflow = 'hidden';
-
-
-  // Muestra solo el formulario
-  document.getElementById('formulario-material').style.display = 'block';
-
-  localStorage.setItem('cursoAdminActual', nombreCurso);
-}
-
-function cancelarFormulario() {
-  document.getElementById('formulario-material').style.display = 'none';
-  document.getElementById('form-material').reset();
-  document.querySelectorAll('.error').forEach(el => el.remove());
-  document.body.style.overflow = 'auto';
-
-  // Vuelve a mostrar los materiales del curso
-  const curso = localStorage.getItem('cursoAdminActual');
-  mostrarMateriales(curso);
-}
-
-document.getElementById('form-material').addEventListener('submit', function (e) {
-  e.preventDefault();
-
-  const titulo = document.getElementById('titulo').value.trim();
-  const descripcion = document.getElementById('descripcion').value.trim();
-  const tipo = document.getElementById('tipo').value.trim();
-  const imagen = document.getElementById('imagen').value.trim() || 'https://via.placeholder.com/240x120?text=Material';
-
-  document.querySelectorAll('.error').forEach(el => el.remove());
-
-  let valido = true;
-
-  if (titulo === '') {
-    mostrarError('titulo', 'El título es obligatorio');
-    valido = false;
-  }
-
-  if (descripcion === '') {
-    mostrarError('descripcion', 'La descripción es obligatoria');
-    valido = false;
-  }
-
-  if (tipo === '') {
-    mostrarError('tipo', 'Seleccione un tipo de material');
-    valido = false;
-  }
-
-  if (!valido) return;
-
-  const curso = localStorage.getItem('cursoAdminActual');
-  const clave = `materiales-${curso}`;
-  const materiales = JSON.parse(localStorage.getItem(clave)) || [];
-
-  materiales.push({ titulo, descripcion, tipo, imagen });
-  localStorage.setItem(clave, JSON.stringify(materiales));
-
-  cancelarFormulario();
-  mostrarMateriales(curso);
-});
-
-function mostrarError(idCampo, mensaje) {
-  const campo = document.getElementById(idCampo);
-  const error = document.createElement('small');
-  error.classList.add('error');
-  error.textContent = mensaje;
-  error.style.color = 'red';
-  error.style.marginTop = '5px';
-  campo.insertAdjacentElement('afterend', error);
-}
-
-let alumnoActual = '';
-let cursoActual = '';
+let proyectoActual = { curso: '', alumno: '' };
 
 function abrirFormularioCalificacion(curso, alumno) {
-  alumnoActual = alumno;
-  cursoActual = curso;
-
-  document.getElementById('info-curso-alumno').innerText = `Curso: ${curso}\nAlumno: ${alumno}`;
-  document.getElementById('nota').value = '';
-  document.getElementById('comentario').value = '';
-
-  document.getElementById('modal-calificar').style.display = 'flex';
-}
-
-function cerrarModalCalificar() {
-  document.getElementById('modal-calificar').style.display = 'none';
-}
-
-function guardarCalificacion() {
-  const nota = parseFloat(document.getElementById('nota').value);
-  const comentario = document.getElementById('comentario').value.trim();
-
-  if (!nota || nota < 1 || nota > 10 || comentario === '') {
-    alert('Por favor completa todos los campos correctamente.');
-    return;
-  }
-
-  const calificaciones = JSON.parse(localStorage.getItem('calificacionesProyectos')) || {};
-  calificaciones[`${cursoActual}|${alumnoActual}`] = { nota, comentario };
-  localStorage.setItem('calificacionesProyectos', JSON.stringify(calificaciones));
-
-  cerrarModalCalificar();
-  alert('Calificación guardada.');
-}
-
-let proyectoActual = {};
-
-function mostrarFormularioCalificacion(curso, alumno) {
   proyectoActual = { curso, alumno };
   document.getElementById('info-proyecto').innerText = `Curso: ${curso}\nAlumno: ${alumno}`;
   document.getElementById('nota-calificacion').value = '';
@@ -621,10 +498,9 @@ function guardarCalificacion() {
   }
 
   const key = `calificacion-${proyectoActual.curso}|${proyectoActual.alumno}`;
-  const valor = { nota, comentario };
-  localStorage.setItem(key, JSON.stringify(valor));
+  localStorage.setItem(key, JSON.stringify({ nota, comentario }));
 
   alert('✅ Calificación guardada');
   cerrarFormularioCalificacion();
-  mostrarCalificaciones(); // refresca la tabla si es profesor
+  mostrarCalificaciones();
 }

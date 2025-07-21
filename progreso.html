@@ -4,42 +4,53 @@
 <head>
   <meta charset="UTF-8">
   <title>Panel simple de cursos</title>
+  <!-- Estilos del panel de progreso -->
   <link rel="stylesheet" href="progreso.css">
 </head>
 
 <body>
 
+  <!-- Encabezado con nombre de usuario y botón de regreso -->
   <div class="header">
     <b id="nombre-usuario">Usuario</b>
     <button id="btn-inicio" onclick="window.location.href='index.html'">Volver a inicio</button>
   </div>
 
+  <!-- Distribución de página: menú lateral + contenido -->
   <div class="layout">
 
+    <!-- Menú lateral de navegación -->
     <div class="menu">
       <div class="seccion">Mis cosas</div>
       <button id="btn-cursos" class="mnu-btn activo">Cursos</button>
+
       <div class="seccion">Mi cuenta</div>
       <button id="btn-avance" class="mnu-btn">Avance</button>
       <button id="btn-calificaciones" class="mnu-btn">Calificaciones</button>
     </div>
 
+    <!-- Contenido principal -->
     <div class="contenido">
 
+      <!-- Vista de lista de cursos -->
       <div id="cursos-panel">
         <h2>Mis cursos</h2>
         <ul id="lista-cursos"></ul>
       </div>
 
+      <!-- Vista para ver los materiales de un curso -->
       <div id="materiales-panel" style="display:none;">
         <h2>Materiales del curso</h2>
         <div id="contenedor-materiales" class="materiales-grid"></div>
         <button onclick="cerrarMateriales()" class="azul-btn">Volver a Mis Cursos</button>
       </div>
 
+      <!-- Vista para que el profesor administre los materiales -->
       <div id="admin-materiales-panel" style="display:none;">
         <h2>Administrar materiales del curso</h2>
         <div id="admin-materiales-lista" class="materiales-grid"></div>
+
+        <!-- Formulario simple para añadir material (versión rápida) -->
         <h3>Añadir nuevo material</h3>
         <input type="text" id="nuevo-titulo" placeholder="Título">
         <input type="text" id="nueva-descripcion" placeholder="Descripción">
@@ -53,7 +64,7 @@
         <button onclick="cerrarAdminMateriales()" class="azul-btn">Volver</button>
       </div>
 
-
+      <!-- Vista de progreso simulado -->
       <div id="avance-panel" style="display:none;">
         <h2>Mi avance</h2>
         <div>
@@ -76,6 +87,7 @@
         <div class="mensaje-avance materiales-grid"></div>
       </div>
 
+      <!-- Vista de calificaciones de proyectos -->
       <div id="calificaciones-panel" style="display:none;">
         <h2>Calificaciones y Comentarios</h2>
         <table id="tabla-calificaciones" style="width:100%; border-collapse: collapse; margin-top: 12px;">
@@ -91,8 +103,10 @@
         </table>
       </div>
 
-    </div>
-  </div>
+    </div> <!-- Fin contenido -->
+  </div> <!-- Fin layout -->
+
+  <!-- Modal para añadir nuevo material (estilo flotante) -->
   <div id="formulario-material" class="modal" style="display: none;">
     <div class="formulario-modal">
       <button class="cerrar-modal" onclick="cancelarFormulario()">✖</button>
@@ -122,6 +136,7 @@
     </div>
   </div>
 
+  <!-- Modal para calificar un proyecto (usado por profesor) -->
   <div id="modal-calificar" class="modal" style="display:none;">
     <div class="formulario-modal">
       <button class="cerrar-modal" onclick="cerrarModalCalificar()">✖</button>
@@ -134,6 +149,8 @@
       <button onclick="guardarCalificacion()">Guardar</button>
     </div>
   </div>
+
+  <!-- Otra versión de modal de calificación (más centrado visualmente) -->
   <div id="overlay-modal" class="modal" style="display:none;">
     <div id="formulario-calificacion">
       <button class="cerrar" onclick="cerrarFormularioCalificacion()">×</button>
@@ -143,8 +160,10 @@
       <textarea id="comentario-calificacion" placeholder="Comentarios..."></textarea>
       <button onclick="guardarCalificacion()">Guardar</button>
     </div>
+  </div>
 
-    <script src="progreso.js"></script>
+  <!-- Lógica JS para manejar paneles, formularios y datos -->
+  <script src="progreso.js"></script>
 </body>
 
 </html>
