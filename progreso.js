@@ -29,6 +29,18 @@ document.getElementById('btn-avance').onclick = function () {
   document.getElementById('btn-calificaciones').classList.remove('activo');
 };
 
+document.getElementById('btn-calificaciones').onclick = function () {
+    document.getElementById('calificaciones-panel').style.display = '';
+    document.getElementById('cursos-panel').style.display = 'none';
+    document.getElementById('avance-panel').style.display = 'none';
+    document.getElementById('materiales-panel').style.display = 'none';
+
+    this.classList.add('activo');
+    document.getElementById('btn-cursos').classList.remove('activo');
+    document.getElementById('btn-avance').classList.remove('activo');
+    mostrarCalificaciones();
+};
+
 // === DATOS DEL USUARIO Y CONFIGURACIÓN INICIAL ===
 
 // Recuperamos al usuario que está logueado desde el localStorage
@@ -160,6 +172,10 @@ function mostrarMateriales(nombreCurso) {
       <h4>${icono} ${mat.titulo}</h4>
       <p>${mat.descripcion}</p>
     `;
+
+    if (mat.tipo === 'proyecto') {
+      card.onclick = () => mostrarFormularioProyecto(nombreCurso);
+    }
 
     // Si es profesor y no es un proyecto, puede abrir el formulario de edición
     if (usuario.rol === 'Profesor' && mat.tipo !== 'proyecto') {
