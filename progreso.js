@@ -72,6 +72,41 @@ const baseMateriales = {
     { tipo: 'video', titulo: 'Variables en Python', descripcion: 'Uso y ejemplos básicos.', imagen: 'https://via.placeholder.com/240x120?text=Video+Python' },
     { tipo: 'pdf', titulo: 'Estructuras de Control', descripcion: 'Documento explicativo.', imagen: 'https://via.placeholder.com/240x120?text=PDF+Python' },
     { tipo: 'link', titulo: 'Python Docs', descripcion: 'Sitio oficial de documentación.', imagen: 'https://via.placeholder.com/240x120?text=Link+Python' }
+  ],
+  "Curso de C++": [
+    { tipo: 'video', titulo: 'Intro a C++', descripcion: 'Explicación básica del lenguaje.', imagen: 'https://via.placeholder.com/240x120?text=Video+JS' },
+    { tipo: 'pdf', titulo: 'Funciones y Bucles', descripcion: 'Guía en PDF.', imagen: 'https://via.placeholder.com/240x120?text=PDF+JS' },
+    { tipo: 'link', titulo: 'POO Básica', descripcion: 'Recurso externo.', imagen: 'https://via.placeholder.com/240x120?text=Enlace+JS' }
+  ],
+  "Curso de Java": [
+    { tipo: 'video', titulo: 'Intro a Java', descripcion: 'Estructura de etiquetas.', imagen: 'https://via.placeholder.com/240x120?text=Video+HTML' },
+    { tipo: 'pdf', titulo: 'Métodos y Clases', descripcion: 'Maquetación moderna.', imagen: 'https://via.placeholder.com/240x120?text=PDF+CSS' },
+    { tipo: 'link', titulo: 'Manejo de Listas', descripcion: 'Referencia oficial.', imagen: 'https://via.placeholder.com/240x120?text=Link+HTML/CSS' }
+  ],
+  "Curso de PHP": [
+    { tipo: 'video', titulo: 'Intro a PHP', descripcion: 'Uso y ejemplos básicos.', imagen: 'https://via.placeholder.com/240x120?text=Video+Python' },
+    { tipo: 'pdf', titulo: 'Formularios y Datos', descripcion: 'Documento explicativo.', imagen: 'https://via.placeholder.com/240x120?text=PDF+Python' },
+    { tipo: 'link', titulo: 'Conexión MySQL', descripcion: 'Sitio oficial de documentación.', imagen: 'https://via.placeholder.com/240x120?text=Link+Python' }
+  ],
+  "Curso de C#": [
+    { tipo: 'video', titulo: 'Intro a C#', descripcion: 'Explicación básica del lenguaje.', imagen: 'https://via.placeholder.com/240x120?text=Video+JS' },
+    { tipo: 'pdf', titulo: 'Métodos y Objetos', descripcion: 'Guía en PDF.', imagen: 'https://via.placeholder.com/240x120?text=PDF+JS' },
+    { tipo: 'link', titulo: 'LINQ Básico', descripcion: 'Recurso externo.', imagen: 'https://via.placeholder.com/240x120?text=Enlace+JS' }
+  ],
+  "Curso de Ruby": [
+    { tipo: 'video', titulo: 'Intro a Ruby', descripcion: 'Estructura de etiquetas.', imagen: 'https://via.placeholder.com/240x120?text=Video+HTML' },
+    { tipo: 'pdf', titulo: 'Métodos y Bloques', descripcion: 'Maquetación moderna.', imagen: 'https://via.placeholder.com/240x120?text=PDF+CSS' },
+    { tipo: 'link', titulo: 'Clases y Objetos', descripcion: 'Referencia oficial.', imagen: 'https://via.placeholder.com/240x120?text=Link+HTML/CSS' }
+  ],
+  "Curso de TypeScript": [
+    { tipo: 'video', titulo: 'Intro a TypeScript', descripcion: 'Uso y ejemplos básicos.', imagen: 'https://via.placeholder.com/240x120?text=Video+Python' },
+    { tipo: 'pdf', titulo: 'Tipos y Funciones', descripcion: 'Documento explicativo.', imagen: 'https://via.placeholder.com/240x120?text=PDF+Python' },
+    { tipo: 'link', titulo: 'Clases TS', descripcion: 'Sitio oficial de documentación.', imagen: 'https://via.placeholder.com/240x120?text=Link+Python' }
+  ],
+  "Curso de Go": [
+    { tipo: 'video', titulo: 'Intro a Go', descripcion: 'Uso y ejemplos básicos.', imagen: 'https://via.placeholder.com/240x120?text=Video+Python' },
+    { tipo: 'pdf', titulo: 'Funciones y Paquetes', descripcion: 'Documento explicativo.', imagen: 'https://via.placeholder.com/240x120?text=PDF+Python' },
+    { tipo: 'link', titulo: 'Concurrencia Simple', descripcion: 'Sitio oficial de documentación.', imagen: 'https://via.placeholder.com/240x120?text=Link+Python' }
   ]
 };
 
