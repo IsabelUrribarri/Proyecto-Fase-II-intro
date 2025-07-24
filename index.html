@@ -5,27 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduConnect</title>
-    <!-- Cargamos los estilos desde el archivo externo -->
     <link rel="stylesheet" href="inicio.css">
 </head>
 
 <body>
     <header>
-        <!-- Logo que lleva siempre al inicio -->
+        <!-- Logo que te lleva al inicio -->
         <a href="index.html" class="logo">EduConnect</a>
 
         <nav>
-            <!-- Enlace directo al soporte -->
+            <!-- Link al soporte por si algo no carga -->
             <a href="support.html">Soporte</a>
 
-            <!-- Botones para login y registro, redirigen a la sección correspondiente -->
+            <!-- Botones para loguearse o registrarse -->
             <button class="btn-login" onclick="location.href='login-signup.html#login'">Iniciar sesión</button>
             <button class="btn-register" onclick="location.href='login-signup.html#signup'">Registrarse</button>
 
-            <!-- Menú tipo hamburguesa que solo aparece si hay sesión activa -->
+            <!-- Icono del menú solo se muestra si estás logueado (por ahora oculto) -->
             <span class="user-icon" style="display: none; font-size: 20px; cursor: pointer;">☰</span>
 
-            <!-- Opciones que aparecen cuando el usuario está logueado -->
+            <!-- Menú del user (se ve solo si inició sesión) -->
             <div class="user-menu" style="display: none;">
                 <ul>
                     <li><a href="progreso.html" id="progreso">Progreso</a></li>
@@ -35,35 +34,36 @@
         </nav>
     </header>
 
-    <!-- Sección principal con el mensaje promocional -->
+    <!-- Hero principal con título y buscador, muy estilo landing -->
     <section class="hero">
         <h1>Aprende donde quieras con <span>EduConnect</span></h1>
         <p>Accede a cursos desde cualquier lugar. ¡Empieza hoy!</p>
 
-        <!-- Barra de búsqueda para filtrar cursos -->
+        <!-- Buscador para filtrar cursos -->
         <div class="search-box">
             <input type="text" id="input-busqueda" placeholder="Buscar entre 20+ cursos">
             <button id="btn-buscar">Buscar</button>
         </div>
 
-        <!-- Aquí se carga el mensaje de bienvenida si el usuario está logueado -->
+        <!-- Mensaje de bienvenida aparece aquí si el user está logueado -->
         <div id="bienvenida-container" style="margin-top: 20px;"></div>
     </section>
 
-    <!-- Sección para mostrar cursos, ya sea todos o solo los del usuario -->
+    <!-- Sección donde se muestran todos los cursos o los del user -->
     <section class="cursos-section" id="cursos-disponibles">
-        <!-- Pestañas para alternar entre los cursos disponibles y los inscritos -->
+        <!-- Pestañas para cambiar entre todos los cursos y los tuyos -->
         <div class="tabs">
             <button class="tab active">Cursos Disponibles</button>
             <button class="tab">Tus Cursos</button>
         </div>
 
-        <!-- Aquí se insertan dinámicamente las tarjetas de cursos -->
+        <!-- Acá se meten las tarjetas de los cursos con JS -->
         <div class="cursos-contenedor" id="contenedor-cursos">
         </div>
         <div id="contenedor-boton"></div>
     </section>
-    <!-- Modal de confirmación para inscripción -->
+
+    <!-- Modal para confirmar inscripción a un curso -->
     <div id="modal-confirmacion" class="modal-overlay" style="display:none;">
         <div class="modal-contenido">
             <h3>¿Estás seguro de que deseas inscribirte?</h3>

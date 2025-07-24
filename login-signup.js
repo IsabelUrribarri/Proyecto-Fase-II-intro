@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Referencias a los formularios y mensajes de éxito
+    // llamamos a los formularios y los mensajes de éxito
     const signupForm = document.getElementById('signupForm');
     const loginForm = document.getElementById('loginForm');
     const mensajeExito = document.getElementById('mensaje-exito');
     const mensajeLoginExito = document.getElementById('mensaje-login-exito');
 
-    // Si viene con #login o #signup en la URL, mostramos el formulario correspondiente
+    // Si la URL trae #login o #signup, mostramos el que le corresponde
     const hash = window.location.hash;
     if (hash === '#login') {
         signupForm.style.display = 'none';
@@ -16,14 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.style.display = 'none';
     }
 
-    // Cambiar a vista de login desde el enlace
+    // Cuando hacen clic en "Inicia sesión", mostramos el login
     document.getElementById('mostrar-login').addEventListener('click', (e) => {
         e.preventDefault();
         signupForm.style.display = 'none';
         loginForm.style.display = 'flex';
     });
 
-    // Cambiar a vista de registro desde el enlace
+    // Cuando hacen clic en "Regístrate", mostramos el registro
     document.getElementById('mostrar-registro').addEventListener('click', (e) => {
         e.preventDefault();
         loginForm.style.display = 'none';
@@ -36,13 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
         limpiarErrores();
         mensajeLoginExito.style.display = 'none';
 
-        // Obtenemos los valores del formulario
+        // Obtenemos los datos que el user escribió
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value.trim();
 
         let valido = true;
 
-        // Validación básica del correo (permitimos usuarios predeterminados sin @)
+        // Validamos el correo (si no es uno de prueba, tiene que tener @)
         if (
             email !== 'Estudiante_123' &&
             email !== 'Profesor_123' &&
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (
                 (email === 'Estudiante_123' && password === 'IALI-2015') ||
                 (email === 'Profesor_123' && password === 'IALI-2015') ||
-                (email === 'Admin_123' && password === 'IALI-2015')  // <-- Añadido admin aquí
+                (email === 'Admin_123' && password === 'IALI-2015')
             ) {
                 const usuarioPredeterminado = {
                     nombre: email,
@@ -72,19 +72,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     password: password,
                     rol: email === 'Estudiante_123' ? 'Estudiante' :
                         email === 'Profesor_123' ? 'Profesor' :
-                            'Admin'  // <-- Rol admin para Admin_123
+                            'Admin'
                 };
 
-                // Guardamos al usuario como activo y lo mandamos al panel según rol
+                // Redireccionamos según el rol
                 localStorage.setItem('usuarioActivo', JSON.stringify(usuarioPredeterminado));
 
                 if (usuarioPredeterminado.rol === 'Admin') {
-                    window.location.href = 'support-admin.html';  // Página del panel admin
+                    window.location.href = 'support-admin.html'; // Se va al panel admin
                 } else {
-                    window.location.href = 'index.html';  // Usuarios Estudiante y Profesor al inicio normal
+                    window.location.href = 'index.html';   // Estudiante o profesor van al inicio
                 }
             } else {
-                // En caso de ser usuario registrado manualmente
+                // Si no es predefinido, buscamos en lo que se haya registrado
                 const usuarioGuardado = JSON.parse(localStorage.getItem('usuarioRegistrado'));
                 if (usuarioGuardado && usuarioGuardado.email === email && usuarioGuardado.password === password) {
                     localStorage.setItem('usuarioActivo', JSON.stringify(usuarioGuardado));
@@ -96,14 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
-        // Muestra un mensaje de error en el campo correspondiente
+        // Esta función muestra un mensaje de error en el campo indicado
         function mostrarError(id, mensaje) {
             const elemento = document.getElementById(id);
             elemento.textContent = mensaje;
             elemento.style.display = 'block';
         }
 
-        // Limpia todos los errores antes de validar
+        // Limpia todos los errores antes de validar otra vez
         function limpiarErrores() {
             document.querySelectorAll('.error').forEach(el => {
                 el.textContent = '';

@@ -1,22 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Obtenemos al usuario que inició sesión (si existe) desde localStorage
+    // Primero intentamos recuperar al usuario logueado (si lo hay)
     const usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
 
-    // Creamos el párrafo que usaremos para dar la bienvenida
+    // Creamos el mensaje de bienvenida dinámicamente
     const bienvenida = document.createElement('p');
 
-    // Referencias a elementos clave del DOM
+    // Referencias a elementos que vamos a usar del DOM
     const contenedor = document.getElementById('contenedor-cursos');
     const btnBuscar = document.getElementById('btn-buscar');
     const inputBusqueda = document.getElementById('input-busqueda');
 
-    // Si el contenedor no existe, algo falló en el HTML
+    // Si no hay contenedor, algo salió mal con el HTML
     if (!contenedor) {
-        console.error("El contenedor con id 'contenedor-cursos' no se encuentra en el DOM.");
+        console.error("No se encontró el contenedor con id 'contenedor-cursos'. Revisa el HTML.");
         return;
     }
 
-    // Si hay un usuario logueado, mostramos su nombre y ocultamos botones de login/registro
+    // Si hay alguien logueado, saludamos y ajustamos la interfaz
     if (usuario && usuario.nombre && usuario.rol) {
         bienvenida.textContent = `¡Bienvenido(a), ${usuario.nombre}!`;
         bienvenida.style.fontWeight = 'bold';
@@ -25,27 +25,27 @@ document.addEventListener('DOMContentLoaded', function () {
         bienvenida.style.marginTop = '20px';
         document.getElementById('bienvenida-container')?.appendChild(bienvenida);
 
-        // Ocultamos los botones porque ya hay sesión
+        // Ocultamos login y registro si ya está dentro
         document.querySelector('.btn-login').style.display = 'none';
         document.querySelector('.btn-register').style.display = 'none';
 
-        // Mostramos el icono de menú de usuario (☰)
+        // Mostramos el iconito del usuario (☰)
         const userIcon = document.querySelector('.user-icon');
         const userMenu = document.querySelector('.user-menu');
         userIcon.style.display = 'inline-block';
 
-        // Mostramos/ocultamos el menú al hacer clic en el icono
+        // Alternamos mostrar/ocultar menú de usuario al hacer click
         userIcon.addEventListener('click', () => {
             userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
         });
 
-        // Evento para cerrar sesión
+        // Para cerrar sesión, borramos del localStorage
         document.getElementById('cerrar-sesion').addEventListener('click', () => {
             localStorage.removeItem('usuarioActivo');
             location.reload();
         });
 
-        // Mostramos u ocultamos la pestaña "Tus Cursos" según el rol
+        // Mostramos u ocultamos la pestaña "Tus Cursos" segun el rol
         if (usuario.rol === 'Profesor') {
             document.querySelector('.tab:nth-child(2)').style.display = 'none';
         } else if (usuario.rol === 'Estudiante') {
@@ -54,15 +54,15 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.tab:nth-child(2)').style.display = 'none';
         }
     } else {
-        // Si no hay sesión, ocultamos "Tus Cursos"
+        // Si no hay sesión iniciada, se oculta la pestaña "Tus Cursos"
         const tabs = document.querySelectorAll('.tab');
         if (tabs.length > 1) tabs[1].style.display = 'none';
     }
 
-    // Mostramos la sección de cursos (por si estaba oculta inicialmente)
+    // Por si acaso estaba oculta, mostramos la sección de cursos
     document.getElementById('cursos-disponibles').style.display = 'block';
 
-    // Simulación de cursos que cargamos desde "el servidor" (en este caso, localStorage)
+    // Lista de cursos que tenemos disponibles (simulamos como si vinieran del servidor)
     const cursosDisponibles = [
         { nombre: "Curso de JavaScript", descripcion: "Introducción a la sintaxis, funciones, variables y DOM.", profesor: "Profesor_123" },
         { nombre: "Curso de HTML y CSS", descripcion: "Estructura HTML, maquetación y diseño responsivo.", profesor: "Profesor_123" },
@@ -106,17 +106,17 @@ document.addEventListener('DOMContentLoaded', function () {
         { nombre: "Curso de Liderazgo", descripcion: "Gestión de equipos y toma de decisiones.", profesor: "Camila Herrera" }
     ];
 
-    // Guardamos los cursos en localStorage para poder usarlos en otras partes
+    // Guardamos los cursos para usarlos en otras partes de la app
     localStorage.setItem('cursosDisponibles', JSON.stringify(cursosDisponibles));
 
-    // Controla cuántos cursos mostrar a la vez
+    // Control para cuántos cursos se muestran al inicio
     let cursosMostrados = 10;
     let cursosFiltrados = [...cursosDisponibles];
 
     renderizarCursos();
     activarVerMas();
 
-    // Decide qué mostrar según la pestaña activa
+    // Según la pestaña que esté activa, renderizamos los cursos
     function renderizarCursos() {
         contenedor.innerHTML = '';
         const tabs = document.querySelectorAll('.tab');
@@ -130,16 +130,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Muestra los cursos según el tipo de usuario (profesor, estudiante, invitado)
-
+    // Aquí decidimos que cursos se muestran según el rol del usuario
     function mostrarCursosDisponibles() {
         contenedor.innerHTML = '';
 
-        // Invitado: sin sesión, solo puede mirar
+        // Caso 1: Usuario invitado (sin sesión)
         if (!usuario) {
             cursosFiltrados.slice(0, cursosMostrados).forEach(curso => {
                 contenedor.appendChild(crearTarjetaCurso(curso, 'invitado'));
             });
+
+            // Caso 2: Profesor solo ve sus cursos asignados, lo hacemos via su nombre
         } else if (usuario.rol === 'Profesor') {
             const cursosProfesor = cursosFiltrados.filter(curso => curso.profesor === usuario.nombre);
             if (cursosProfesor.length === 0) {
@@ -150,6 +151,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 contenedor.appendChild(crearTarjetaCurso(curso, 'profesor'));
             });
             return;
+
+            // Caso 3: Estudiante puede inscribirse o ver su progreso
         } else if (usuario.rol === 'Estudiante') {
             const cursosInscritos = JSON.parse(localStorage.getItem(usuario.email)) || [];
             cursosFiltrados.slice(0, cursosMostrados).forEach(curso => {
@@ -158,15 +161,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 contenedor.appendChild(crearTarjetaCurso(curso, tipo));
             });
         }
+
+        // Al final mostramos o no el botón de "Ver más"
         mostrarBotonVerMas();
     }
 
-    // Crea una tarjeta visual para cada curso
+    // Esta función crea visualmente la tarjeta del curso con un botón dependiendo del rol
     function crearTarjetaCurso(curso, tipo) {
         const div = document.createElement('div');
         div.classList.add('curso-card');
 
-        // Definimos el botón según el tipo de usuario
         let boton = '';
         switch (tipo) {
             case 'invitado':
@@ -183,7 +187,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
         }
 
-        // Estructura HTML de la tarjeta
         div.innerHTML = `
             <img src="#" alt="Curso">
             <h3>${curso.nombre}</h3>
@@ -194,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return div;
     }
 
-    // Muestra los cursos a los que el estudiante está inscrito
+    // Renderiza los cursos en los que ya está inscrito el usuario
     function mostrarTusCursos(cursosInscritos) {
         contenedor.innerHTML = '';
         if (cursosInscritos.length === 0) {
@@ -216,20 +219,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Muestra el botón "Ver más" o "Ver menos"
+    // Crea o reemplaza el botón "Ver mas"/"Ver menos"
     function mostrarBotonVerMas() {
-        // Eliminar botón anterior si existe (para evitar duplicados)
         const btnExistente = contenedor.querySelector('.btn-ver-mas');
         if (btnExistente) btnExistente.remove();
 
         const boton = document.createElement('button');
 
-        if (cursosMostrados >= cursosFiltrados.length) {
-            boton.textContent = 'Ver menos';
-        } else {
-            boton.textContent = 'Ver más';
-        }
-
+        boton.textContent = cursosMostrados >= cursosFiltrados.length ? 'Ver menos' : 'Ver más';
         boton.className = 'btn-inscribirse btn-ver-mas';
         boton.style.marginTop = '10px';
 
@@ -237,18 +234,17 @@ document.addEventListener('DOMContentLoaded', function () {
             if (boton.textContent === 'Ver más') {
                 cursosMostrados = Math.min(cursosMostrados + 10, cursosFiltrados.length);
             } else {
-                // Cuando es "Ver menos", volvemos a mostrar solo los primeros 10 cursos
                 cursosMostrados = 10;
             }
             renderizarCursos();
         };
 
         const contenedorBoton = document.getElementById('contenedor-boton');
-        contenedorBoton.innerHTML = ''; // limpiar botón anterior
+        contenedorBoton.innerHTML = '';
         contenedorBoton.appendChild(boton);
     }
 
-    // Activa la lógica de cambiar pestañas entre "Cursos disponibles" y "Tus cursos"
+    // Habilita la logica de cambiar entre pestañas
     function activarVerMas() {
         const tabs = document.querySelectorAll('.tab');
         tabs.forEach(tab => {
@@ -261,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Búsqueda básica por nombre o descripción
+    // Busqueda de cursos por nombre o descripción
     function buscarCursos() {
         const texto = inputBusqueda.value.toLowerCase();
         cursosFiltrados = cursosDisponibles.filter(curso =>
@@ -280,8 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-
-    // Lógica para inscribir a un curso y guardar en localStorage
+    // Aquí se maneja el proceso de inscripción a un curso
     let cursoPendienteInscripcion = null;
 
     window.inscribirseCurso = function (cursoNombre) {
@@ -307,12 +302,13 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('modal-confirmacion').style.display = 'flex';
     };
 
-    // Redirección rápida al login desde el botón en modo invitado
+    // Redirección al login si el usuario no ha iniciado sesión
     window.iniciarSesion = function () {
         alert('Por favor, inicia sesión para inscribirte en un curso.');
         window.location.href = 'login-signup.html#login';
     };
 
+    // Confirmación de inscripción
     document.getElementById('confirmar-inscripcion').addEventListener('click', function () {
         if (cursoPendienteInscripcion && usuario) {
             let cursosInscritos = JSON.parse(localStorage.getItem(usuario.email)) || [];
@@ -325,13 +321,14 @@ document.addEventListener('DOMContentLoaded', function () {
         cursoPendienteInscripcion = null;
     });
 
-
+    // Cancela inscripción desde el modal
     document.getElementById('cancelar-inscripcion').addEventListener('click', function () {
         document.getElementById('modal-confirmacion').style.display = 'none';
         cursoPendienteInscripcion = null;
     });
 });
 
+// Muestra un mensaje flotante tipo notificación
 function mostrarMensaje(texto, tipo = 'success') {
     const mensaje = document.createElement('div');
     mensaje.className = `mensaje-flotante ${tipo}`;
@@ -343,7 +340,7 @@ function mostrarMensaje(texto, tipo = 'success') {
     }, 2500);
 }
 
-
+// Variante más directa para mostrar mensaje ya en el DOM
 function mostrarMensajeExito(texto) {
     const mensaje = document.getElementById("mensaje-flotante");
     mensaje.textContent = texto;

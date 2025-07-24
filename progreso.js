@@ -1,15 +1,13 @@
-// === CAMBIO DE PANELES PRINCIPALES ===
-
-// Cuando el usuario hace clic en "Cursos"
+// Al hacer clic en el botón de "Cursos"
 document.getElementById('btn-cursos').onclick = function () {
-  // Muestra el panel de cursos
+  // Mostramos el panel de cursos disponibles
   document.getElementById('cursos-panel').style.display = '';
-  // Oculta los otros paneles
+  // Ocultamos los demás para que solo quede visible el actual
   document.getElementById('avance-panel').style.display = 'none';
   document.getElementById('materiales-panel').style.display = 'none';
   document.getElementById('calificaciones-panel').style.display = 'none';
 
-  // Marca este botón como activo (añade clase CSS) y desactiva los otros
+  // Marcamos este boton como activo (añade clase CSS) y desactiva los otros
   this.classList.add('activo');
   document.getElementById('btn-avance').classList.remove('activo');
   document.getElementById('btn-calificaciones').classList.remove('activo');
@@ -17,7 +15,7 @@ document.getElementById('btn-cursos').onclick = function () {
 
 // Cuando el usuario hace clic en "Avance"
 document.getElementById('btn-avance').onclick = function () {
-  // Oculta cursos y muestra el panel de avance
+  // Ocultamos cursos y muestra el panel de avance
   document.getElementById('cursos-panel').style.display = 'none';
   document.getElementById('avance-panel').style.display = '';
   document.getElementById('materiales-panel').style.display = 'none';
@@ -41,7 +39,7 @@ document.getElementById('btn-calificaciones').onclick = function () {
   mostrarCalificaciones();
 };
 
-// === DATOS DEL USUARIO Y CONFIGURACIÓN INICIAL ===
+// Aquí empezamos con lo del usuario y el dashboard inicial
 
 // Recuperamos al usuario que está logueado desde el localStorage
 const usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
@@ -250,7 +248,7 @@ const baseMateriales = {
   ]
 };
 
-// Muestra el nombre del usuario en el panel superior (si existe)
+// Si el usuario existe y tiene nombre, se muestra en el panel de arriba
 if (usuario && usuario.nombre) {
   document.getElementById('nombre-usuario').textContent = usuario.nombre;
 }
@@ -258,26 +256,29 @@ if (usuario && usuario.nombre) {
 // Recupera los cursos en los que está inscrito (solo si es estudiante)
 const cursosInscritos = usuario ? JSON.parse(localStorage.getItem(usuario.email)) || [] : [];
 
-// Seleccionamos el contenedor de la lista de cursos
+// Aquí agarramos el UL donde van los cursos (para luego llenarlo)
 const lista = document.querySelector('#lista-cursos');
 lista.innerHTML = ''; // Limpiamos por si había algo antes
 
-// === MOSTRAR CURSOS SEGÚN EL ROL DEL USUARIO ===
+// Esta parte se encarga de mostrar los cursos según si eres profesor o estudiante
 
 if (usuario.rol === 'Profesor') {
   // Filtramos los cursos que tiene asignados este profesor
   const cursosDisponibles = JSON.parse(localStorage.getItem('cursosDisponibles')) || [];
   const cursosAsignados = cursosDisponibles.filter(curso => curso.profesor === usuario.nombre);
 
+  // mensaje por si el profesor no tiene cursos asignados
   if (cursosAsignados.length === 0) {
     lista.innerHTML = '<li>No tienes cursos asignados.</li>';
   } else {
+
+    // si tiene cursos asignados mostramos los botones de administrar
     cursosAsignados.forEach(curso => {
       // Creamos un <li> y un botón para cada curso
       const li = document.createElement('li');
       const boton = document.createElement('button');
       boton.textContent = 'Administrar';
-      boton.onclick = () => mostrarMateriales(curso.nombre); // Llama a la función que muestra los materiales
+      boton.onclick = () => mostrarMateriales(curso.nombre);
       li.textContent = curso.nombre + ' ';
       li.appendChild(boton);
       lista.appendChild(li);
@@ -293,7 +294,7 @@ if (usuario.rol === 'Profesor') {
       const li = document.createElement('li');
       const boton = document.createElement('button');
       boton.textContent = 'Inicio';
-      boton.onclick = () => mostrarMateriales(curso.nombre); // Llama a la misma función, pero solo para visualizar
+      boton.onclick = () => mostrarMateriales(curso.nombre);
       li.textContent = curso.nombre + ' ';
       li.appendChild(boton);
       lista.appendChild(li);
@@ -301,19 +302,22 @@ if (usuario.rol === 'Profesor') {
   }
 }
 
-// === FUNCIÓN PRINCIPAL PARA MOSTRAR LOS MATERIALES DE UN CURSO ===
+// aquí empieza la función donde se muestran los materiales de un curso
 function mostrarMateriales(nombreCurso) {
+  // Ocultamos todo lo demás, solo queremos ver materiales
   document.getElementById('cursos-panel').style.display = 'none';
   document.getElementById('avance-panel').style.display = 'none';
   document.getElementById('calificaciones-panel').style.display = 'none';
   document.getElementById('materiales-panel').style.display = 'block';
 
+  // Traemos lo que se ha guardado del curso (lo del profesor o lo que el user subió)
   const guardados = JSON.parse(localStorage.getItem(`materiales-${nombreCurso}`)) || [];
   const base = [...(baseMateriales[nombreCurso] || [])];
 
-  // Verificamos si ya hay un proyecto
+  // Verificamos si ya hay un proyecto final
   const yaTieneProyecto = [...base, ...guardados].some(m => m.tipo === 'proyecto');
   if (!yaTieneProyecto && proyectosFinales[nombreCurso]) {
+    // Si no hay, lo metemos al principio 
     base.unshift({
       tipo: 'proyecto',
       titulo: 'Proyecto Final',
@@ -326,6 +330,7 @@ function mostrarMateriales(nombreCurso) {
   const contenedor = document.getElementById('contenedor-materiales');
   contenedor.innerHTML = '';
 
+  // Si el user es profesor, agregamos una tarjeta especial para subir materiales
   if (usuario.rol === 'Profesor') {
     const tarjetaAgregar = document.createElement('div');
     tarjetaAgregar.className = 'material-card';
@@ -338,11 +343,12 @@ function mostrarMateriales(nombreCurso) {
     tarjetaAgregar.innerHTML = '<span style="font-size:18px;">➕ Añadir material</span>';
     tarjetaAgregar.onclick = () => {
       cursoActual = nombreCurso;
-      mostrarFormularioMaterial();
+      mostrarFormularioMaterial(); // Abrimos el formulario para subir el material
     };
     contenedor.appendChild(tarjetaAgregar);
   }
 
+  // Recorremos los materiales para mostrarlos uno a uno como tarjetas
   materiales.forEach((mat, i) => {
     const icono = mat.tipo === 'video' ? '📹' :
       mat.tipo === 'pdf' ? '📄' :
@@ -357,6 +363,7 @@ function mostrarMateriales(nombreCurso) {
   <p>${mat.descripcion}</p>
 `;
 
+    // Si es el proyecto final, que sea clickeable para entregar
     if (mat.tipo === 'proyecto') {
       card.style.cursor = 'pointer';
       card.onclick = () => {
@@ -364,7 +371,7 @@ function mostrarMateriales(nombreCurso) {
       };
     }
 
-    // Solo si es profesor
+    // Solo los profes pueden editar o borrar (y no aplica al proyecto)
     if (usuario.rol === 'Profesor' && mat.tipo !== 'proyecto') {
       const indexEnGuardados = guardados.findIndex(g => g.titulo === mat.titulo && g.descripcion === mat.descripcion);
 
@@ -414,7 +421,7 @@ function eliminarMaterial(nombreCurso, index) {
 }
 
 
-
+// mensaje que confirma el estado de la accion
 function mostrarMensaje(texto, tipo = 'success') {
   const mensaje = document.createElement('div');
   mensaje.className = `mensaje-flotante ${tipo}`;
@@ -427,12 +434,12 @@ function mostrarMensaje(texto, tipo = 'success') {
 }
 
 
-// === EDITAR UN MATERIAL EXISTENTE ===
+// === Funcion de editar un material existente ===
 function editarMaterial(curso, index) {
   const clave = `materiales-${curso}`;
   const materiales = JSON.parse(localStorage.getItem(clave)) || [];
 
-  // Pedimos el nuevo título (podría ampliarse para editar descripción también)
+  // Pedimos el nuevo título 
   const nuevoTitulo = prompt('Nuevo título:', materiales[index].titulo);
   if (nuevoTitulo) {
     materiales[index].titulo = nuevoTitulo;
@@ -441,12 +448,13 @@ function editarMaterial(curso, index) {
   }
 }
 
+// cierra el panel de subir materiales
 function cerrarMateriales() {
   document.getElementById('materiales-panel').style.display = 'none';
   document.getElementById('cursos-panel').style.display = '';
 }
 
-// === MOSTRAR EL FORMULARIO DEL PROYECTO FINAL PARA UN CURSO ===
+//función para mostrar el formulario del proyecto final 
 function mostrarFormularioProyecto(cursoNombre) {
   const contenedor = document.getElementById('contenedor-materiales');
   const entregas = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
@@ -468,7 +476,7 @@ function mostrarFormularioProyecto(cursoNombre) {
   `;
 }
 
-// === ENTREGAR UN PROYECTO FINAL (ALUMNO) ===
+// funcion de entregar un proyecto final (estudiante)
 function entregarProyecto(cursoNombre) {
   const archivo = document.getElementById('archivo-proyecto').files[0];
 
@@ -487,7 +495,7 @@ function entregarProyecto(cursoNombre) {
 }
 
 
-// Es una especie de "catálogo" de proyectos finales que tiene cada curso
+// proyectos finales de cada curso
 const proyectosFinales = {
   "Curso de JavaScript": "Calculadora web interactiva",
   "Curso de HTML y CSS": "Página web portfolio",
@@ -521,15 +529,15 @@ const proyectosFinales = {
   "Curso de Liderazgo": "Plan de liderazgo para un equipo de trabajo"
 };
 
-// === OBTENER TODOS LOS MATERIALES DE UN CURSO (CON EL PROYECTO INCLUIDO) ===
+// funcion para obtener todos los materiales de cada curso inluyendo su proyecto
 function obtenerMateriales(curso) {
   const clave = `materiales-${curso}`;
   const guardados = JSON.parse(localStorage.getItem(clave)) || [];
 
-  // Copiamos los materiales base definidos al inicio (videos, pdfs, etc.)
+  // Copiamos los materiales base definidos al inicio
   const base = [...(baseMateriales[curso] || [])];
 
-  // Verificamos si ya existe un proyecto final (para no duplicarlo)
+  // Verificamos si ya existe un proyecto final, para no duplicarlo
   const yaTieneProyecto = [...base, ...guardados].some(m => m.tipo === 'proyecto');
 
   if (!yaTieneProyecto && proyectosFinales[curso]) {
@@ -545,17 +553,17 @@ function obtenerMateriales(curso) {
   return [...base, ...guardados]; // Devolvemos la lista completa
 }
 
-// Carga inicial de avance al abrir la pestaña
+// Carga inicial de Avance al abrir la pestaña
 document.querySelector('#btn-avance').addEventListener('click', () => {
   mostrarAvance(document.querySelector('#avance-panel select').value);
 });
 
-// Cambio de filtro en el select (para filtrar por curso)
+// Cambio de filtro en el select, para filtrar por curso
 document.querySelector('#avance-panel select').addEventListener('change', (e) => {
   mostrarAvance(e.target.value);
 });
 
-// Muestra el avance de los cursos (profesor vs estudiante)
+// Muestra el avance de los cursos, profesor y estudiante
 function mostrarAvance(filtro) {
   const contenedor = document.querySelector('#avance-panel .mensaje-avance');
   contenedor.innerHTML = '';
@@ -569,7 +577,7 @@ function mostrarAvance(filtro) {
       return;
     }
 
-    // Profesor ve avance de alumnos ficticios
+    // el profesor ve avance de estudiantes ficticios
     const curso = cursosAsignados[0];
     const alumnosFicticios = [
       'Ana García', 'Luis Pérez', 'María López', 'Carlos Díaz',
@@ -595,7 +603,7 @@ function mostrarAvance(filtro) {
     });
 
   } else {
-    // Estudiante ve su propio avance
+    // el estudiante ve su propio avance
     const cursosInscritos = JSON.parse(localStorage.getItem(usuario.email)) || [];
     const filtrados = filtro === "Todos los cursos"
       ? cursosInscritos
@@ -610,10 +618,8 @@ function mostrarAvance(filtro) {
     }
 
     filtrados.forEach(curso => {
-      // 🔹 Por ahora seguimos simulando el progreso con números aleatorios
+      // simulamos el progreso con números aleatorios
       const progreso = Math.floor(Math.random() * 50) + 30;
-
-      // 🔹 Si manejas entregas en localStorage (ya lo tienes en tu código original)
       const entregas = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
       const entregado = entregas[curso.nombre];
 
@@ -633,22 +639,25 @@ function mostrarAvance(filtro) {
   }
 }
 
+// Panel donde se ven las calificaciones y comentarios
 function mostrarCalificaciones() {
   const cuerpo = document.getElementById('cuerpo-calificaciones');
-  cuerpo.innerHTML = '';
+  cuerpo.innerHTML = ''; // Limpiamos la tabla por si ya había algo
 
   const entregas = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
 
+  // Si soy estudiante, reviso mis cursos inscritos
   if (usuario.rol !== 'Profesor') {
     const cursos = cursosInscritos.length ? cursosInscritos : [];
 
     cursos.forEach(curso => {
       const claveEntrega = `${curso.nombre}|${usuario.nombre}`;
-      const entregado = entregas[claveEntrega];
+      const entregado = entregas[claveEntrega]; // estado de entrega
       const claveCalificacion = `calificacion-${claveEntrega}`;
       const calificacion = JSON.parse(localStorage.getItem(claveCalificacion));
 
       if (entregado && calificacion) {
+        // Si entregué y ya me calificaron, lo mostramos en la tabla
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${curso.nombre}</td>
@@ -661,11 +670,13 @@ function mostrarCalificaciones() {
     });
 
   } else {
+    // Si soy profesor, revisar todos los cursos que manejo
     const cursosDisponibles = JSON.parse(localStorage.getItem('cursosDisponibles')) || [];
     const cursosAsignados = cursosDisponibles.filter(c => c.profesor === usuario.nombre);
 
     Object.keys(entregas).forEach(clave => {
       const [curso, alumno] = clave.split('|');
+      // Solo veo las entregas de cursos que yo doy
       if (cursosAsignados.some(c => c.nombre === curso)) {
         const claveCalificacion = `calificacion-${curso}|${alumno}`;
         const calificacion = JSON.parse(localStorage.getItem(claveCalificacion));
@@ -690,12 +701,12 @@ function mostrarCalificaciones() {
   }
 }
 
-
+// Info temporal de que proyecto está siendo calificado, guardamos el curso y el alumno
 let proyectoActual = { curso: '', alumno: '' };
 
 function abrirFormularioCalificacion(curso, alumno) {
-  proyectoActual = { curso, alumno };
-  document.getElementById('overlay-modal').style.display = 'flex';
+  proyectoActual = { curso, alumno }; // Actualizamos quién será calificado
+  document.getElementById('overlay-modal').style.display = 'flex'; // Mostramos modal
   document.getElementById('info-proyecto').innerText = `Curso: ${curso}\nAlumno: ${alumno}`;
   document.getElementById('nota-calificacion').value = '';
   document.getElementById('comentario-calificacion').value = '';
@@ -709,6 +720,7 @@ function cerrarFormularioCalificacion() {
 
 
 function guardarCalificacion() {
+  // Seleccionamos lo que escribió el profesor
   const nota = document.getElementById('nota-calificacion').value;
   const comentario = document.getElementById('comentario-calificacion').value;
 
@@ -717,27 +729,28 @@ function guardarCalificacion() {
     return;
   }
 
+  // Guardamos la calificación en localStorage usando una clave única
   const key = `calificacion-${proyectoActual.curso}|${proyectoActual.alumno}`;
   localStorage.setItem(key, JSON.stringify({ nota, comentario }));
 
   mostrarMensaje("Calificación guardada con éxito.", "success");
   cerrarFormularioCalificacion();
-  mostrarCalificaciones();
+  mostrarCalificaciones(); // Refrescamos la tabla
 }
 
 // Mostrar formulario cuando se hace clic en el botón "Añadir nuevo material"
 function mostrarFormularioMaterial() {
-  // Asegúrate de que el formulario esté visible
+  // Mostramos el formulario
   document.getElementById("formulario-material").style.display = "flex";
 }
 
 // Cerrar el formulario cuando se hace clic en "Cancelar"
 function cancelarFormulario() {
-  // Vuelve a ocultar el formulario
+  // Ocultamos el formulario
   document.getElementById("formulario-material").style.display = "none";
 }
 
-let cursoActual = null;
+let cursoActual = null; // Aquí se guarda el curso en el que se está subiendo material
 
 // Agregar un nuevo material (esto podría estar en tu función de "Guardar")
 document.addEventListener("DOMContentLoaded", () => {
@@ -750,31 +763,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const imagen = document.getElementById("imagen").value;
 
     if (!titulo || !descripcion || !tipo) {
+      // Si falta algo, lanzamos aviso
       mostrarErrorFormulario("⚠️ Por favor completa todos los campos obligatorios.");
       return;
     }
 
+    // Armamos el objeto del nuevo material
     const nuevoMaterial = { titulo, descripcion, tipo, imagen };
 
     if (cursoActual) {
       const clave = `materiales-${cursoActual}`;
       const existentes = JSON.parse(localStorage.getItem(clave)) || [];
-      existentes.push(nuevoMaterial);
-      localStorage.setItem(clave, JSON.stringify(existentes));
-      mostrarMateriales(cursoActual);
+      existentes.push(nuevoMaterial); // Lo agregamos al array
+      localStorage.setItem(clave, JSON.stringify(existentes));  // Lo guardamos
+      mostrarMateriales(cursoActual); // Y refrescamos
     }
 
-    mostrarMensaje("Material subido con éxito."); // ✅ Mostrar confirmación flotante
-    cancelarFormulario(); // Ocultar formulario
+    mostrarMensaje("Material subido con éxito.");  // Notificación arriba
+    cancelarFormulario(); // Ocultamos el form
   });
 });
 
+//Notificación flotante cuando todo sale bien
 function mostrarMensajeExito(texto) {
   const mensaje = document.getElementById("mensaje-flotante");
   mensaje.textContent = texto;
   mensaje.classList.add("show");
   mensaje.style.display = "block";
 
+  // Lo ocultamos luego de unos segundos
   setTimeout(() => {
     mensaje.classList.remove("show");
     setTimeout(() => {
@@ -783,12 +800,12 @@ function mostrarMensajeExito(texto) {
   }, 3000);
 }
 
-
+//Mostrar mensaje de error dentro del formulario
 function mostrarErrorFormulario(mensaje) {
   const contenedor = document.getElementById("mensaje-error");
   contenedor.textContent = mensaje;
   contenedor.style.display = "block";
-
+  // Ocultamos el error luego de unos segundos
   setTimeout(() => {
     contenedor.style.display = "none";
   }, 3000);
