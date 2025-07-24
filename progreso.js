@@ -542,7 +542,7 @@ function guardarCalificacion() {
   const key = `calificacion-${proyectoActual.curso}|${proyectoActual.alumno}`;
   localStorage.setItem(key, JSON.stringify({ nota, comentario }));
 
-  mostrarMensajeExito("Calificación guardada con éxito.");
+  mostrarMensaje("Calificación guardada con éxito.", "success");
   cerrarFormularioCalificacion();
   mostrarCalificaciones();
 }
@@ -586,19 +586,25 @@ document.addEventListener("DOMContentLoaded", () => {
       mostrarMateriales(cursoActual);
     }
 
-    mostrarMensajeExito("Material subido con éxito."); // ✅ Mostrar confirmación flotante
+    mostrarMensaje("Material subido con éxito."); // ✅ Mostrar confirmación flotante
     cancelarFormulario(); // Ocultar formulario
   });
 });
 
 function mostrarMensajeExito(texto) {
-  const mensaje = document.getElementById("mensaje-exito");
+  const mensaje = document.getElementById("mensaje-flotante");
   mensaje.textContent = texto;
+  mensaje.classList.add("show");
   mensaje.style.display = "block";
+
   setTimeout(() => {
-    mensaje.style.display = "none";
+    mensaje.classList.remove("show");
+    setTimeout(() => {
+      mensaje.style.display = "none";
+    }, 300); // tiempo para que termine la transición
   }, 3000);
 }
+
 
 function mostrarErrorFormulario(mensaje) {
   const contenedor = document.getElementById("mensaje-error");
