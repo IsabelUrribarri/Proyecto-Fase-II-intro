@@ -50,17 +50,9 @@
         <h2>Administrar materiales del curso</h2>
         <div id="admin-materiales-lista" class="materiales-grid"></div>
 
-        <!-- Formulario simple para añadir material (versión rápida) -->
-        <h3>Añadir nuevo material</h3>
-        <input type="text" id="nuevo-titulo" placeholder="Título">
-        <input type="text" id="nueva-descripcion" placeholder="Descripción">
-        <select id="nuevo-tipo">
-          <option value="video">Video</option>
-          <option value="pdf">PDF</option>
-          <option value="link">Enlace</option>
-        </select>
-        <input type="text" id="nueva-imagen" placeholder="URL de imagen">
-        <button onclick="agregarMaterial()">Agregar</button>
+        <!-- Botón para abrir el formulario modal para añadir material -->
+        <button onclick="mostrarFormularioMaterial()">Añadir nuevo material</button>
+
         <button onclick="cerrarAdminMateriales()" class="azul-btn">Volver</button>
       </div>
 
@@ -112,6 +104,7 @@
       <button class="cerrar-modal" onclick="cancelarFormulario()">✖</button>
       <h2>Añadir nuevo material</h2>
       <form id="form-material">
+        <div mensaje-error></div>
         <label for="titulo">Título</label>
         <input type="text" id="titulo" placeholder="Título del material">
 
@@ -137,22 +130,20 @@
   </div>
 
   <!-- Modal para calificar un proyecto (usado por profesor) -->
-  <div id="modal-calificar" class="modal" style="display:none;">
-    <div class="formulario-modal">
-      <button class="cerrar-modal" onclick="cerrarModalCalificar()">✖</button>
-      <h2>Calificar Proyecto</h2>
-      <p id="info-curso-alumno"></p>
-      <label for="nota">Nota (1.0 - 10.0):</label>
-      <input type="number" id="nota" min="1" max="10" step="0.1">
-      <label for="comentario">Comentario:</label>
-      <textarea id="comentario"></textarea>
+  <div id="modal-calificacion" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h3>Calificar Proyecto</h3>
+      <label>Nota:</label>
+      <input type="number" id="nota-calificacion" min="0" max="100">
+      <label>Comentario:</label>
+      <textarea id="comentario-calificacion"></textarea>
       <button onclick="guardarCalificacion()">Guardar</button>
+      <button onclick="cerrarFormularioCalificacion()">Cancelar</button>
     </div>
   </div>
 
-  <!-- Otra versión de modal de calificación (más centrado visualmente) -->
-  <div id="overlay-modal" class="modal" style="display:none;">
-    <div id="formulario-calificacion">
+  <div id="overlay-modal" class="modal" style="display: none;">
+    <div id="formulario-calificacion" class="formulario">
       <button class="cerrar" onclick="cerrarFormularioCalificacion()">×</button>
       <h3>Calificar Proyecto</h3>
       <p id="info-proyecto"></p>
@@ -161,7 +152,9 @@
       <button onclick="guardarCalificacion()">Guardar</button>
     </div>
   </div>
-
+  <div id="mensaje-exito">
+    ✅ Material guardado correctamente
+  </div>
   <!-- Lógica JS para manejar paneles, formularios y datos -->
   <script src="progreso.js"></script>
 </body>
