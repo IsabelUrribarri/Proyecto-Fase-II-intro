@@ -65,10 +65,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Simulación de cursos que cargamos desde "el servidor" (en este caso, localStorage)
     const cursosDisponibles = [
         { nombre: "Curso de JavaScript", descripcion: "Introducción a la sintaxis, funciones, variables y DOM.", profesor: "Profesor_123" },
-        { nombre: "Curso de HTML y CSS", descripcion: "Estructura HTML, maquetación y diseño responsivo.", profesor: "Laura Martínez" },
-        { nombre: "Curso de Python", descripcion: "Sintaxis, estructuras de control y módulos.", profesor: "Lucía Díaz" },
-        { nombre: "Curso de C++", descripcion: "Compilación, punteros, clases y objetos.", profesor: "Andrés López" },
-        { nombre: "Curso de Java", descripcion: "POO, excepciones y estructura del lenguaje.", profesor: "Natalia Ríos" },
+        { nombre: "Curso de HTML y CSS", descripcion: "Estructura HTML, maquetación y diseño responsivo.", profesor: "Profesor_123" },
+        { nombre: "Curso de Python", descripcion: "Sintaxis, estructuras de control y módulos.", profesor: "Profesor_123" },
+        { nombre: "Curso de C++", descripcion: "Compilación, punteros, clases y objetos.", profesor: "Profesor_123" },
+        { nombre: "Curso de Java", descripcion: "POO, excepciones y estructura del lenguaje.", profesor: "Profesor_123" },
         { nombre: "Curso de PHP", descripcion: "Sintaxis, formularios y conexión a base de datos.", profesor: "Pedro Méndez" },
         { nombre: "Curso de C#", descripcion: "Variables, clases y ventanas gráficas simples.", profesor: "Luis Ortega" },
         { nombre: "Curso de Ruby", descripcion: "POO en Ruby, colecciones y sintaxis básica.", profesor: "Carmen Ramírez" },
@@ -83,7 +83,27 @@ document.addEventListener('DOMContentLoaded', function () {
         { nombre: "Machine Learning", descripcion: "Predicciones automáticas.", profesor: "Marta Jiménez" },
         { nombre: "APIs REST", descripcion: "Crea y consume APIs.", profesor: "Luis Rivas" },
         { nombre: "Docker", descripcion: "Conteneriza tus aplicaciones.", profesor: "Tomás Valle" },
-        { nombre: "Scrum & Agile", descripcion: "Metodologías ágiles de trabajo.", profesor: "Julia Herrera" }
+        { nombre: "Scrum & Agile", descripcion: "Metodologías ágiles de trabajo.", profesor: "Julia Herrera" },
+        { nombre: "Curso de React", descripcion: "Componentes, props y estado en React.", profesor: "Elena Suárez" },
+        { nombre: "Curso de Node.js", descripcion: "Back-end con Express y manejo de rutas.", profesor: "Carlos Patiño" },
+        { nombre: "Curso de SQL", descripcion: "Consultas, joins y gestión de bases de datos.", profesor: "Verónica Silva" },
+        { nombre: "Curso de NoSQL", descripcion: "MongoDB y bases de datos no relacionales.", profesor: "Samuel Torres" },
+        { nombre: "Curso de Kotlin", descripcion: "Aplicaciones móviles para Android.", profesor: "Fernando Vega" },
+        { nombre: "Curso de Swift", descripcion: "Desarrollo de apps iOS con Swift.", profesor: "Isabel Moreno" },
+        { nombre: "Curso de Unity 3D", descripcion: "Creación de videojuegos en 2D y 3D.", profesor: "Cristian Navarro" },
+        { nombre: "Curso de Unreal Engine", descripcion: "Desarrollo de videojuegos con Blueprints.", profesor: "Javier Cortés" },
+        { nombre: "Curso de Blockchain", descripcion: "Contratos inteligentes y criptomonedas.", profesor: "Patricia Díaz" },
+        { nombre: "Curso de Inteligencia Artificial", descripcion: "Redes neuronales y algoritmos de IA.", profesor: "Marta Jiménez" },
+        { nombre: "Curso de Big Data", descripcion: "Procesamiento de datos masivos.", profesor: "Diego Paredes" },
+        { nombre: "Curso de UX/UI", descripcion: "Experiencia e interfaz de usuario.", profesor: "Laura Romero" },
+        { nombre: "Curso de Adobe Illustrator", descripcion: "Ilustraciones vectoriales avanzadas.", profesor: "Sara Gómez" },
+        { nombre: "Curso de Photoshop", descripcion: "Edición y retoque fotográfico profesional.", profesor: "Claudia Peña" },
+        { nombre: "Curso de After Effects", descripcion: "Animaciones y efectos visuales.", profesor: "Julio Cárdenas" },
+        { nombre: "Curso de WordPress", descripcion: "Creación de sitios web dinámicos.", profesor: "Antonio Rivas" },
+        { nombre: "Curso de Marketing Digital", descripcion: "Publicidad en redes y SEO.", profesor: "Paula Andrade" },
+        { nombre: "Curso de Ventas Online", descripcion: "Estrategias de e-commerce efectivas.", profesor: "Jorge Márquez" },
+        { nombre: "Curso de Finanzas Personales", descripcion: "Manejo de presupuestos e inversiones.", profesor: "Rodrigo Salas" },
+        { nombre: "Curso de Liderazgo", descripcion: "Gestión de equipos y toma de decisiones.", profesor: "Camila Herrera" }
     ];
 
     // Guardamos los cursos en localStorage para poder usarlos en otras partes
@@ -120,11 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
             cursosFiltrados.slice(0, cursosMostrados).forEach(curso => {
                 contenedor.appendChild(crearTarjetaCurso(curso, 'invitado'));
             });
-            return;
-        }
-
-        if (usuario.rol === 'Profesor') {
-            // Profesor solo ve sus propios cursos
+        } else if (usuario.rol === 'Profesor') {
             const cursosProfesor = cursosFiltrados.filter(curso => curso.profesor === usuario.nombre);
             if (cursosProfesor.length === 0) {
                 contenedor.innerHTML = '<p>No tienes cursos asignados.</p>';
@@ -134,9 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 contenedor.appendChild(crearTarjetaCurso(curso, 'profesor'));
             });
             return;
-        }
-
-        if (usuario.rol === 'Estudiante') {
+        } else if (usuario.rol === 'Estudiante') {
             const cursosInscritos = JSON.parse(localStorage.getItem(usuario.email)) || [];
             cursosFiltrados.slice(0, cursosMostrados).forEach(curso => {
                 const yaInscrito = cursosInscritos.some(c => c.nombre === curso.nombre);
@@ -144,7 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 contenedor.appendChild(crearTarjetaCurso(curso, tipo));
             });
         }
-
         mostrarBotonVerMas();
     }
 
@@ -205,19 +218,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Muestra el botón "Ver más" o "Ver menos"
     function mostrarBotonVerMas() {
+        // Eliminar botón anterior si existe (para evitar duplicados)
+        const btnExistente = contenedor.querySelector('.btn-ver-mas');
+        if (btnExistente) btnExistente.remove();
+
         const boton = document.createElement('button');
-        boton.textContent = cursosMostrados >= cursosFiltrados.length ? 'Ver menos' : 'Ver más';
-        boton.className = 'btn-ver-mas';
-        boton.style.marginTop = '20px';
+
+        if (cursosMostrados >= cursosFiltrados.length) {
+            boton.textContent = 'Ver menos';
+        } else {
+            boton.textContent = 'Ver más';
+        }
+
+        boton.className = 'btn-inscribirse btn-ver-mas';
+        boton.style.marginTop = '10px';
+
         boton.onclick = () => {
-            if (cursosMostrados >= cursosFiltrados.length) {
-                cursosMostrados = 10; // Reinicia la vista
+            if (boton.textContent === 'Ver más') {
+                cursosMostrados = Math.min(cursosMostrados + 10, cursosFiltrados.length);
             } else {
-                cursosMostrados += 10;
+                // Cuando es "Ver menos", volvemos a mostrar solo los primeros 10 cursos
+                cursosMostrados = 10;
             }
             renderizarCursos();
         };
-        contenedor.appendChild(boton);
+
+        const contenedorBoton = document.getElementById('contenedor-boton');
+        contenedorBoton.innerHTML = ''; // limpiar botón anterior
+        contenedorBoton.appendChild(boton);
     }
 
     // Activa la lógica de cambiar pestañas entre "Cursos disponibles" y "Tus cursos"
@@ -234,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Búsqueda básica por nombre o descripción
-    btnBuscar.addEventListener('click', () => {
+    function buscarCursos() {
         const texto = inputBusqueda.value.toLowerCase();
         cursosFiltrados = cursosDisponibles.filter(curso =>
             curso.nombre.toLowerCase().includes(texto) ||
@@ -242,7 +270,16 @@ document.addEventListener('DOMContentLoaded', function () {
         );
         cursosMostrados = 10;
         renderizarCursos();
+    }
+
+    btnBuscar.addEventListener('click', buscarCursos);
+
+    inputBusqueda.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            buscarCursos();
+        }
     });
+
 
     // Lógica para inscribir a un curso y guardar en localStorage
     let cursoPendienteInscripcion = null;
