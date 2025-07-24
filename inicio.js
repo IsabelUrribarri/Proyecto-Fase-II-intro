@@ -245,26 +245,29 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Lógica para inscribir a un curso y guardar en localStorage
+    let cursoPendienteInscripcion = null;
+
     window.inscribirseCurso = function (cursoNombre) {
+        const curso = cursosDisponibles.find(c => c.nombre === cursoNombre);
         if (!usuario) {
-            alert('Por favor, inicia sesión para inscribirte en un curso.');
-            window.location.href = 'login-signup.html#login';
+            mostrarMensajeExito("Por favor, inicia sesión para inscribirte.");
+            setTimeout(() => {
+                window.location.href = 'login-signup.html#login';
+            }, 2000);
             return;
         }
 
-        let cursosInscritos = JSON.parse(localStorage.getItem(usuario.email)) || [];
-        const cursoExistente = cursosInscritos.some(c => c.nombre === cursoNombre);
+        const cursosInscritos = JSON.parse(localStorage.getItem(usuario.email)) || [];
+        const yaInscrito = cursosInscritos.some(c => c.nombre === cursoNombre);
 
-        if (!cursoExistente) {
-            const curso = cursosDisponibles.find(c => c.nombre === cursoNombre);
-            cursosInscritos.push(curso);
-            localStorage.setItem(usuario.email, JSON.stringify(cursosInscritos));
-            alert('¡Te has inscrito con éxito!');
-        } else {
-            alert('Ya estás inscrito en este curso.');
+        if (yaInscrito) {
+            mostrarMensaje("Ya estás inscrito en este curso.", "error");
+            return;
         }
 
-        renderizarCursos();
+        cursoPendienteInscripcion = curso;
+        document.getElementById('nombre-curso-confirmacion').textContent = curso.nombre;
+        document.getElementById('modal-confirmacion').style.display = 'flex';
     };
 
     // Redirección rápida al login desde el botón en modo invitado
@@ -272,4 +275,41 @@ document.addEventListener('DOMContentLoaded', function () {
         alert('Por favor, inicia sesión para inscribirte en un curso.');
         window.location.href = 'login-signup.html#login';
     };
+
+    document.getElementById('confirmar-inscripcion').addEventListener('click', function () {
+        if (cursoPendienteInscripcion && usuario) {
+            let cursosInscritos = JSON.parse(localStorage.getItem(usuario.email)) || [];
+            cursosInscritos.push(cursoPendienteInscripcion);
+            localStorage.setItem(usuario.email, JSON.stringify(cursosInscritos));
+            mostrarMensaje("¡Te has inscrito con éxito!", "success");
+            renderizarCursos();
+        }
+        document.getElementById('modal-confirmacion').style.display = 'none';
+        cursoPendienteInscripcion = null;
+    });
+
+
+    document.getElementById('cancelar-inscripcion').addEventListener('click', function () {
+        document.getElementById('modal-confirmacion').style.display = 'none';
+        cursoPendienteInscripcion = null;
+    });
 });
+
+function mostrarMensaje(texto, tipo = 'success') {
+    const mensaje = document.createElement('div');
+    mensaje.className = `mensaje-flotante ${tipo}`;
+    mensaje.textContent = texto;
+    document.body.appendChild(mensaje);
+
+    setTimeout(() => {
+        mensaje.remove();
+    }, 2500);
+}
+
+
+function mostrarMensajeExito(texto) {
+    const mensaje = document.getElementById("mensaje-flotante");
+    mensaje.textContent = texto;
+    mensaje.classList.add("show");
+    mensaje.style.display = "block";
+}

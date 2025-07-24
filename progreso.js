@@ -30,31 +30,21 @@ document.getElementById('btn-avance').onclick = function () {
 };
 
 document.getElementById('btn-calificaciones').onclick = function () {
-    document.getElementById('calificaciones-panel').style.display = '';
-    document.getElementById('cursos-panel').style.display = 'none';
-    document.getElementById('avance-panel').style.display = 'none';
-    document.getElementById('materiales-panel').style.display = 'none';
+  document.getElementById('calificaciones-panel').style.display = '';
+  document.getElementById('cursos-panel').style.display = 'none';
+  document.getElementById('avance-panel').style.display = 'none';
+  document.getElementById('materiales-panel').style.display = 'none';
 
-    this.classList.add('activo');
-    document.getElementById('btn-cursos').classList.remove('activo');
-    document.getElementById('btn-avance').classList.remove('activo');
-    mostrarCalificaciones();
+  this.classList.add('activo');
+  document.getElementById('btn-cursos').classList.remove('activo');
+  document.getElementById('btn-avance').classList.remove('activo');
+  mostrarCalificaciones();
 };
 
 // === DATOS DEL USUARIO Y CONFIGURACIÓN INICIAL ===
 
 // Recuperamos al usuario que está logueado desde el localStorage
 const usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
-
-// Si es un profesor específico ("Profesor_123"), simulamos que ya tiene entregas de proyectos
-if (usuario.rol === 'Profesor' && usuario.nombre === 'Profesor_123') {
-  const entregas = {
-    "Curso de JavaScript|Juan Pérez": true,
-    "Curso de JavaScript|Ana López": true,
-    "Curso de JavaScript|Luis Ramírez": true
-  };
-  localStorage.setItem('entregasProyectos', JSON.stringify(entregas));
-}
 
 // Base de materiales disponibles por defecto en cada curso
 const baseMateriales = {
@@ -187,9 +177,13 @@ function mostrarMateriales(nombreCurso) {
     tarjetaAgregar.style.cursor = 'pointer';
     tarjetaAgregar.innerHTML = '<span style="font-size:18px;">➕ Añadir material</span>';
     // Cuando el profesor hace clic, se abre el formulario de nuevo material
-    tarjetaAgregar.onclick = () => mostrarFormularioAgregar(nombreCurso);
-    contenedor.appendChild(tarjetaAgregar);
+    tarjetaAgregar.onclick = () => {
+      cursoActual = nombreCurso; // Guardamos el curso actual en una variable global
+      mostrarFormularioMaterial();
+    }; contenedor.appendChild(tarjetaAgregar);
   }
+
+
 
   // === MOSTRAMOS CADA MATERIAL COMO UNA TARJETA ===
   materiales.forEach((mat, i) => {
@@ -245,27 +239,36 @@ function mostrarMateriales(nombreCurso) {
   });
 }
 
-// === FORMULARIO PARA AGREGAR UN NUEVO MATERIAL ===
-function mostrarFormularioAgregar(nombreCurso) {
-  // Pedimos datos básicos al profesor
-  const titulo = prompt('Título del nuevo material:');
-  if (!titulo) return; // Si cancela o no escribe nada, no hace nada
-
-  const descripcion = prompt('Descripción:');
-  const tipo = prompt('Tipo (video, pdf, link):', 'video');
-  const imagen = prompt('URL de imagen (opcional):', 'https://via.placeholder.com/240x120?text=Material');
-
-  const nuevoMaterial = { titulo, descripcion, tipo, imagen };
-
-  // Guardamos en localStorage (se asocia a este curso)
+function eliminarMaterial(nombreCurso, index) {
   const clave = `materiales-${nombreCurso}`;
-  const existentes = JSON.parse(localStorage.getItem(clave)) || [];
-  existentes.push(nuevoMaterial);
-  localStorage.setItem(clave, JSON.stringify(existentes));
+  const materiales = JSON.parse(localStorage.getItem(clave)) || [];
 
-  // Actualizamos la vista
+  // Confirmación (puedes quitar esto si no quieres confirmación)
+  const confirmar = confirm("¿Estás seguro de que quieres eliminar este material?");
+  if (!confirmar) return;
+
+  // Eliminamos el material y guardamos
+  materiales.splice(index, 1);
+  localStorage.setItem(clave, JSON.stringify(materiales));
+
+  // Volvemos a mostrar los materiales
   mostrarMateriales(nombreCurso);
+
+  // Mostramos una notificación visual
+  mostrarMensaje('Material eliminado correctamente', 'error'); // o 'success', como prefieras
 }
+
+function mostrarMensaje(texto, tipo = 'success') {
+  const mensaje = document.createElement('div');
+  mensaje.className = `mensaje-flotante ${tipo}`;
+  mensaje.textContent = texto;
+  document.body.appendChild(mensaje);
+
+  setTimeout(() => {
+    mensaje.remove();
+  }, 2500);
+}
+
 
 // === EDITAR UN MATERIAL EXISTENTE ===
 function editarMaterial(curso, index) {
@@ -281,44 +284,24 @@ function editarMaterial(curso, index) {
   }
 }
 
-// === ELIMINAR UN MATERIAL EXISTENTE ===
-function eliminarMaterial(curso, index) {
-  const materiales = obtenerMateriales(curso);
-  const mat = materiales[index];
-
-  // Si es un proyecto final, no permitimos eliminarlo
-  if (mat.tipo === 'proyecto') {
-    alert('El Proyecto Final no se puede eliminar.');
-    return;
-  }
-
-  // Eliminamos del localStorage (se resta 1 porque el proyecto final va al inicio de la lista)
-  let guardados = JSON.parse(localStorage.getItem(`materiales-${curso}`)) || [];
-  guardados.splice(index - 1, 1); // IMPORTANTE: ajustamos el índice
-  localStorage.setItem(`materiales-${curso}`, JSON.stringify(guardados));
-  mostrarMateriales(curso);
-}
-
-function cerrarAdminMateriales() {
-  document.getElementById('admin-materiales-panel').style.display = 'none';
+function cerrarMateriales() {
+  document.getElementById('materiales-panel').style.display = 'none';
   document.getElementById('cursos-panel').style.display = '';
 }
-
 
 // === MOSTRAR EL FORMULARIO DEL PROYECTO FINAL PARA UN CURSO ===
 function mostrarFormularioProyecto(cursoNombre) {
   const contenedor = document.getElementById('contenedor-materiales');
   const entregas = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
-  const yaEntregado = entregas[cursoNombre]; // ¿El alumno ya lo entregó?
+  const yaEntregado = entregas[`${cursoNombre}|${usuario.nombre}`];
 
-  // Reemplazamos todo el contenido del contenedor con la info del proyecto final
   contenedor.innerHTML = `
     <div class="material-card" style="width:100%">
       <h3>🧩 Proyecto Final: ${cursoNombre}</h3>
       <p><b>Descripción:</b> ${proyectosFinales[cursoNombre]}</p>
       <p>Este proyecto es obligatorio y debe ser entregado en este apartado.</p>
       ${yaEntregado
-      ? `<p style="color:green;font-weight:bold;">✅ Entregado correctamente</p>` // Mensaje si ya se entregó
+      ? `<p style="color:green;font-weight:bold;">✅ Entregado correctamente</p>`
       : `
           <input type="file" id="archivo-proyecto" style="margin: 12px 0;">
           <button onclick="entregarProyecto('${cursoNombre}')">Enviar Proyecto</button>
@@ -332,22 +315,21 @@ function mostrarFormularioProyecto(cursoNombre) {
 function entregarProyecto(cursoNombre) {
   const archivo = document.getElementById('archivo-proyecto').files[0];
 
-  // Validamos que haya elegido un archivo
   if (!archivo) {
     alert('Por favor selecciona un archivo para subir.');
     return;
   }
 
-  // Guardamos en localStorage que este alumno ya entregó
+  const alumno = usuario.nombre;
+  const clave = `${cursoNombre}|${alumno}`;
   const entregas = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
-  entregas[cursoNombre] = true;
+  entregas[clave] = true;
   localStorage.setItem('entregasProyectos', JSON.stringify(entregas));
 
-  // Actualizamos el formulario (muestra el mensaje de entregado)
   mostrarFormularioProyecto(cursoNombre);
 }
 
-// === LISTA DE PROYECTOS FINALES DISPONIBLES ===
+
 // Es una especie de "catálogo" de proyectos finales que tiene cada curso
 const proyectosFinales = {
   "Curso de JavaScript": "Calculadora web interactiva",
@@ -385,8 +367,6 @@ function obtenerMateriales(curso) {
 
   return [...base, ...guardados]; // Devolvemos la lista completa
 }
-
-mostrarAvance("Todos los cursos");
 
 // Carga inicial de avance al abrir la pestaña
 document.querySelector('#btn-avance').addEventListener('click', () => {
@@ -477,58 +457,67 @@ function mostrarCalificaciones() {
   const cuerpo = document.getElementById('cuerpo-calificaciones');
   cuerpo.innerHTML = '';
 
-  if (usuario.rol !== 'Profesor') {
-    // Estudiante: sus notas simuladas
-    const cursos = cursosInscritos.length ? cursosInscritos : [];
-    cursos.forEach(curso => {
-      const nota = (Math.random() * 4 + 6).toFixed(1); // nota aleatoria entre 6 y 10
-      const comentarios = [
-        "Buen trabajo, sigue así.",
-        "Excelente esfuerzo, puedes mejorar algunos detalles.",
-        "Entrega puntual y clara.",
-        "Requiere mayor desarrollo en el análisis.",
-        "Muy buen dominio del tema."
-      ];
-      const comentario = comentarios[Math.floor(Math.random() * comentarios.length)];
+  const entregas = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
 
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${curso.nombre}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">Proyecto Final</td>
-        <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${nota}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${comentario}</td>
-      `;
-      cuerpo.appendChild(tr);
+  if (usuario.rol !== 'Profesor') {
+    const cursos = cursosInscritos.length ? cursosInscritos : [];
+
+    cursos.forEach(curso => {
+      const claveEntrega = `${curso.nombre}|${usuario.nombre}`;
+      const entregado = entregas[claveEntrega];
+      const claveCalificacion = `calificacion-${claveEntrega}`;
+      const calificacion = JSON.parse(localStorage.getItem(claveCalificacion));
+
+      if (entregado && calificacion) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${curso.nombre}</td>
+          <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">Proyecto Final</td>
+          <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${calificacion.nota}</td>
+          <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${calificacion.comentario}</td>
+        `;
+        cuerpo.appendChild(tr);
+      }
     });
 
   } else {
-    // Profesor: proyectos entregados por alumnos (simulado con entregas guardadas)
-    const entregas = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
     const cursosDisponibles = JSON.parse(localStorage.getItem('cursosDisponibles')) || [];
     const cursosAsignados = cursosDisponibles.filter(c => c.profesor === usuario.nombre);
 
     Object.keys(entregas).forEach(clave => {
       const [curso, alumno] = clave.split('|');
       if (cursosAsignados.some(c => c.nombre === curso)) {
+        const claveCalificacion = `calificacion-${curso}|${alumno}`;
+        const calificacion = JSON.parse(localStorage.getItem(claveCalificacion));
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${curso}</td>
-          <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${alumno}</td>
-          <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">
-            <button onclick="abrirFormularioCalificacion('${curso}', '${alumno}')">Calificar</button>
-          </td>
-          <td></td>
-        `;
+      <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${curso}</td>
+      <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${alumno}</td>
+      <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">
+        ${calificacion
+            ? calificacion.nota
+            : `<button onclick="abrirFormularioCalificacion('${curso}', '${alumno}')">Calificar</button>`
+          }
+      </td>
+      <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">
+        ${calificacion ? calificacion.comentario : ''}
+      </td>
+    `;
         cuerpo.appendChild(tr);
       }
     });
   }
 }
 
+
 let proyectoActual = { curso: '', alumno: '' };
 
 function abrirFormularioCalificacion(curso, alumno) {
   proyectoActual = { curso, alumno };
+
+  const modal = document.getElementById('modal-calificacion');
+  modal.style.display = 'flex';
   document.getElementById('info-proyecto').innerText = `Curso: ${curso}\nAlumno: ${alumno}`;
   document.getElementById('nota-calificacion').value = '';
   document.getElementById('comentario-calificacion').value = '';
@@ -536,8 +525,10 @@ function abrirFormularioCalificacion(curso, alumno) {
 }
 
 function cerrarFormularioCalificacion() {
-  document.getElementById('formulario-calificacion').style.display = 'none';
+  const modal = document.getElementById('modal-calificacion');
+  modal.style.display = 'none';
 }
+
 
 function guardarCalificacion() {
   const nota = document.getElementById('nota-calificacion').value;
@@ -551,7 +542,77 @@ function guardarCalificacion() {
   const key = `calificacion-${proyectoActual.curso}|${proyectoActual.alumno}`;
   localStorage.setItem(key, JSON.stringify({ nota, comentario }));
 
-  alert('✅ Calificación guardada');
+  mostrarMensaje("Calificación guardada con éxito.", "success");
   cerrarFormularioCalificacion();
   mostrarCalificaciones();
 }
+
+// Mostrar formulario cuando se hace clic en el botón "Añadir nuevo material"
+function mostrarFormularioMaterial() {
+  // Asegúrate de que el formulario esté visible
+  document.getElementById("formulario-material").style.display = "flex";
+}
+
+// Cerrar el formulario cuando se hace clic en "Cancelar"
+function cancelarFormulario() {
+  // Vuelve a ocultar el formulario
+  document.getElementById("formulario-material").style.display = "none";
+}
+
+let cursoActual = null;
+
+// Agregar un nuevo material (esto podría estar en tu función de "Guardar")
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("form-material").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const titulo = document.getElementById("titulo").value;
+    const descripcion = document.getElementById("descripcion").value;
+    const tipo = document.getElementById("tipo").value;
+    const imagen = document.getElementById("imagen").value;
+
+    if (!titulo || !descripcion || !tipo) {
+      mostrarErrorFormulario("⚠️ Por favor completa todos los campos obligatorios.");
+      return;
+    }
+
+    const nuevoMaterial = { titulo, descripcion, tipo, imagen };
+
+    if (cursoActual) {
+      const clave = `materiales-${cursoActual}`;
+      const existentes = JSON.parse(localStorage.getItem(clave)) || [];
+      existentes.push(nuevoMaterial);
+      localStorage.setItem(clave, JSON.stringify(existentes));
+      mostrarMateriales(cursoActual);
+    }
+
+    mostrarMensaje("Material subido con éxito."); // ✅ Mostrar confirmación flotante
+    cancelarFormulario(); // Ocultar formulario
+  });
+});
+
+function mostrarMensajeExito(texto) {
+  const mensaje = document.getElementById("mensaje-flotante");
+  mensaje.textContent = texto;
+  mensaje.classList.add("show");
+  mensaje.style.display = "block";
+
+  setTimeout(() => {
+    mensaje.classList.remove("show");
+    setTimeout(() => {
+      mensaje.style.display = "none";
+    }, 300); // tiempo para que termine la transición
+  }, 3000);
+}
+
+
+function mostrarErrorFormulario(mensaje) {
+  const contenedor = document.getElementById("mensaje-error");
+  contenedor.textContent = mensaje;
+  contenedor.style.display = "block";
+
+  setTimeout(() => {
+    contenedor.style.display = "none";
+  }, 3000);
+}
+
