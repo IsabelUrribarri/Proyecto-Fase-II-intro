@@ -381,3 +381,48 @@ nav a {
     font-size: 14px;
     cursor: pointer;
 }
+
+/* Fondo que cubre toda la pantalla y se queda detrás del contenido */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    z-index: -1;
+    /* Degradado suave para que el fondo no se vea plano */
+    background: linear-gradient(120deg, #f7f7f7, #e7f0ff);
+
+}
+
+.bubble {
+    /* Las burbujas inician desde abajo */
+    position: absolute;
+    bottom: -100px;
+    /* Color blanco con transparencia */
+    background-color: rgba(255, 91, 0, 0.15);
+    /* las hace circulares */
+    border-radius: 50%;
+    /* Activamos la animación que las hace subir */
+    animation: rise 20s infinite ease-in;
+}
+
+/* Animación que hace que las burbujas suban y desaparezcan */
+@keyframes rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        /* para que suban un poco más del alto visible */
+        transform: translateY(-110vh) scale(1.2);
+        /* para que se desvanezcan al final */
+        opacity: 0;
+    }
+}

@@ -113,3 +113,24 @@ document.querySelectorAll('.btn-cerrar-sesion').forEach(btn => {
         window.location.href = 'login-signup.html#login';
     });
 });
+
+// Seleccionamos el contenedor donde van a ir las burbujas
+const fondo = document.querySelector('.background');
+
+// Creamos 30 burbujas con propiedades aleatorias para que no todas sean iguales
+for (let i = 0; i < 30; i++) {
+    const burbuja = document.createElement('div');
+    burbuja.classList.add('bubble');
+    // Le asignamos un tamaño aleatorio entre 10px y 50px
+    const size = Math.random() * 40 + 10;
+    burbuja.style.width = `${size}px`;
+    burbuja.style.height = `${size}px`;
+    // Las ubicamos en una posición horizontal aleatoria en la pantalla
+    burbuja.style.left = `${Math.random() * 100}vw`;
+    // Cada burbuja sube en un tiempo diferente (entre 5 y 10 segundos)
+    burbuja.style.animationDuration = `${5 + Math.random() * 5}s`;
+    // También le damos un retraso para que no todas salgan al mismo tiempo
+    burbuja.style.animationDelay = `${Math.random() * 1}s`;
+    // Agregamos la burbuja al fondo
+    fondo.appendChild(burbuja);
+}
