@@ -4,20 +4,27 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
-    padding: 40px 20px; /* Espaciado para que todo respire un poco */
+    padding: 40px 20px;
+    /* Espaciado para que todo respire un poco */
 }
 
 /* ======== CONTENEDOR DEL FORMULARIO ======== */
 
 /* Caja blanca centrada, con bordes suaves y un poco de sombra para destacar sobre el fondo */
 .formulario {
-    max-width: 500px; /* No queremos que se haga gigante en pantallas grandes */
+    max-width: 500px;
+    /* No queremos que se haga gigante en pantallas grandes */
     background: white;
-    padding: 25px 30px; /* Espaciado interno para que nada quede pegado */
-    margin: auto; /* Centrado horizontal */
-    border-left: 5px solid #ff5b00; /* Línea de color como detalle visual */
-    border-radius: 10px; /* Esquinas redondeadas, más moderno */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07); /* Sombra sutil para dar profundidad */
+    padding: 25px 30px;
+    /* Espaciado interno para que nada quede pegado */
+    margin: auto;
+    /* Centrado horizontal */
+    border-left: 5px solid #ff5b00;
+    /* Línea de color como detalle visual */
+    border-radius: 10px;
+    /* Esquinas redondeadas, más moderno */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+    /* Sombra sutil para dar profundidad */
 }
 
 /* ======== TITULOS Y TEXTOS ======== */
@@ -25,7 +32,8 @@ body {
 /* Color azul oscuro elegante para títulos */
 h2 {
     color: #0f2e5a;
-    margin-bottom: 20px; /* Separación del resto del contenido */
+    margin-bottom: 20px;
+    /* Separación del resto del contenido */
 }
 
 /* Las etiquetas de los campos van en negrita y con tamaño legible */
@@ -42,13 +50,18 @@ label {
 input,
 textarea,
 select {
-    width: 100%; /* Que ocupen todo el ancho del formulario */
+    width: 100%;
+    /* Que ocupen todo el ancho del formulario */
     padding: 10px;
-    margin-top: 5px; /* Un pequeño espacio con la etiqueta */
+    margin-top: 5px;
+    /* Un pequeño espacio con la etiqueta */
     font-size: 14px;
-    border: 1px solid #ccc; /* Borde gris claro, neutro */
-    border-radius: 6px; /* Esquinas suavizadas */
-    background-color: #f9f9f9; /* Fondo ligeramente gris para distinguirlo del fondo blanco */
+    border: 1px solid #ccc;
+    /* Borde gris claro, neutro */
+    border-radius: 6px;
+    /* Esquinas suavizadas */
+    background-color: #f9f9f9;
+    /* Fondo ligeramente gris para distinguirlo del fondo blanco */
 }
 
 /* Textarea con altura mínima y que se pueda estirar verticalmente */
@@ -70,10 +83,34 @@ button {
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.25s ease; /* Transición suave al pasar el mouse */
+    transition: background-color 0.25s ease;
+    /* Transición suave al pasar el mouse */
 }
 
 /* Cambio de color al pasar el mouse: más oscuro para indicar interacción */
 button:hover {
     background-color: #a63b01;
+}
+
+.mensaje-flotante {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    z-index: 9999;
+    opacity: 0.95;
+    transition: all 0.3s ease;
+}
+
+.mensaje-flotante.success {
+    background-color: #2ecc71;
+}
+
+.mensaje-flotante.error {
+    background-color: #e74c3c;
 }

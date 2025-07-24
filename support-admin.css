@@ -17,10 +17,54 @@ h2 {
 }
 
 .card-incidencia button {
-    background: red;
+    background: #ff5b00;
     color: white;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
+}
+
+.card-incidencia button:hover {
+    background-color: #a63b01;
+}
+
+.btn-cerrar-sesion {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #ff5b00;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+
+.btn-cerrar-sesion:hover {
+    background-color: #a63b01;
+}
+
+.mensaje-flotante {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    z-index: 9999;
+    opacity: 0.95;
+    transition: all 0.3s ease;
+}
+
+.mensaje-flotante.success {
+    background-color: #2ecc71;
+}
+
+.mensaje-flotante.error {
+    background-color: #e74c3c;
 }

@@ -65,7 +65,7 @@ form.addEventListener('submit', (e) => {
     localStorage.setItem('incidencias', JSON.stringify(incidencias));
 
     form.reset();
-    alert('Incidencia enviada con éxito');
+    mostrarMensaje('Incidencia enviada con éxito', 'success');
     mostrarMisReportes();
 });
 
@@ -115,3 +115,14 @@ mostrarMisReportes();
 
 document.getElementById('nombre').value = usuario.nombre;
 document.getElementById('email').value = usuario.email;
+
+function mostrarMensaje(texto, tipo = 'success') {
+    const mensaje = document.createElement('div');
+    mensaje.className = `mensaje-flotante ${tipo}`;
+    mensaje.textContent = texto;
+    document.body.appendChild(mensaje);
+
+    setTimeout(() => {
+        mensaje.remove();
+    }, 2500);
+}

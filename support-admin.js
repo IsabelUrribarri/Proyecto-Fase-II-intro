@@ -1,4 +1,3 @@
-// Verificar si hay sesión activa y si es admin
 const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'));
 if (!usuarioActivo || usuarioActivo.rol !== 'Admin') {
     alert("No tienes permisos para ver esta página");
@@ -29,8 +28,7 @@ function renderizarIncidencias() {
                     ${inc.estado}
                 </span>
             </p>
-            <button onclick="marcarResuelto(${index})" 
-                ${inc.estado === 'Resuelto' ? 'disabled' : ''}>
+            <button onclick="marcarResuelto(${index})" ${inc.estado === 'Resuelto' ? 'disabled' : ''}>
                 ✅ Marcar como resuelto
             </button>
             <button onclick="eliminarIncidencia(${index})">🗑 Eliminar</button>
@@ -40,21 +38,78 @@ function renderizarIncidencias() {
 }
 
 window.marcarResuelto = function (index) {
-    incidencias[index].estado = "Resuelto";
-    localStorage.setItem('incidencias', JSON.stringify(incidencias));
-    renderizarIncidencias();
+    mostrarConfirmacion('¿Marcar esta incidencia como resuelta?', (confirmado) => {
+        if (confirmado) {
+            if (incidencias[index]) {
+                incidencias[index].estado = 'Resuelto';
+                localStorage.setItem('incidencias', JSON.stringify(incidencias));
+                mostrarMensaje('Incidencia marcada como resuelta', 'success');
+                renderizarIncidencias();
+            }
+        }
+    });
 };
 
 window.eliminarIncidencia = function (index) {
-    incidencias.splice(index, 1);
-    localStorage.setItem('incidencias', JSON.stringify(incidencias));
-    renderizarIncidencias();
+    mostrarConfirmacion('¿Eliminar esta incidencia? Esta acción no se puede deshacer.', (confirmado) => {
+        if (confirmado) {
+            if (incidencias[index]) {
+                incidencias.splice(index, 1);
+                localStorage.setItem('incidencias', JSON.stringify(incidencias));
+                mostrarMensaje('Incidencia eliminada', 'error');
+                renderizarIncidencias();
+            }
+        }
+    });
 };
 
 renderizarIncidencias();
 
-// Evento para cerrar sesión
-document.getElementById('cerrar-sesion').addEventListener('click', () => {
-    localStorage.removeItem('usuarioActivo');
-    location.reload();
+function mostrarConfirmacion(mensaje, callbackConfirmar) {
+    const modal = document.getElementById('modal-confirmacion');
+    const texto = document.getElementById('texto-confirmacion');
+    const btnConfirmar = modal.querySelector('button.confirmar');
+    const btnCancelar = modal.querySelector('button.cancelar');
+
+    texto.textContent = mensaje;
+
+    modal.style.display = 'flex';
+
+    function limpiar() {
+        btnConfirmar.removeEventListener('click', confirmar);
+        btnCancelar.removeEventListener('click', cancelar);
+        modal.style.display = 'none';
+    }
+
+    function confirmar() {
+        limpiar();
+        callbackConfirmar(true);
+    }
+
+    function cancelar() {
+        limpiar();
+        callbackConfirmar(false);
+    }
+
+    btnConfirmar.addEventListener('click', confirmar);
+    btnCancelar.addEventListener('click', cancelar);
+}
+
+function mostrarMensaje(texto, tipo = 'success') {
+    const mensaje = document.createElement('div');
+    mensaje.className = `mensaje-flotante ${tipo}`;
+    mensaje.textContent = texto;
+    document.body.appendChild(mensaje);
+
+    setTimeout(() => {
+        mensaje.remove();
+    }, 2500);
+}
+
+// Cerrar sesión
+document.querySelectorAll('.btn-cerrar-sesion').forEach(btn => {
+    btn.addEventListener('click', () => {
+        localStorage.removeItem('usuarioActivo');
+        window.location.href = 'login-signup.html#login';
+    });
 });
