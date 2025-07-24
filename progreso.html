@@ -130,15 +130,17 @@
   </div>
 
   <!-- Modal para calificar un proyecto (usado por profesor) -->
-  <div id="modal-calificacion" class="modal" style="display: none;">
-    <div class="modal-content">
+  <div id="overlay-modal" class="modal" style="display: none;">
+    <div id="formulario-calificacion">
+      <button class="cerrar" onclick="cerrarFormularioCalificacion()">×</button>
       <h3>Calificar Proyecto</h3>
+      <p id="info-proyecto"></p>
+
       <label>Nota:</label>
-      <input type="number" id="nota-calificacion" min="0" max="100">
+      <input type="number" id="nota-calificacion" min="0" max="10">
       <label>Comentario:</label>
-      <textarea id="comentario-calificacion"></textarea>
+      <textarea id="comentario-calificacion" placeholder="Comentarios..."></textarea>
       <button onclick="guardarCalificacion()">Guardar</button>
-      <button onclick="cerrarFormularioCalificacion()">Cancelar</button>
     </div>
   </div>
 
