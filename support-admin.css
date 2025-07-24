@@ -1,64 +1,41 @@
 /* Quitamos márgenes que pone cada navegador y usamos la misma fuente para todo */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
-    padding: 40px 20px;
+    background: #f5f5f5;
+    padding: 20px;
 }
 
-/*contenedor del formulario */
-
-/* Caja principal blanca, centrada y con sombra para que resalte */
-.formulario {
-    max-width: 500px;
-    background: white;
-    padding: 25px 30px;
-    margin: auto;
-    border-left: 5px solid #ff5b00;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
-}
-
-/*titulos y texto */
-
-/* Estilo para los encabezados principales */
+/* Título centrado*/
 h2 {
-    color: #0f2e5a;
-    margin-bottom: 20px;
+    text-align: center;
 }
 
-/* Las etiquetas se ven mejor en negrita y con tamaño claro */
-label {
-    display: block;
-    margin-top: 12px;
-    font-weight: bold;
-    font-size: 14px;
+/* Cada tarjeta de incidencia tiene estilo */
+.card-incidencia {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
 }
 
-/*campos del formulario */
-
-/* Todos los campos comparten el mismo estilo para mantener coherencia */
-input,
-textarea,
-select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #f9f9f9;
+/* Botoncito naranja */
+.card-incidencia button {
+    background: #ff5b00;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
-/* Textarea más alto por defecto, y que se pueda ajustar en vertical */
-textarea {
-    resize: vertical;
-    min-height: 100px;
+/* efecto al pasar el cursos por encima */
+.card-incidencia button:hover {
+    background-color: #a63b01;
 }
 
-/*boton*/
-
-/* Botón principal, en naranja, con texto blanco llamativo */
-button {
+/* Botón de cerrar sesión*/
+.btn-cerrar-sesion {
     margin-top: 20px;
     padding: 12px;
     background-color: #ff5b00;
@@ -71,12 +48,12 @@ button {
     transition: background-color 0.25s ease;
 }
 
-/* efecto al pasar el mouse*/
-button:hover {
+/* efecto al pasar el cursos por encima */
+.btn-cerrar-sesion:hover {
     background-color: #a63b01;
 }
 
-/* mensajes flotantes */
+/* Mensaje flotante tipo popup que aparece abajo al centro*/
 .mensaje-flotante {
     position: fixed;
     bottom: 30px;
@@ -92,20 +69,17 @@ button:hover {
     transition: all 0.3s ease;
 }
 
-/* Verde para mensajes exitosos */
+/* Mensaje exitoso */
 .mensaje-flotante.success {
     background-color: #2ecc71;
 }
 
-/* Rojo para errores o advertencias */
+/* Mensaje de error */
 .mensaje-flotante.error {
     background-color: #e74c3c;
 }
 
-
-/*fondo animados con burbujas*/
-
-/* Fondo que cubre toda la pantalla detrás del contenido */
+/* Fondo que cubre toda la pantalla y se queda detrás del contenido */
 .background {
     position: fixed;
     top: 0;

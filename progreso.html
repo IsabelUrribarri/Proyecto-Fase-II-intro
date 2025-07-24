@@ -4,22 +4,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Panel simple de cursos</title>
-  <!-- Estilos del panel de progreso -->
   <link rel="stylesheet" href="progreso.css">
 </head>
 
 <body>
-
-  <!-- Encabezado con nombre de usuario y botón de regreso -->
+  <div class="background"></div>
+  <!-- Header: nombre de usuario y botón para volver al inicio -->
   <div class="header">
     <b id="nombre-usuario">Usuario</b>
     <button id="btn-inicio" onclick="window.location.href='index.html'">Volver a inicio</button>
   </div>
 
-  <!-- Distribución de página: menú lateral + contenido -->
+  <!-- Layout: menú lateral + contenido principal -->
   <div class="layout">
 
-    <!-- Menú lateral de navegación -->
+    <!-- Menú lateral con opciones de navegación -->
     <div class="menu">
       <div class="seccion">Mis cosas</div>
       <button id="btn-cursos" class="mnu-btn activo">Cursos</button>
@@ -29,34 +28,31 @@
       <button id="btn-calificaciones" class="mnu-btn">Calificaciones</button>
     </div>
 
-    <!-- Contenido principal -->
+    <!-- Contenido principal donde cambia lo que se ve -->
     <div class="contenido">
 
-      <!-- Vista de lista de cursos -->
+      <!-- Panel de lista de cursos (visible por defecto) -->
       <div id="cursos-panel">
         <h2>Mis cursos</h2>
         <ul id="lista-cursos"></ul>
       </div>
 
-      <!-- Vista para ver los materiales de un curso -->
+      <!-- Panel para mostrar materiales de un curso (oculto al inicio) -->
       <div id="materiales-panel" style="display:none;">
         <h2>Materiales del curso</h2>
         <div id="contenedor-materiales" class="materiales-grid"></div>
         <button onclick="cerrarMateriales()" class="azul-btn">Volver a Mis Cursos</button>
       </div>
 
-      <!-- Vista para que el profesor administre los materiales -->
+      <!-- Panel para que el profesor administre materiales -->
       <div id="admin-materiales-panel" style="display:none;">
         <h2>Administrar materiales del curso</h2>
         <div id="admin-materiales-lista" class="materiales-grid"></div>
-
-        <!-- Botón para abrir el formulario modal para añadir material -->
         <button onclick="mostrarFormularioMaterial()">Añadir nuevo material</button>
-
         <button onclick="cerrarAdminMateriales()" class="azul-btn">Volver</button>
       </div>
 
-      <!-- Vista de progreso simulado -->
+      <!-- Panel de progreso simulado -->
       <div id="avance-panel" style="display:none;">
         <h2>Mi avance</h2>
         <div>
@@ -79,7 +75,7 @@
         <div class="mensaje-avance materiales-grid"></div>
       </div>
 
-      <!-- Vista de calificaciones de proyectos -->
+      <!-- Panel para mostrar calificaciones y comentarios -->
       <div id="calificaciones-panel" style="display:none;">
         <h2>Calificaciones y Comentarios</h2>
         <table id="tabla-calificaciones" style="width:100%; border-collapse: collapse; margin-top: 12px;">
@@ -95,12 +91,12 @@
         </table>
       </div>
 
-    </div> <!-- Fin contenido -->
-  </div> <!-- Fin layout -->
+    </div>
+  </div>
 
-  <!-- Modal para añadir nuevo material (estilo flotante) -->
-  <div id="formulario-material" class="modal" style="display: none;">
-    <div class="formulario-modal">
+  <!-- Modal para añadir nuevo material -->
+  <div id="formulario-material" style="display: none;">
+    <div class="formulario">
       <button class="cerrar-modal" onclick="cancelarFormulario()">✖</button>
       <h2>Añadir nuevo material</h2>
       <form id="form-material">
@@ -129,13 +125,12 @@
     </div>
   </div>
 
-  <!-- Modal para calificar un proyecto (usado por profesor) -->
-  <div id="overlay-modal" class="modal" style="display: none;">
+  <!-- Modal para calificar un proyecto -->
+  <div id="overlay-modal" style="display: none;">
     <div id="formulario-calificacion">
       <button class="cerrar" onclick="cerrarFormularioCalificacion()">×</button>
       <h3>Calificar Proyecto</h3>
-      <p id="info-proyecto"></p>
-
+      <p id="info-proyecto"></p> <!-- Info dinámica del proyecto -->
       <label>Nota:</label>
       <input type="number" id="nota-calificacion" min="0" max="10">
       <label>Comentario:</label>
@@ -144,16 +139,6 @@
     </div>
   </div>
 
-  <div id="overlay-modal" class="modal" style="display: none;">
-    <div id="formulario-calificacion" class="formulario">
-      <button class="cerrar" onclick="cerrarFormularioCalificacion()">×</button>
-      <h3>Calificar Proyecto</h3>
-      <p id="info-proyecto"></p>
-      <input type="number" id="nota-calificacion" placeholder="Nota (0-10)" min="0" max="10">
-      <textarea id="comentario-calificacion" placeholder="Comentarios..."></textarea>
-      <button onclick="guardarCalificacion()">Guardar</button>
-    </div>
-  </div>
   <script src="progreso.js"></script>
 </body>
 

@@ -1,4 +1,4 @@
-/* Reset general para evitar comportamientos raros entre navegadores */
+/* Quitamos márgenes que pone cada navegador y usamos la misma fuente para todo */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,13 +6,13 @@
     font-family: Arial, sans-serif;
 }
 
-/* Fondo claro para todo el cuerpo y texto gris oscuro */
+/* Fondo clarito y letra gris */
 body {
     background-color: #f7f7f7;
     color: #333;
 }
 
-/* Estilos del encabezado fijo */
+/* Header pegado arriba con su sombra leve para que se note que es fijo */
 header {
     background-color: #ffffff;
     border-bottom: 1px solid #ddd;
@@ -23,10 +23,9 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    /* Siempre visible al hacer scroll */
 }
 
-/* Estilo del logo (también usado abajo) */
+/* El logo grandecito, azul oscuro, bien visible */
 .logo {
     font-size: 24px;
     font-weight: bold;
@@ -34,22 +33,21 @@ header {
     text-decoration: none;
 }
 
-/* Contenedor del menú de navegación */
+/* Los ítems del menú uno al lado del otro con espacio */
 nav {
     display: flex;
     align-items: center;
     gap: 18px;
-    /* Separación entre los elementos */
 }
 
-/* Enlaces del menú */
+/* Estilo base para los links del menú */
 nav a {
     text-decoration: none;
     color: #333;
     font-size: 15px;
 }
 
-/* Botones planos para login y registro */
+/* Login y register con estilo minimalista */
 .btn-login,
 .btn-register {
     background-color: transparent;
@@ -58,7 +56,7 @@ nav a {
     cursor: pointer;
 }
 
-/* El botón de registro destaca con color y bordes */
+/* El botón de registrarse sí resalta más*/
 .btn-register {
     background-color: #ff5b00;
     color: white;
@@ -67,12 +65,12 @@ nav a {
     font-weight: bold;
 }
 
-/* Efecto hover para el botón de registro */
+/* Efecto cuando pasas el mouse por encima del botón naranja */
 .btn-register:hover {
     background-color: #a63b01;
 }
 
-/* Sección principal (hero): texto centrado con bastante espacio */
+/* Sección principal con espacio y todo centrado */
 .hero {
     padding: 70px 30px;
     max-width: 1000px;
@@ -81,25 +79,25 @@ nav a {
     padding-bottom: 40px;
 }
 
-/* Título grande y con color personalizado */
+/* Título grande y en azul */
 .hero h1 {
     font-size: 42px;
     font-weight: bold;
     color: #0f2e5a;
 }
 
-/* Parte resaltada del título */
+/* Parte rosada del título para que resalte */
 .hero h1 span {
     color: #e15dbb;
 }
 
-/* Subtítulo debajo del título principal */
+/* Subtitulo debajo del h1 */
 .hero p {
     font-size: 18px;
     margin-top: 20px;
 }
 
-/* Caja de búsqueda centrada */
+/* cajita de busqueda */
 .search-box {
     margin-top: 30px;
     display: flex;
@@ -107,7 +105,7 @@ nav a {
     gap: 0;
 }
 
-/* Input de búsqueda: sin borde derecho para unirse con el botón */
+/* Input pegado al botón, con bordes redondeados */
 .search-box input {
     padding: 10px;
     width: 300px;
@@ -117,7 +115,7 @@ nav a {
     font-size: 14px;
 }
 
-/* Botón de búsqueda */
+/* El boton de buscar, también naranja como el de registrar */
 .search-box button {
     background-color: #ff5b00;
     color: white;
@@ -128,12 +126,12 @@ nav a {
     font-size: 14px;
 }
 
-/* Hover para el botón de búsqueda */
+/* Cambia a un naranja más oscuro al pasar el mouse */
 .search-box button:hover {
     background-color: #a63b01;
 }
 
-/* Adaptación para pantallas pequeñas */
+/* Para que se vea bien también en telefonos */
 @media (max-width: 600px) {
     .hero h1 {
         font-size: 28px;
@@ -144,12 +142,12 @@ nav a {
     }
 }
 
-/* Cambio de color del ícono de usuario al pasar el cursor */
+/* Cuando pasas el mouse sobre el ícono de usuario, se pinta naranja */
 .user-icon:hover {
     color: #ff5b00;
 }
 
-/* Menú desplegable del usuario (cuando está logueado) */
+/* El menú desplegable que se ve cuando ya estás logueado */
 .user-menu {
     position: absolute;
     top: 60px;
@@ -161,33 +159,33 @@ nav a {
     z-index: 1001;
 }
 
-/* Lista del menú del usuario */
+/* Lista dentro del menú, sin bullets */
 .user-menu ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-/* Ítems del menú (cerrar sesión, progreso, etc.) */
+/* items del menu desplegable */
 .user-menu li {
     padding: 10px 20px;
     cursor: pointer;
     font-size: 14px;
 }
 
-/* Efecto hover en ítems del menú del usuario */
+/* Efecto al pasar el mouse por cada item */
 .user-menu li:hover {
     background-color: #f0f0f0;
 }
 
-/* Sección donde van los cursos */
+/* Zona donde se muestran los cursos */
 .cursos-section {
     max-width: 1100px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
-/* Pestañas de navegación entre cursos disponibles y tus cursos */
+/* Las pestañas para cambiar entre cursos disponibles y los tuyos */
 .tabs {
     display: flex;
     gap: 10px;
@@ -195,7 +193,7 @@ nav a {
     justify-content: center;
 }
 
-/* Botones estilo pestaña */
+/* Estilo de botón para cada pestaña */
 .tab {
     background-color: #fff;
     border: 1px solid #ccc;
@@ -206,64 +204,63 @@ nav a {
     color: #333;
 }
 
-/* Hover para pestañas */
+/* Hover en pestañas, se ponen como naranjitas suaves */
 .tab:hover {
     background-color: #ffe5d1;
     border-color: #ff5b00;
     color: #0f2e5a;
 }
 
-/* Pestaña activa (destacada en naranja) */
+/* La pestaña activa, full naranja */
 .tab.active {
     background-color: #ff5b00;
     color: white;
     border-color: #ff5b00;
 }
 
-/* Contenedor tipo grid donde se renderizan las tarjetas de cursos */
+/* Donde se van metiendo las tarjetas de cursos */
 .cursos-contenedor {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 20px;
 }
 
-/* Estilo de cada tarjeta de curso */
+/* Cada tarjeta de curso, con sombrita y franja naranja */
 .curso-card {
     background-color: white;
     border-radius: 14px;
     border-left: 5px solid #ff5b00;
-    /* Franja de color para destacar */
     box-shadow: 0px 8px 26px rgba(0, 0, 0, 0.07);
     padding: 20px;
     transition: transform 0.2s;
 }
 
-/* Ligero zoom al pasar el cursor */
+/* Efecto zoom al pasar el mouse */
 .curso-card:hover {
     transform: scale(1.02);
 }
 
-/* Imagen del curso */
+/* Imagen del curso arriba de la tarjeta */
 .curso-card img {
     width: 100%;
     border-radius: 8px;
     margin-bottom: 12px;
 }
 
-/* Título del curso */
+/* Titulo del curso */
 .curso-card h3 {
     color: #0f2e5a;
     margin-bottom: 8px;
 }
 
-/* Descripción breve del curso */
+/* Descripción corta del curso */
 .curso-card p {
     font-size: 14px;
     color: #333;
     margin: 4px 0;
 }
 
-/* Botón para inscribirse */
+/* Botón naranja para inscribirse */
 .btn-inscribirse {
     margin-top: 10px;
     background-color: #ff5b00;
@@ -275,11 +272,12 @@ nav a {
     cursor: pointer;
 }
 
-/* Hover para el botón de inscripción */
+/* sombra al botón de inscribirse */
 .btn-inscribirse:hover {
     background-color: #a63b01;
 }
 
+/* Fondo oscuro detrás del modal */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -293,6 +291,7 @@ nav a {
     z-index: 999;
 }
 
+/* Contenido del modal, con sombra y centrado */
 .modal-contenido {
     background-color: #fff;
     padding: 20px 30px;
@@ -303,6 +302,7 @@ nav a {
     width: 90%;
 }
 
+/* Botones de confirmar o cancelar inscripción */
 .modal-botones {
     margin-top: 20px;
     display: flex;
@@ -327,6 +327,7 @@ nav a {
     cursor: pointer;
 }
 
+/* Mensaje verde flotante que aparece abajo */
 .mensaje-exito {
     display: none;
     position: fixed;
@@ -342,6 +343,7 @@ nav a {
     font-size: 15px;
 }
 
+/* Mensaje flotante centrado para feedback general */
 .mensaje-flotante {
     position: fixed;
     bottom: 30px;
@@ -357,6 +359,7 @@ nav a {
     transition: all 0.3s ease;
 }
 
+/* Colores según tipo de mensaje */
 .mensaje-flotante.success {
     background-color: #2ecc71;
 }
@@ -365,6 +368,7 @@ nav a {
     background-color: #e74c3c;
 }
 
+/* Botón para ver mas cursos, centrado */
 #contenedor-boton {
     text-align: center;
     margin-top: 20px;
@@ -376,4 +380,49 @@ nav a {
     padding: 8px 16px;
     font-size: 14px;
     cursor: pointer;
+}
+
+/* Fondo que cubre toda la pantalla y se queda detrás del contenido */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    z-index: -1;
+    /* Degradado suave para que el fondo no se vea plano */
+    background: linear-gradient(120deg, #f7f7f7, #e7f0ff);
+
+}
+
+.bubble {
+    /* Las burbujas inician desde abajo */
+    position: absolute;
+    bottom: -100px;
+    /* Color blanco con transparencia */
+    background-color: rgba(255, 91, 0, 0.15);
+    /* las hace circulares */
+    border-radius: 50%;
+    /* Activamos la animación que las hace subir */
+    animation: rise 20s infinite ease-in;
+}
+
+/* Animación que hace que las burbujas suban y desaparezcan */
+@keyframes rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        /* para que suban un poco más del alto visible */
+        transform: translateY(-110vh) scale(1.2);
+        /* para que se desvanezcan al final */
+        opacity: 0;
+    }
 }

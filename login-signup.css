@@ -1,4 +1,4 @@
-/* Reset general para tener un punto de partida limpio */
+/* Quitamos márgenes que pone cada navegador y usamos la misma fuente para todo */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,7 +6,7 @@
     font-family: 'Trebuchet MS', sans-serif;
 }
 
-/* Fondo general con degradado suave y centrado del formulario */
+/* Fondo principal con un degradado*/
 body {
     background: linear-gradient(135deg, #e6f0fa, #fefefe);
     height: 100vh;
@@ -15,7 +15,7 @@ body {
     justify-content: center;
 }
 
-/* Caja del formulario: diseño limpio con sombra y borde lateral llamativo */
+/* Este contenedor blanco es el formulario como tal */
 .form-box {
     background-color: #fff;
     padding: 30px 42px;
@@ -28,18 +28,18 @@ body {
     transition: transform 0.25s ease;
 }
 
-/* Ligero efecto de zoom al pasar el mouse por encima */
+/* mini zoom cuando pasas el mouse */
 .form-box:hover {
     transform: scale(1.008);
 }
 
-/* Formulario organizado en columna */
+/* Todo organizado en columna */
 form {
     display: flex;
     flex-direction: column;
 }
 
-/* Etiquetas de los campos con buen espaciado y legibilidad */
+/* Etiquetas con algo de espacio y buena letra */
 form label {
     margin: 13px 0 6px;
     font-weight: 600;
@@ -47,7 +47,7 @@ form label {
     font-size: 15px;
 }
 
-/* Estilo base para inputs de texto, correo y contraseña */
+/* Inputs normales, pero bonitos */
 form input[type="text"],
 form input[type="email"],
 form input[type="password"] {
@@ -59,7 +59,7 @@ form input[type="password"] {
     transition: border 0.3s ease-in-out, box-shadow 0.2s;
 }
 
-/* Efecto de enfoque: borde azul suave con sombra */
+/* Cuando haces click que se note */
 form input[type="text"]:focus,
 form input[type="email"]:focus,
 form input[type="password"]:focus {
@@ -68,7 +68,7 @@ form input[type="password"]:focus {
     outline: none;
 }
 
-/* Título sobre la sección de selección de rol */
+/* Título donde el user elige que rol tiene  */
 .titulo-rol {
     text-align: center;
     margin-top: 18px;
@@ -85,7 +85,7 @@ form input[type="password"]:focus {
     margin-bottom: 20px;
 }
 
-/* Estilo de cada opción de rol (texto + radio button) */
+/* Cada opción de rol tiene su radio + texto */
 .opcion-rol {
     display: flex;
     align-items: center;
@@ -94,7 +94,7 @@ form input[type="password"]:focus {
     font-size: 14px;
 }
 
-/* Estilo del radio button: color personalizado + tamaño adecuado */
+/* Estilo del radio button */
 input[type="radio"] {
     accent-color: #ff5b00;
     width: 16px;
@@ -102,7 +102,7 @@ input[type="radio"] {
     cursor: pointer;
 }
 
-/* Botón de enviar el formulario */
+/* Botón para mandar el formulario */
 form input[type="submit"] {
     margin-top: 18px;
     padding: 12px;
@@ -116,12 +116,12 @@ form input[type="submit"] {
     transition: background-color 0.25s ease;
 }
 
-/* Cambio de color al pasar el mouse por el botón */
+/* Cambio de color cuando pasas  el mouse por el botón */
 form input[type="submit"]:hover {
     background-color: #a63b01;
 }
 
-/* Mensaje de error que aparece bajo un campo inválido */
+/* Mensaje de error que aparece bajo un campo invalido */
 .error {
     color: red;
     font-size: 13px;
@@ -129,10 +129,55 @@ form input[type="submit"]:hover {
     margin-top: 4px;
 }
 
-/* Mensaje de éxito que aparece al final tras enviar */
+/* Mensaje de exito que aparece al final tras enviar */
 .mensaje-exito {
     color: green;
     font-weight: bold;
     margin-top: 15px;
     display: none;
+}
+
+/* Fondo que cubre toda la pantalla y se queda detrás del contenido */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    z-index: -1;
+    /* Degradado suave para que el fondo no se vea plano */
+    background: linear-gradient(120deg, #f7f7f7, #e7f0ff);
+
+}
+
+.bubble {
+    /* Las burbujas inician desde abajo */
+    position: absolute;
+    bottom: -100px;
+    /* Color blanco con transparencia */
+    background-color: rgba(255, 91, 0, 0.15);
+    /* las hace circulares */
+    border-radius: 50%;
+    /* Activamos la animación que las hace subir */
+    animation: rise 20s infinite ease-in;
+}
+
+/* Animación que hace que las burbujas suban y desaparezcan */
+@keyframes rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        /* para que suban un poco más del alto visible */
+        transform: translateY(-110vh) scale(1.2);
+        /* para que se desvanezcan al final */
+        opacity: 0;
+    }
 }

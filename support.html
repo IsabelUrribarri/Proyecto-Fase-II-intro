@@ -5,26 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soporte</title>
-    <!-- Enlazamos el CSS donde está todo el diseño del formulario -->
     <link rel="stylesheet" href="support.css">
 </head>
 
 <body>
-    <!-- Contenedor principal del formulario -->
+    <div class="background"></div>
+    <!-- Contenedor principal del formulario de soporte -->
     <div class="formulario">
-        <!-- Título principal, lo primero que ve el usuario -->
+        <!-- Encabezado principal del formulario -->
         <h2>Reportar una incidencia</h2>
 
-        <!-- Formulario con ID para poder controlarlo desde el JS -->
+        <!-- Formulario de envío de reporte -->
         <form id="form-soporte">
 
-            <!-- Campo para que el usuario ponga su nombre -->
+            <!-- Campo de nombre (solo lectura, se rellena automáticamente) -->
             <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" placeholder="Tu nombre">
+            <input type="text" id="nombre" placeholder="Tu nombre" readonly>
 
-            <!-- Campo de correo con validación básica del navegador -->
+            <!-- Campo de email del usuario (también solo lectura) -->
             <label for="email">Correo electrónico</label>
-            <input type="email" id="email" placeholder="email@example.com">
+            <input type="email" id="email" placeholder="email@example.com" readonly>
 
             <!-- Lista desplegable para que elija el tipo de problema -->
             <label for="tipo">Tipo de problema</label>
@@ -36,16 +36,24 @@
                 <option value="otro">Otro</option>
             </select>
 
-            <!-- Área de texto para que explique el problema con detalles -->
+            <!-- Área para que el usuario explique el problema en detalle -->
             <label for="descripcion">Descripción</label>
             <textarea id="descripcion" placeholder="Describe lo que ocurrió..."></textarea>
 
-            <!-- Botón para enviar todo (ya se captura con el JS) -->
+            <!-- Botón para enviar todo-->
             <button type="submit">Enviar</button>
         </form>
-    </div>
+        <!-- Sección para mostrar los reportes enviados por el usuario -->
+        <div id="mis-reportes" style="margin-top:30px;">
+            <h3>Mis reportes enviados</h3>
+            <div id="lista-mis-reportes"></div>
+        </div>
+        <!-- Botón para volver a la página principal -->
+        <button class="btn-inicio" onclick="window.location.href='index.html'">
+            Volver a inicio
+        </button>
 
-    <!-- Enlazamos el archivo JS que manejará el envío y validación -->
+    </div>
     <script src="support.js"></script>
 </body>
 

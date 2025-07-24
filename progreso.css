@@ -1,4 +1,4 @@
-/* Reset general + estructura base del layout */
+/* Quitamos márgenes que pone cada navegador y usamos la misma fuente para todo */
 body {
     margin: 0;
     min-height: 100vh;
@@ -10,7 +10,7 @@ body {
     flex-direction: column;
 }
 
-/* Área principal con relleno y orientación vertical */
+/* El main es el centro del dashboard */
 main {
     flex: 1;
     padding: 20px;
@@ -29,18 +29,7 @@ main {
     border-bottom: 2px solid #ffd2bf;
 }
 
-/* Botón de perfil o sesión (superior derecho) */
-.perfil-btn {
-    background: #ff5b00;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 18px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-/* Layout principal dividido en menú lateral y contenido */
+/* Aquí se divide todo el dashboard: menú a la izquierda, contenido a la derecha */
 .layout {
     display: flex;
     margin-top: 20px;
@@ -78,7 +67,7 @@ main {
     transition: background 0.2s;
 }
 
-/* Estilo activo o al pasar el mouse */
+/* efecto al pasar el mouse */
 .mnu-btn.activo,
 .mnu-btn:hover {
     background: #ffe1d5;
@@ -108,7 +97,7 @@ ul {
     padding: 0 0 12px 0;
 }
 
-/* Elementos de lista alineados horizontalmente */
+/* Cada item de la lista se alinea horizontal con íconos u otras cosas */
 li {
     display: flex;
     align-items: center;
@@ -117,7 +106,7 @@ li {
     font-size: 1em;
 }
 
-/* Botones generales */
+/* Estilo base para botones normales */
 button {
     background: #ff5b00;
     color: #fff;
@@ -128,12 +117,12 @@ button {
     transition: background 0.2s;
 }
 
-/* Hover genérico para botones */
+/* efecto al pasar el mouse */
 button:hover {
     background: #a63b01;
 }
 
-/* Variante de botón más oscuro */
+/* Botón estilo oscuro */
 .azul-btn {
     background: #a63b01;
     margin-top: 20px;
@@ -143,7 +132,7 @@ button:hover {
     background: #872f00;
 }
 
-/* Estilo de <select> para formularios */
+/* estilo de select para los formularios */
 select {
     margin-right: 10px;
     padding: 6px 9px;
@@ -164,7 +153,7 @@ select {
     border: 1px solid #ffdacc;
 }
 
-/* Tarjetas de materiales (como en index.html) */
+/* Contenedor de tarjetas de materiales */
 .materiales-grid {
     display: flex;
     flex-wrap: wrap;
@@ -184,7 +173,7 @@ select {
     transition: transform 0.2s ease;
 }
 
-/* Efecto al pasar el mouse: levanta ligeramente */
+/* Hace que la tarjeta se levante un poco cuando el cursor pasa por encima */
 .material-card:hover {
     transform: translateY(-4px);
 }
@@ -209,7 +198,7 @@ select {
     margin: 0;
 }
 
-/* Adaptaciones móviles */
+/* Adaptaciones para telefono */
 @media (max-width: 700px) {
     .layout {
         flex-direction: column;
@@ -226,7 +215,7 @@ select {
     }
 }
 
-/* --- ESTILOS PARA FORMULARIO DE MATERIALES EN MODAL --- */
+/* --- estilos para el formularoi de materiales --- */
 
 #formulario-material {
     display: none;
@@ -241,6 +230,7 @@ select {
     z-index: 1000;
 }
 
+/* Caja blanca del formulario */
 #formulario-material .formulario {
     position: fixed;
     top: 50%;
@@ -261,6 +251,7 @@ select {
     margin-bottom: 20px;
 }
 
+/* Etiquetas de los inputs */
 #formulario-material label {
     display: block;
     margin-top: 12px;
@@ -268,6 +259,7 @@ select {
     font-size: 14px;
 }
 
+/* Campos del formulario */
 #formulario-material input,
 #formulario-material textarea,
 #formulario-material select {
@@ -280,13 +272,13 @@ select {
     background-color: #f9f9f9;
 }
 
-/* Textareas más altos por defecto */
+/* Textareas más altos*/
 #formulario-material textarea {
     resize: vertical;
     min-height: 100px;
 }
 
-/* Botón de enviar en el modal */
+/* Botón de enviar el material */
 #formulario-material button {
     margin-top: 20px;
     padding: 12px;
@@ -300,19 +292,18 @@ select {
     transition: background-color 0.25s ease;
 }
 
+/* efecto cuando pasas el mouse por encima */
 #formulario-material button:hover {
     background-color: #a63b01;
 }
 
-
-
-/* Garantiza que html y body ocupen el alto total */
+/* Para que la página siempre tenga el alto completo */
 html,
 body {
     height: 100%;
 }
 
-
+/* Mensaje verde que aparece cuando algo sale bien */
 #mensaje-exito {
     display: none;
     position: fixed;
@@ -328,6 +319,7 @@ body {
     font-size: 15px;
 }
 
+/* Mensaje rojo cuando algo falla */
 #mensaje-error {
     display: none;
     background-color: #ffcdd2;
@@ -339,6 +331,7 @@ body {
     font-size: 14px;
 }
 
+/* Mensaje que aparece flotando abajo */
 .mensaje-flotante {
     position: fixed;
     bottom: 30px;
@@ -354,15 +347,17 @@ body {
     transition: all 0.3s ease;
 }
 
+/* exito = verde */
 .mensaje-flotante.success {
     background-color: #2ecc71;
 }
 
+/* Error = rojo fuerte */
 .mensaje-flotante.error {
     background-color: #e74c3c;
 }
 
-/* --- Estilo para el overlay y modal de calificación --- */
+/* --- Modal de calificación --- */
 #overlay-modal {
     position: fixed;
     top: 0;
@@ -376,7 +371,7 @@ body {
     z-index: 999;
 }
 
-/* Caja del formulario (similar a .form-box del login) */
+/* Caja del formulario */
 #formulario-calificacion {
     background-color: #fff;
     padding: 30px 42px;
@@ -391,7 +386,7 @@ body {
     animation: aparecer 0.25s ease;
 }
 
-/* Animación suave de entrada */
+/* Animación cuando aparece */
 @keyframes aparecer {
     from {
         transform: scale(0.9);
@@ -404,7 +399,7 @@ body {
     }
 }
 
-/* Botón cerrar (esquina superior derecha) */
+/* Botón X pa cerrar el modal */
 #formulario-calificacion .cerrar {
     position: absolute;
     top: 10px;
@@ -421,7 +416,7 @@ body {
     color: #ff5b00;
 }
 
-/* Título */
+/* El título del modal */
 #formulario-calificacion h3 {
     margin-bottom: 10px;
     color: #2b3d4f;
@@ -430,7 +425,7 @@ body {
     text-align: center;
 }
 
-/* Información del proyecto */
+/* Info del proyecto que estás calificando */
 #formulario-calificacion #info-proyecto {
     font-size: 14px;
     color: #555;
@@ -438,7 +433,7 @@ body {
     text-align: center;
 }
 
-/* Inputs y textarea (mismo estilo que login) */
+/* Campos de nota y comentario,con mismo diseño del login */
 #formulario-calificacion input[type="number"],
 #formulario-calificacion textarea {
     padding: 11px 15px;
@@ -474,4 +469,49 @@ body {
 
 #formulario-calificacion button:hover {
     background-color: #a63b01;
+}
+
+/* Fondo que cubre toda la pantalla y se queda detrás del contenido */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    z-index: -1;
+    /* Degradado suave para que el fondo no se vea plano */
+    background: linear-gradient(120deg, #f7f7f7, #e7f0ff);
+
+}
+
+.bubble {
+    /* Las burbujas inician desde abajo */
+    position: absolute;
+    bottom: -100px;
+    /* Color blanco con transparencia */
+    background-color: rgba(255, 91, 0, 0.15);
+    /* las hace circulares */
+    border-radius: 50%;
+    /* Activamos la animación que las hace subir */
+    animation: rise 20s infinite ease-in;
+}
+
+/* Animación que hace que las burbujas suban y desaparezcan */
+@keyframes rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        /* para que suban un poco más del alto visible */
+        transform: translateY(-110vh) scale(1.2);
+        /* para que se desvanezcan al final */
+        opacity: 0;
+    }
 }

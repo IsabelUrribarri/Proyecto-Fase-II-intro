@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Referencias a los formularios y mensajes de éxito
+    // llamamos a los formularios y los mensajes de éxito
     const signupForm = document.getElementById('signupForm');
     const loginForm = document.getElementById('loginForm');
     const mensajeExito = document.getElementById('mensaje-exito');
     const mensajeLoginExito = document.getElementById('mensaje-login-exito');
 
-    // Si viene con #login o #signup en la URL, mostramos el formulario correspondiente
+    // Si la URL trae #login o #signup, mostramos el que le corresponde
     const hash = window.location.hash;
     if (hash === '#login') {
         signupForm.style.display = 'none';
@@ -16,14 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.style.display = 'none';
     }
 
-    // Cambiar a vista de login desde el enlace
+    // Cuando hacen clic en "Inicia sesión", mostramos el login
     document.getElementById('mostrar-login').addEventListener('click', (e) => {
         e.preventDefault();
         signupForm.style.display = 'none';
         loginForm.style.display = 'flex';
     });
 
-    // Cambiar a vista de registro desde el enlace
+    // Cuando hacen clic en "Regístrate", mostramos el registro
     document.getElementById('mostrar-registro').addEventListener('click', (e) => {
         e.preventDefault();
         loginForm.style.display = 'none';
@@ -36,14 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
         limpiarErrores();
         mensajeLoginExito.style.display = 'none';
 
-        // Obtenemos los valores del formulario
+        // Obtenemos los datos que el user escribió
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value.trim();
 
         let valido = true;
 
-        // Validación básica del correo (permitimos usuarios predeterminados sin @)
-        if (email !== 'Estudiante_123' && email !== 'Profesor_123' && (!email.includes('@') || email === '')) {
+        // Validamos el correo (si no es uno de prueba, tiene que tener @)
+        if (
+            email !== 'Estudiante_123' &&
+            email !== 'Profesor_123' &&
+            email !== 'Admin_123' &&  // <-- Añadido admin aquí
+            (!email.includes('@') || email === '')
+        ) {
             mostrarError('error-login-email', 'Correo inválido');
             valido = false;
         }
@@ -58,20 +63,28 @@ document.addEventListener('DOMContentLoaded', () => {
             // Si es uno de los usuarios predeterminados, aceptamos sin verificar localStorage
             if (
                 (email === 'Estudiante_123' && password === 'IALI-2015') ||
-                (email === 'Profesor_123' && password === 'IALI-2015')
+                (email === 'Profesor_123' && password === 'IALI-2015') ||
+                (email === 'Admin_123' && password === 'IALI-2015')
             ) {
                 const usuarioPredeterminado = {
-                    nombre: email === 'Estudiante_123' ? 'Estudiante_123' : 'Profesor_123',
+                    nombre: email,
                     email: email,
                     password: password,
-                    rol: email === 'Estudiante_123' ? 'Estudiante' : 'Profesor'
+                    rol: email === 'Estudiante_123' ? 'Estudiante' :
+                        email === 'Profesor_123' ? 'Profesor' :
+                            'Admin'
                 };
 
-                // Guardamos al usuario como activo y lo mandamos al inicio
+                // Redireccionamos según el rol
                 localStorage.setItem('usuarioActivo', JSON.stringify(usuarioPredeterminado));
-                window.location.href = 'index.html';
+
+                if (usuarioPredeterminado.rol === 'Admin') {
+                    window.location.href = 'support-admin.html'; // Se va al panel admin
+                } else {
+                    window.location.href = 'index.html';   // Estudiante o profesor van al inicio
+                }
             } else {
-                // En caso de ser usuario registrado manualmente
+                // Si no es predefinido, buscamos en lo que se haya registrado
                 const usuarioGuardado = JSON.parse(localStorage.getItem('usuarioRegistrado'));
                 if (usuarioGuardado && usuarioGuardado.email === email && usuarioGuardado.password === password) {
                     localStorage.setItem('usuarioActivo', JSON.stringify(usuarioGuardado));
@@ -83,20 +96,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
+        // Esta función muestra un mensaje de error en el campo indicado
+        function mostrarError(id, mensaje) {
+            const elemento = document.getElementById(id);
+            elemento.textContent = mensaje;
+            elemento.style.display = 'block';
+        }
+
+        // Limpia todos los errores antes de validar otra vez
+        function limpiarErrores() {
+            document.querySelectorAll('.error').forEach(el => {
+                el.textContent = '';
+                el.style.display = 'none';
+            });
+        }
     });
+    // Seleccionamos el contenedor donde van a ir las burbujas
+    const fondo = document.querySelector('.background');
 
-    // Muestra un mensaje de error en el campo correspondiente
-    function mostrarError(id, mensaje) {
-        const elemento = document.getElementById(id);
-        elemento.textContent = mensaje;
-        elemento.style.display = 'block';
-    }
-
-    // Limpia todos los errores antes de validar
-    function limpiarErrores() {
-        document.querySelectorAll('.error').forEach(el => {
-            el.textContent = '';
-            el.style.display = 'none';
-        });
+    // Creamos 30 burbujas con propiedades aleatorias para que no todas sean iguales
+    for (let i = 0; i < 30; i++) {
+        const burbuja = document.createElement('div');
+        burbuja.classList.add('bubble');
+        // Le asignamos un tamaño aleatorio entre 10px y 50px
+        const size = Math.random() * 40 + 10;
+        burbuja.style.width = `${size}px`;
+        burbuja.style.height = `${size}px`;
+        // Las ubicamos en una posición horizontal aleatoria en la pantalla
+        burbuja.style.left = `${Math.random() * 100}vw`;
+        // Cada burbuja sube en un tiempo diferente (entre 5 y 10 segundos)
+        burbuja.style.animationDuration = `${5 + Math.random() * 5}s`;
+        // También le damos un retraso para que no todas salgan al mismo tiempo
+        burbuja.style.animationDelay = `${Math.random() * 1}s`;
+        // Agregamos la burbuja al fondo
+        fondo.appendChild(burbuja);
     }
 });
+
