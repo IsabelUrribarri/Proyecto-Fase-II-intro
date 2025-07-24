@@ -9,21 +9,29 @@
 </head>
 
 <body>
+    <!-- Fondo decorativo-->
     <div class="background"></div>
+    <!-- Título principal del panel de soporte -->
     <h2>Reportes de Usuarios</h2>
+    <!-- Contenedor dinámico donde se insertarán los reportes (via JS) -->
     <div id="lista-incidencias"></div>
 
+    <!-- Botón para cerrar sesión del administrador -->
     <button class="btn-cerrar-sesion">
         Cerrar sesión
     </button>
-    <!-- Modal confirmación, debe estar en tu HTML -->
+    <!-- Modal de confirmación-->
     <div id="modal-confirmacion"
         style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); justify-content:center; align-items:center; z-index: 10000;">
+        <!-- Contenedor interno del modal -->
         <div class="modal-contenido"
             style="background: white; padding: 20px; border-radius: 8px; max-width: 320px; text-align: center;">
+            <!-- Texto que se mostrará como pregunta o advertencia -->
             <p id="texto-confirmacion" style="margin-bottom: 20px;">¿Estás seguro?</p>
+            <!-- Botón para confirmar la acción -->
             <button class="confirmar"
                 style="margin-right: 15px; padding: 8px 15px; background: #2ecc71; border:none; color:white; border-radius: 5px; cursor:pointer;">Sí</button>
+            <!-- Botón para cancelar la acción -->
             <button class="cancelar"
                 style="padding: 8px 15px; background: #e74c3c; border:none; color:white; border-radius: 5px; cursor:pointer;">No</button>
         </div>

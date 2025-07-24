@@ -4,31 +4,35 @@ const form = document.getElementById('form-soporte');
 // Verificamos si el usuario está activo (logueado), si no, lo mandamos a login
 const usuarioActivo = localStorage.getItem('usuarioActivo');
 if (!usuarioActivo) {
-    // No tiene sesión activa, lo redirigimos a la página de login
+    // si no tiene sesión activa, lo redirigimos a la página de login
     window.location.href = 'login-signup.html#login';
 }
 
+// Obtenemos las incidencias ya guardadas (si las hay) o inicializamos el array
 let incidencias = JSON.parse(localStorage.getItem('incidencias')) || [];
 
-// Escuchamos cuando el formulario se envía (submit)
+// Manejador del evento submit para el formulario
 form.addEventListener('submit', (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Cancelamos comportamiento por defecto
 
+    // Obtenemos los valores del formulario
     const nombre = document.getElementById('nombre').value.trim();
     const email = document.getElementById('email').value.trim();
     const asunto = document.getElementById('tipo').value.trim();
     const mensaje = document.getElementById('descripcion').value.trim();
 
+    // Limpiamos errores anteriores (si los había)
     document.querySelectorAll('.error').forEach(el => el.remove());
 
     let valido = true;
 
+    // Validación del nombre
     if (nombre === '') {
         mostrarError('nombre', 'El nombre es obligatorio');
         valido = false;
     }
 
-    // ✅ AHORA ACEPTA Estudiante_123 y Profesor_123
+    // Validación personalizada del email (aceptamos dos valores clave o formato normal)
     if (
         email !== 'Estudiante_123' &&
         email !== 'Profesor_123' &&
@@ -38,20 +42,25 @@ form.addEventListener('submit', (e) => {
         valido = false;
     }
 
+    // Validación del tipo de problema
     if (asunto === '') {
         mostrarError('tipo', 'Selecciona un tipo de problema');
         valido = false;
     }
 
+    // Validación del mensaje de descripción
     if (mensaje === '') {
         mostrarError('descripcion', 'La descripción no puede estar vacía');
         valido = false;
     }
 
+    // Si hay algún campo inválido, detenemos el proceso
     if (!valido) return;
 
+    // Recuperamos al usuario activo desde el localStorage
     const usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
 
+    // Construimos el objeto de la incidencia
     const incidencia = {
         nombre: usuario.nombre,
         email: usuario.email,
@@ -61,15 +70,19 @@ form.addEventListener('submit', (e) => {
         estado: "Pendiente"
     };
 
+    // Agregamos la incidencia al array y lo guardamos
     incidencias.push(incidencia);
     localStorage.setItem('incidencias', JSON.stringify(incidencias));
 
+    // Limpiamos el formulario
     form.reset();
+    // Mostramos notificación de éxito
     mostrarMensaje('Incidencia enviada con éxito', 'success');
+
+    // Actualizamos la lista de reportes
     mostrarMisReportes();
 });
-
-// Función que muestra un mensaje de error justo debajo del campo correspondiente
+// Muestra un mensaje de error debajo del campo específico
 function mostrarError(idCampo, mensaje) {
     const campo = document.getElementById(idCampo);
     const error = document.createElement('small');
@@ -80,9 +93,11 @@ function mostrarError(idCampo, mensaje) {
     campo.insertAdjacentElement('afterend', error);
 }
 
+// Elemento donde se mostrará la lista de incidencias del usuario
 const listaMisReportes = document.getElementById('lista-mis-reportes');
 const usuario = JSON.parse(usuarioActivo);
 
+// Muestra los reportes que el usuario ha enviado anteriormente
 function mostrarMisReportes() {
     const misIncidencias = incidencias.filter(inc => inc.email === usuario.email);
 
@@ -110,12 +125,15 @@ function mostrarMisReportes() {
     });
 }
 
-// Llamar al cargar la página
+// Mostrar los reportes del usuario justo al cargar la página
 mostrarMisReportes();
 
+// Precargamos los campos del formulario con los datos del usuario activo
 document.getElementById('nombre').value = usuario.nombre;
 document.getElementById('email').value = usuario.email;
 
+
+// Muestra un mensaje flotante (éxito o error) en pantalla durante unos segundos
 function mostrarMensaje(texto, tipo = 'success') {
     const mensaje = document.createElement('div');
     mensaje.className = `mensaje-flotante ${tipo}`;

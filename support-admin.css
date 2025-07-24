@@ -1,13 +1,16 @@
+/* Quitamos márgenes que pone cada navegador y usamos la misma fuente para todo */
 body {
     font-family: Arial, sans-serif;
     background: #f5f5f5;
     padding: 20px;
 }
 
+/* Título centrado*/
 h2 {
     text-align: center;
 }
 
+/* Cada tarjeta de incidencia tiene estilo */
 .card-incidencia {
     background: #fff;
     border: 1px solid #ddd;
@@ -16,6 +19,7 @@ h2 {
     border-radius: 8px;
 }
 
+/* Botoncito naranja */
 .card-incidencia button {
     background: #ff5b00;
     color: white;
@@ -25,10 +29,12 @@ h2 {
     border-radius: 5px;
 }
 
+/* efecto al pasar el cursos por encima */
 .card-incidencia button:hover {
     background-color: #a63b01;
 }
 
+/* Botón de cerrar sesión*/
 .btn-cerrar-sesion {
     margin-top: 20px;
     padding: 12px;
@@ -42,10 +48,12 @@ h2 {
     transition: background-color 0.25s ease;
 }
 
+/* efecto al pasar el cursos por encima */
 .btn-cerrar-sesion:hover {
     background-color: #a63b01;
 }
 
+/* Mensaje flotante tipo popup que aparece abajo al centro*/
 .mensaje-flotante {
     position: fixed;
     bottom: 30px;
@@ -61,10 +69,12 @@ h2 {
     transition: all 0.3s ease;
 }
 
+/* Mensaje exitoso */
 .mensaje-flotante.success {
     background-color: #2ecc71;
 }
 
+/* Mensaje de error */
 .mensaje-flotante.error {
     background-color: #e74c3c;
 }
