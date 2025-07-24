@@ -43,7 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let valido = true;
 
         // Validación básica del correo (permitimos usuarios predeterminados sin @)
-        if (email !== 'Estudiante_123' && email !== 'Profesor_123' && (!email.includes('@') || email === '')) {
+        if (
+            email !== 'Estudiante_123' &&
+            email !== 'Profesor_123' &&
+            email !== 'Admin_123' &&  // <-- Añadido admin aquí
+            (!email.includes('@') || email === '')
+        ) {
             mostrarError('error-login-email', 'Correo inválido');
             valido = false;
         }
@@ -58,18 +63,26 @@ document.addEventListener('DOMContentLoaded', () => {
             // Si es uno de los usuarios predeterminados, aceptamos sin verificar localStorage
             if (
                 (email === 'Estudiante_123' && password === 'IALI-2015') ||
-                (email === 'Profesor_123' && password === 'IALI-2015')
+                (email === 'Profesor_123' && password === 'IALI-2015') ||
+                (email === 'Admin_123' && password === 'IALI-2015')  // <-- Añadido admin aquí
             ) {
                 const usuarioPredeterminado = {
-                    nombre: email === 'Estudiante_123' ? 'Estudiante_123' : 'Profesor_123',
+                    nombre: email,
                     email: email,
                     password: password,
-                    rol: email === 'Estudiante_123' ? 'Estudiante' : 'Profesor'
+                    rol: email === 'Estudiante_123' ? 'Estudiante' :
+                        email === 'Profesor_123' ? 'Profesor' :
+                            'Admin'  // <-- Rol admin para Admin_123
                 };
 
-                // Guardamos al usuario como activo y lo mandamos al inicio
+                // Guardamos al usuario como activo y lo mandamos al panel según rol
                 localStorage.setItem('usuarioActivo', JSON.stringify(usuarioPredeterminado));
-                window.location.href = 'index.html';
+
+                if (usuarioPredeterminado.rol === 'Admin') {
+                    window.location.href = 'support-admin.html';  // Página del panel admin
+                } else {
+                    window.location.href = 'index.html';  // Usuarios Estudiante y Profesor al inicio normal
+                }
             } else {
                 // En caso de ser usuario registrado manualmente
                 const usuarioGuardado = JSON.parse(localStorage.getItem('usuarioRegistrado'));
@@ -83,20 +96,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
+        // Muestra un mensaje de error en el campo correspondiente
+        function mostrarError(id, mensaje) {
+            const elemento = document.getElementById(id);
+            elemento.textContent = mensaje;
+            elemento.style.display = 'block';
+        }
+
+        // Limpia todos los errores antes de validar
+        function limpiarErrores() {
+            document.querySelectorAll('.error').forEach(el => {
+                el.textContent = '';
+                el.style.display = 'none';
+            });
+        }
     });
-
-    // Muestra un mensaje de error en el campo correspondiente
-    function mostrarError(id, mensaje) {
-        const elemento = document.getElementById(id);
-        elemento.textContent = mensaje;
-        elemento.style.display = 'block';
-    }
-
-    // Limpia todos los errores antes de validar
-    function limpiarErrores() {
-        document.querySelectorAll('.error').forEach(el => {
-            el.textContent = '';
-            el.style.display = 'none';
-        });
-    }
 });

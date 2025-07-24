@@ -596,10 +596,10 @@ function mostrarAvance(filtro) {
 
   } else {
     // Estudiante ve su propio avance
-    const cursos = JSON.parse(localStorage.getItem('cursosInscritos')) || [];
+    const cursosInscritos = JSON.parse(localStorage.getItem(usuario.email)) || [];
     const filtrados = filtro === "Todos los cursos"
-      ? cursos
-      : cursos.filter(c => c.nombre.includes(filtro));
+      ? cursosInscritos
+      : cursosInscritos.filter(c => c.nombre.includes(filtro));
 
     if (filtrados.length === 0) {
       contenedor.innerHTML = `
@@ -610,7 +610,10 @@ function mostrarAvance(filtro) {
     }
 
     filtrados.forEach(curso => {
+      // 🔹 Por ahora seguimos simulando el progreso con números aleatorios
       const progreso = Math.floor(Math.random() * 50) + 30;
+
+      // 🔹 Si manejas entregas en localStorage (ya lo tienes en tu código original)
       const entregas = JSON.parse(localStorage.getItem('entregasProyectos')) || {};
       const entregado = entregas[curso.nombre];
 
