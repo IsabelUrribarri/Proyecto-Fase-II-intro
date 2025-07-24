@@ -1,4 +1,4 @@
-// Al hacer clic en el botón de "Cursos"
+// Mostrar la sección de cursos y ocultar las demás
 document.getElementById('btn-cursos').onclick = function () {
   // Mostramos el panel de cursos disponibles
   document.getElementById('cursos-panel').style.display = '';
@@ -6,8 +6,6 @@ document.getElementById('btn-cursos').onclick = function () {
   document.getElementById('avance-panel').style.display = 'none';
   document.getElementById('materiales-panel').style.display = 'none';
   document.getElementById('calificaciones-panel').style.display = 'none';
-
-  // Marcamos este boton como activo (añade clase CSS) y desactiva los otros
   this.classList.add('activo');
   document.getElementById('btn-avance').classList.remove('activo');
   document.getElementById('btn-calificaciones').classList.remove('activo');
@@ -260,7 +258,13 @@ const cursosInscritos = usuario ? JSON.parse(localStorage.getItem(usuario.email)
 const lista = document.querySelector('#lista-cursos');
 lista.innerHTML = ''; // Limpiamos por si había algo antes
 
-// Esta parte se encarga de mostrar los cursos según si eres profesor o estudiante
+// === Visualización dinámica según el rol del usuario ===  
+// Este bloque determina qué cursos mostrar dependiendo si el usuario es un Profesor o un Estudiante.  
+// Se ejecuta apenas se carga el panel de cursos y personaliza la experiencia del dashboard.  
+// Implementado con ayuda de GenAI (ChatGPT) como parte de la lógica de acceso dinámico a contenido educativo.
+//
+// Prompt usado:  
+// "Quiero que un sistema muestre diferentes botones y acciones según el rol del usuario que inicia sesión (Profesor o Estudiante) usando HTML, CSS y JavaScript."  
 
 if (usuario.rol === 'Profesor') {
   // Filtramos los cursos que tiene asignados este profesor
@@ -638,8 +642,19 @@ function mostrarAvance(filtro) {
     });
   }
 }
-
-// Panel donde se ven las calificaciones y comentarios
+// === Gestión condicional de entregas y calificaciones según estado y rol ===  
+// Esta función muestra los proyectos entregados y sus calificaciones, aplicando la siguiente lógica:  
+// - El profesor solo ve proyectos entregados por sus estudiantes, es decir, si el estuidante ya subió el proyecto.  
+// - Si no hay entrega, el profesor no puede calificar ni ver el proyecto.  
+// - Cuando el estudiante entrega el proyecto, se guarda ese estado en 'entregasProyectos'.  
+// - El profesor puede entonces ingresar una calificación y un comentario, que se guarda y asocia al alumno y curso.  
+// - El estudiante ve la calificación y comentario en su panel una vez que el profesor la guarda.  
+//  
+// Esta lógica asegura que el flujo de entrega y evaluación respete el orden natural:  
+// primero entrega, luego evaluación, y feedback visible para el estudiante.  
+// utilizando solamente JS
+// Prompt usado:  
+// "Mostrar proyectos entregados y permitir al profesor calificar solo si hay entrega, y que el estudiante vea su calificación después."
 function mostrarCalificaciones() {
   const cuerpo = document.getElementById('cuerpo-calificaciones');
   cuerpo.innerHTML = ''; // Limpiamos la tabla por si ya había algo
@@ -716,9 +731,6 @@ function cerrarFormularioCalificacion() {
   document.getElementById('overlay-modal').style.display = 'none';
 }
 
-
-
-
 function guardarCalificacion() {
   // Seleccionamos lo que escribió el profesor
   const nota = document.getElementById('nota-calificacion').value;
@@ -784,7 +796,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-//Notificación flotante cuando todo sale bien
+/* === Estilo para notificación flotante en pantalla ===
+   Este bloque define el estilo del elemento .mensaje-flotante, utilizado para mostrar
+   mensajes informativos o de retroalimentación al usuario de forma temporal y visible.
+
+   - Se posiciona centrado horizontalmente, en la parte inferior de la pantalla.
+   - Utiliza un fondo oscuro semi-transparente para destacar sobre el contenido.
+   - Tiene bordes redondeados, padding y una animación de aparición/desaparición suave.
+   - Se emplea para notificaciones como “Proyecto enviado”, “Sesión iniciada”, “Error”, etc.
+   - Mejora la experiencia del usuario al entregar mensajes sin interrumpir el flujo de uso.
+
+   Prompt usado:
+   "Quiero la lógica para crear un mensaje de notificación flotante centrado abajo en pantalla con fondo oscuro con JS y CSS"
+*/
 function mostrarMensajeExito(texto) {
   const mensaje = document.getElementById("mensaje-flotante");
   mensaje.textContent = texto;
@@ -811,6 +835,14 @@ function mostrarErrorFormulario(mensaje) {
   }, 3000);
 }
 
+// === efecto visual de burbujas en el fondo ===
+// Esta sección genera burbujas que flotan hacia arriba, dando un efecto animado suave.
+// Fue implementado con ayuda de GenAI (ChatGPT) como recurso visual decorativo,
+// sin afectar la funcionalidad principal de la página.
+
+//  Prompt usado:
+//  "Quiero un efecto de fondo con burbujas flotando en la pantalla usando HTML, CSS y JS."
+
 // Seleccionamos el contenedor donde van a ir las burbujas
 const fondo = document.querySelector('.background');
 
@@ -818,16 +850,21 @@ const fondo = document.querySelector('.background');
 for (let i = 0; i < 30; i++) {
   const burbuja = document.createElement('div');
   burbuja.classList.add('bubble');
+
   // Le asignamos un tamaño aleatorio entre 10px y 50px
   const size = Math.random() * 40 + 10;
   burbuja.style.width = `${size}px`;
   burbuja.style.height = `${size}px`;
+
   // Las ubicamos en una posición horizontal aleatoria en la pantalla
   burbuja.style.left = `${Math.random() * 100}vw`;
+
   // Cada burbuja sube en un tiempo diferente (entre 5 y 10 segundos)
   burbuja.style.animationDuration = `${5 + Math.random() * 5}s`;
+
   // También le damos un retraso para que no todas salgan al mismo tiempo
   burbuja.style.animationDelay = `${Math.random() * 1}s`;
+
   // Agregamos la burbuja al fondo
   fondo.appendChild(burbuja);
 }
