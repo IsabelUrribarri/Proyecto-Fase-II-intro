@@ -46,16 +46,6 @@ document.getElementById('btn-calificaciones').onclick = function () {
 // Recuperamos al usuario que está logueado desde el localStorage
 const usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
 
-// Si es un profesor específico ("Profesor_123"), simulamos que ya tiene entregas de proyectos
-// if (usuario.rol === 'Profesor' && usuario.nombre === 'Profesor_123') {
-//   const entregas = {
-//     "Curso de JavaScript|Juan Pérez": true,
-//     "Curso de JavaScript|Ana López": true,
-//     "Curso de JavaScript|Luis Ramírez": true
-//   };
-//   localStorage.setItem('entregasProyectos', JSON.stringify(entregas));
-// }
-
 // Base de materiales disponibles por defecto en cada curso
 const baseMateriales = {
   "Curso de JavaScript": [
@@ -497,15 +487,23 @@ function mostrarCalificaciones() {
     Object.keys(entregas).forEach(clave => {
       const [curso, alumno] = clave.split('|');
       if (cursosAsignados.some(c => c.nombre === curso)) {
+        const claveCalificacion = `calificacion-${curso}|${alumno}`;
+        const calificacion = JSON.parse(localStorage.getItem(claveCalificacion));
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${curso}</td>
-          <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${alumno}</td>
-          <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">
-            <button onclick="abrirFormularioCalificacion('${curso}', '${alumno}')">Calificar</button>
-          </td>
-          <td></td>
-        `;
+      <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${curso}</td>
+      <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">${alumno}</td>
+      <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">
+        ${calificacion
+            ? calificacion.nota
+            : `<button onclick="abrirFormularioCalificacion('${curso}', '${alumno}')">Calificar</button>`
+          }
+      </td>
+      <td style="padding: 10px; border-bottom: 1px solid #f2d2c5;">
+        ${calificacion ? calificacion.comentario : ''}
+      </td>
+    `;
         cuerpo.appendChild(tr);
       }
     });
@@ -544,7 +542,7 @@ function guardarCalificacion() {
   const key = `calificacion-${proyectoActual.curso}|${proyectoActual.alumno}`;
   localStorage.setItem(key, JSON.stringify({ nota, comentario }));
 
-  alert('✅ Calificación guardada');
+  mostrarMensajeExito("Calificación guardada con éxito.");
   cerrarFormularioCalificacion();
   mostrarCalificaciones();
 }
@@ -588,13 +586,14 @@ document.addEventListener("DOMContentLoaded", () => {
       mostrarMateriales(cursoActual);
     }
 
-    mostrarMensajeExito(); // ✅ Mostrar confirmación flotante
+    mostrarMensajeExito("Material subido con éxito."); // ✅ Mostrar confirmación flotante
     cancelarFormulario(); // Ocultar formulario
   });
 });
 
-function mostrarMensajeExito() {
+function mostrarMensajeExito(texto) {
   const mensaje = document.getElementById("mensaje-exito");
+  mensaje.textContent = texto;
   mensaje.style.display = "block";
   setTimeout(() => {
     mensaje.style.display = "none";
