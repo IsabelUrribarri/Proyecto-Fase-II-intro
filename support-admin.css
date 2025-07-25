@@ -53,7 +53,19 @@ h2 {
     background-color: #a63b01;
 }
 
-/* Mensaje flotante tipo popup que aparece abajo al centro*/
+/* === Estilo para notificación flotante en pantalla ===
+   Este bloque define el estilo del elemento .mensaje-flotante, utilizado para mostrar
+   mensajes informativos o de retroalimentación al usuario de forma temporal y visible.
+
+   - Se posiciona centrado horizontalmente, en la parte inferior de la pantalla.
+   - Utiliza un fondo oscuro semi-transparente para destacar sobre el contenido.
+   - Tiene bordes redondeados, padding y una animación de aparición/desaparición suave.
+   - Se emplea para notificaciones como “Proyecto enviado”, “Sesión iniciada”, “Error”, etc.
+   - Mejora la experiencia del usuario al entregar mensajes sin interrumpir el flujo de uso.
+
+   Prompt usado:
+   "Crear mensaje de notificación flotante centrado abajo en pantalla con fondo oscuro"
+*/
 .mensaje-flotante {
     position: fixed;
     bottom: 30px;
@@ -79,6 +91,14 @@ h2 {
     background-color: #e74c3c;
 }
 
+/* === estilos para el efecto visual de burbujas en el fondo ===
+   Esta parte fue generada con ayuda de GenAI (ChatGPT).
+   Solo cumple una función decorativa para hacer la página más amigable.
+
+     Prompt usado:
+     "Quiero un efecto de fondo con burbujas flotando en la pantalla usando HTML, CSS y JS."
+*/
+
 /* Fondo que cubre toda la pantalla y se queda detrás del contenido */
 .background {
     position: fixed;
@@ -88,38 +108,45 @@ h2 {
     width: 100vw;
     overflow: hidden;
     z-index: -1;
+
     /* Degradado suave para que el fondo no se vea plano */
     background: linear-gradient(120deg, #f7f7f7, #e7f0ff);
-
 }
 
+/* Estilos para cada burbuja que flota */
 .bubble {
-    /* Las burbujas inician desde abajo */
+    /* Las burbujas empiezan desde fuera del viewport (abajo) */
     position: absolute;
     bottom: -100px;
-    /* Color blanco con transparencia */
+
+    /* Color blanco con un toque naranja y transparencia */
     background-color: rgba(255, 91, 0, 0.15);
-    /* las hace circulares */
+
+    /* Forma completamente circular */
     border-radius: 50%;
-    /* Activamos la animación que las hace subir */
+
+    /* Le aplicamos la animación 'rise' definida abajo */
     animation: rise 20s infinite ease-in;
 }
 
-/* Animación que hace que las burbujas suban y desaparezcan */
+/* Animación que hace que las burbujas suban y se desvanezcan */
 @keyframes rise {
     0% {
         transform: translateY(0) scale(1);
+        /* arranca abajo */
         opacity: 0;
+        /* empieza invisible */
     }
 
     50% {
         opacity: 1;
+        /* se hace visible mientras sube */
     }
 
     100% {
-        /* para que suban un poco más del alto visible */
         transform: translateY(-110vh) scale(1.2);
-        /* para que se desvanezcan al final */
+        /* sube más allá del fondo */
         opacity: 0;
+        /* se desvanece al final */
     }
 }

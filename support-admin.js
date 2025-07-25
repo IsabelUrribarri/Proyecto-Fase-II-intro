@@ -1,3 +1,16 @@
+// === Gestión de incidencias basada en la lógica aplicada para proyectos y calificaciones ===
+// En esta sección se implementa la administración de incidencias reportadas por los usuarios,
+// reutilizando y adaptando la lógica de manejo de estados y permisos vista en la gestión de
+// proyectos entregados y calificaciones.
+// 
+// Aquí se controla que solo el usuario con rol 'Admin' pueda ver y gestionar las incidencias,
+// se cargan las incidencias desde localStorage y se muestran dinámicamente.
+// El admin puede marcar incidencias como resueltas o eliminarlas, siempre con confirmación previa,
+// y se actualiza el estado en el almacenamiento local para mantener la información sincronizada.
+// También se reutilizan mensajes flotantes para informar sobre las acciones realizadas.
+// 
+
+
 // Obtenemos al usuario actualmente logueado desde el localStorage
 const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'));
 // Si no hay usuario o no es admin, lo sacamos del panel
@@ -105,7 +118,19 @@ function mostrarConfirmacion(mensaje, callbackConfirmar) {
     btnConfirmar.addEventListener('click', confirmar);
     btnCancelar.addEventListener('click', cancelar);
 }
-// Muestra un mensaje flotante en pantalla
+/* === Estilo para notificación flotante en pantalla ===
+   Este bloque define el estilo del elemento .mensaje-flotante, utilizado para mostrar
+   mensajes informativos o de retroalimentación al usuario de forma temporal y visible.
+
+   - Se posiciona centrado horizontalmente, en la parte inferior de la pantalla.
+   - Utiliza un fondo oscuro semi-transparente para destacar sobre el contenido.
+   - Tiene bordes redondeados, padding y una animación de aparición/desaparición suave.
+   - Se emplea para notificaciones como “Proyecto enviado”, “Sesión iniciada”, “Error”, etc.
+   - Mejora la experiencia del usuario al entregar mensajes sin interrumpir el flujo de uso.
+
+   Prompt usado:
+   "Quiero la lógica para crear un mensaje de notificación flotante centrado abajo en pantalla con fondo oscuro con JS y CSS"
+*/
 function mostrarMensaje(texto, tipo = 'success') {
     const mensaje = document.createElement('div');
     mensaje.className = `mensaje-flotante ${tipo}`;
@@ -124,6 +149,13 @@ document.querySelectorAll('.btn-cerrar-sesion').forEach(btn => {
         window.location.href = 'login-signup.html#login';
     });
 });
+// === efecto visual de burbujas en el fondo ===
+// Esta sección genera burbujas que flotan hacia arriba, dando un efecto animado suave.
+// Fue implementado con ayuda de GenAI (ChatGPT) como recurso visual decorativo,
+// sin afectar la funcionalidad principal de la página.
+
+//  Prompt usado:
+//  "Quiero un efecto de fondo con burbujas flotando en la pantalla usando HTML, CSS y JS."
 
 // Seleccionamos el contenedor donde van a ir las burbujas
 const fondo = document.querySelector('.background');
@@ -132,16 +164,21 @@ const fondo = document.querySelector('.background');
 for (let i = 0; i < 30; i++) {
     const burbuja = document.createElement('div');
     burbuja.classList.add('bubble');
+
     // Le asignamos un tamaño aleatorio entre 10px y 50px
     const size = Math.random() * 40 + 10;
     burbuja.style.width = `${size}px`;
     burbuja.style.height = `${size}px`;
+
     // Las ubicamos en una posición horizontal aleatoria en la pantalla
     burbuja.style.left = `${Math.random() * 100}vw`;
+
     // Cada burbuja sube en un tiempo diferente (entre 5 y 10 segundos)
     burbuja.style.animationDuration = `${5 + Math.random() * 5}s`;
+
     // También le damos un retraso para que no todas salgan al mismo tiempo
     burbuja.style.animationDelay = `${Math.random() * 1}s`;
+
     // Agregamos la burbuja al fondo
     fondo.appendChild(burbuja);
 }

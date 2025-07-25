@@ -1,4 +1,4 @@
-/* Quitamos márgenes que pone cada navegador y usamos la misma fuente para todo */
+/* Quitamos márgenes y paddings por defecto, y usamos la misma fuente para todo */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -12,7 +12,7 @@ body {
     color: #333;
 }
 
-/* Header pegado arriba con su sombra leve para que se note que es fijo */
+/* Header fijo arriba con fondo blanco y sombrita leve */
 header {
     background-color: #ffffff;
     border-bottom: 1px solid #ddd;
@@ -25,7 +25,7 @@ header {
     z-index: 1000;
 }
 
-/* El logo grandecito, azul oscuro, bien visible */
+/* Logo grande, llamativo y azul oscuro */
 .logo {
     font-size: 24px;
     font-weight: bold;
@@ -33,21 +33,21 @@ header {
     text-decoration: none;
 }
 
-/* Los ítems del menú uno al lado del otro con espacio */
+/* Menú con ítems distribuidos horizontalmente */
 nav {
     display: flex;
     align-items: center;
     gap: 18px;
 }
 
-/* Estilo base para los links del menú */
+/* Links del menú con estilo básico y legible */
 nav a {
     text-decoration: none;
     color: #333;
     font-size: 15px;
 }
 
-/* Login y register con estilo minimalista */
+/* Botones para login/registro con estilo minimalista */
 .btn-login,
 .btn-register {
     background-color: transparent;
@@ -56,7 +56,7 @@ nav a {
     cursor: pointer;
 }
 
-/* El botón de registrarse sí resalta más*/
+/* El botón de registro sí tiene color para destacar más */
 .btn-register {
     background-color: #ff5b00;
     color: white;
@@ -79,7 +79,7 @@ nav a {
     padding-bottom: 40px;
 }
 
-/* Título grande y en azul */
+/* Título grande*/
 .hero h1 {
     font-size: 42px;
     font-weight: bold;
@@ -115,7 +115,7 @@ nav a {
     font-size: 14px;
 }
 
-/* El boton de buscar, también naranja como el de registrar */
+/* Botón naranja al lado del input */
 .search-box button {
     background-color: #ff5b00;
     color: white;
@@ -126,7 +126,7 @@ nav a {
     font-size: 14px;
 }
 
-/* Cambia a un naranja más oscuro al pasar el mouse */
+/* Efecto cuando pasas el mouse por encima del botón naranja */
 .search-box button:hover {
     background-color: #a63b01;
 }
@@ -147,7 +147,7 @@ nav a {
     color: #ff5b00;
 }
 
-/* El menú desplegable que se ve cuando ya estás logueado */
+/* Icono tipo menú hamburguesa, se pone naranja al pasar el mouse */
 .user-menu {
     position: absolute;
     top: 60px;
@@ -159,7 +159,7 @@ nav a {
     z-index: 1001;
 }
 
-/* Lista dentro del menú, sin bullets */
+/* Lista dentro del menú, sin viñetas */
 .user-menu ul {
     list-style: none;
     margin: 0;
@@ -178,14 +178,14 @@ nav a {
     background-color: #f0f0f0;
 }
 
-/* Zona donde se muestran los cursos */
+/* Contenedor general de la zona de cursos */
 .cursos-section {
     max-width: 1100px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
-/* Las pestañas para cambiar entre cursos disponibles y los tuyos */
+/* Pestañas para cambiar entre cursos disponibles y propios */
 .tabs {
     display: flex;
     gap: 10px;
@@ -218,14 +218,14 @@ nav a {
     border-color: #ff5b00;
 }
 
-/* Donde se van metiendo las tarjetas de cursos */
+/* Contenedor que acomoda las tarjetas con grid responsivo */
 .cursos-contenedor {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 20px;
 }
 
-/* Cada tarjeta de curso, con sombrita y franja naranja */
+/* Tarjeta individual con franja naranja y sombrita */
 .curso-card {
     background-color: white;
     border-radius: 14px;
@@ -247,7 +247,7 @@ nav a {
     margin-bottom: 12px;
 }
 
-/* Titulo del curso */
+/* Título de la tarjeta */
 .curso-card h3 {
     color: #0f2e5a;
     margin-bottom: 8px;
@@ -260,7 +260,7 @@ nav a {
     margin: 4px 0;
 }
 
-/* Botón naranja para inscribirse */
+/* Botón de inscribirse naranja */
 .btn-inscribirse {
     margin-top: 10px;
     background-color: #ff5b00;
@@ -291,7 +291,7 @@ nav a {
     z-index: 999;
 }
 
-/* Contenido del modal, con sombra y centrado */
+/* Caja blanca del modal centrada con sombrita */
 .modal-contenido {
     background-color: #fff;
     padding: 20px 30px;
@@ -309,6 +309,7 @@ nav a {
     justify-content: space-around;
 }
 
+/* Botón verde de confirmar */
 .btn-confirmar {
     background-color: #28a745;
     color: white;
@@ -318,6 +319,7 @@ nav a {
     cursor: pointer;
 }
 
+/* Botón rojo de cancelar */
 .btn-cancelar {
     background-color: #dc3545;
     color: white;
@@ -343,7 +345,19 @@ nav a {
     font-size: 15px;
 }
 
-/* Mensaje flotante centrado para feedback general */
+/* === Estilo para notificación flotante en pantalla ===
+   Este bloque define el estilo del elemento .mensaje-flotante, utilizado para mostrar
+   mensajes informativos o de retroalimentación al usuario de forma temporal y visible.
+
+   - Se posiciona centrado horizontalmente, en la parte inferior de la pantalla.
+   - Utiliza un fondo oscuro semi-transparente para destacar sobre el contenido.
+   - Tiene bordes redondeados, padding y una animación de aparición/desaparición suave.
+   - Se emplea para notificaciones como “Proyecto enviado”, “Sesión iniciada”, “Error”, etc.
+   - Mejora la experiencia del usuario al entregar mensajes sin interrumpir el flujo de uso.
+
+   Prompt usado:
+   "Crear mensaje de notificación flotante centrado abajo en pantalla con fondo oscuro"
+*/
 .mensaje-flotante {
     position: fixed;
     bottom: 30px;
@@ -382,6 +396,14 @@ nav a {
     cursor: pointer;
 }
 
+/* === estilos para el efecto visual de burbujas en el fondo ===
+   Esta parte fue generada con ayuda de GenAI (ChatGPT).
+   Solo cumple una función decorativa para hacer la página más amigable.
+
+     Prompt usado:
+     "Quiero un efecto de fondo con burbujas flotando en la pantalla usando HTML, CSS y JS."
+*/
+
 /* Fondo que cubre toda la pantalla y se queda detrás del contenido */
 .background {
     position: fixed;
@@ -391,38 +413,45 @@ nav a {
     width: 100vw;
     overflow: hidden;
     z-index: -1;
+
     /* Degradado suave para que el fondo no se vea plano */
     background: linear-gradient(120deg, #f7f7f7, #e7f0ff);
-
 }
 
+/* Estilos para cada burbuja que flota */
 .bubble {
-    /* Las burbujas inician desde abajo */
+    /* Las burbujas empiezan desde fuera del viewport (abajo) */
     position: absolute;
     bottom: -100px;
-    /* Color blanco con transparencia */
+
+    /* Color blanco con un toque naranja y transparencia */
     background-color: rgba(255, 91, 0, 0.15);
-    /* las hace circulares */
+
+    /* Forma completamente circular */
     border-radius: 50%;
-    /* Activamos la animación que las hace subir */
+
+    /* Le aplicamos la animación 'rise' definida abajo */
     animation: rise 20s infinite ease-in;
 }
 
-/* Animación que hace que las burbujas suban y desaparezcan */
+/* Animación que hace que las burbujas suban y se desvanezcan */
 @keyframes rise {
     0% {
         transform: translateY(0) scale(1);
+        /* arranca abajo */
         opacity: 0;
+        /* empieza invisible */
     }
 
     50% {
         opacity: 1;
+        /* se hace visible mientras sube */
     }
 
     100% {
-        /* para que suban un poco más del alto visible */
         transform: translateY(-110vh) scale(1.2);
-        /* para que se desvanezcan al final */
+        /* sube más allá del fondo */
         opacity: 0;
+        /* se desvanece al final */
     }
 }
